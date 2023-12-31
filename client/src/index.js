@@ -100,19 +100,45 @@ const router = createBrowserRouter([
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(  
-  <React.StrictMode>
-    <LibraryStateProvider>
-      <AttendanceStateProvider>
-        <AideStateProvider>
-          <TransactionProvider>
-            <RouterProvider router={router} />
-          </TransactionProvider>
-        </AideStateProvider>
-      </AttendanceStateProvider>
-    </LibraryStateProvider>
-  </React.StrictMode>
-);
+if (typeof window.ethereum === 'undefined') {
+  // MetaMask is not installed, render the "No MetaMask" page with Welcome styles
+  root.render(
+    <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen">
+      <div className="bg-[#13131a]">
+        <div className="flex w-full justify-center items-center">
+          <div className="flex md:flex-row flex-col items=start justify-between md:p-20 py-12 px-4">
+            <div className="flex flex-col flex-1 items-center justify-start w-full md:mt-0 mt-10">
+              {/* Render the "No MetaMask Detected" page with Welcome styles */}
+              <div className="flex w-full justify-center items-center">
+                <div className="flex flex-1 justify-start flex-col md:mr-10">
+                  <h1 className="text-3xl sm:text-5xl text-white text-gradient py-1"> 
+                    No MetaMask Detected
+                  </h1>
+                  <p className="text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base">
+                    Please install MetaMask to use this application.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+} else {
+  root.render(  
+    <React.StrictMode>
+      <LibraryStateProvider>
+        <AttendanceStateProvider>
+          <AideStateProvider>
+            <TransactionProvider>
+              <RouterProvider router={router} />
+            </TransactionProvider>
+          </AideStateProvider>
+        </AttendanceStateProvider>
+      </LibraryStateProvider>
+    </React.StrictMode>
+)};
 
 setupAccountsChangedListener();
 
