@@ -1,0 +1,17 @@
+export { default as Attendance } from './attendance/Attendance';
+export { default as CreateAttendance } from './attendance/CreateAttendance';
+export { default as AttendanceDetails } from './attendance/AttendanceDetails';
+export { default as CreateAide} from './aide/CreateAide';
+export { default as StudentAide} from './aide/StudentAide';
+export { default as AideDetails} from './aide/AideDetails';
+export { default as FAQ } from './FAQ';
+export { default as History} from './History';
+export { default as Profile} from './Profile';
+export { default as Login} from './Login';
+export { default as SignIn } from './Login';
+export { default as SignUp } from './SignUp';
+export { default as ForgotPassword } from './ForgotPassword';
+export { default as Library } from './books/Library';
+export { default as Error } from './error';
+export { default as CreateBook } from './books/CreateBook';
+export { default as BookDetails } from './books/BookDetails';
