@@ -9,6 +9,7 @@ import AuthChecker from '../utils/authChecker.js';
 const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
 //for grid styling
 
+/*
 const Input = ({placeholder, name, type, value, handleChange}) => (
     <input 
         placeholder = {placeholder}
@@ -18,7 +19,7 @@ const Input = ({placeholder, name, type, value, handleChange}) => (
         onChange = {(e) => handleChange(e, name)}
         className = "my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm white-glassmorphism"
     />
-);
+);*/
 //For form input
 
 const Welcome = () => {
@@ -26,7 +27,7 @@ const Welcome = () => {
 
     const [ user, setUser ] = useState(null);
 
-    const handleSubmit = (e) =>{ //For form input
+    /*const handleSubmit = (e) =>{ //For form input
         const { addressTo, amount, message, keyword } = formData;
 
         e.preventDefault();
@@ -34,7 +35,7 @@ const Welcome = () => {
         if(!addressTo || !amount || !message || !keyword) return;
 
         sendTransaction();
-    } 
+    } */
 
     useEffect(() => {
         const auth = getAuth();
@@ -58,12 +59,12 @@ const Welcome = () => {
             <div className="flex md:flex-row flex-col items=start justify-between md:p-20 py-12 px-4">
                 <div className="flex flex-1 justify-start flex-col md:mr-10">
                     <h1 className="text-3xl sm:text-5xl text-white text-gradient py-1"> 
-                        Your own identity across the world  
+                        Your own personal identity 
                     </h1>
                     <p className = "text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base"> {/* for some reason adding a break tag <br/> makes the grids weird */}
-                        idenify yurself
+                        Identify Yourself
                     </p>
-                    {!currentAccount &&(
+                    {/*!currentAccount &&(
                     <button
                         type="button"
                         onClick={connectWallet}
@@ -71,7 +72,7 @@ const Welcome = () => {
                         >
                             <p className="text-white text-base font-semibold">Connect Wallet</p>
                     </button>
-                    )}
+                    )*/}
                     <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
                         <div className={`rounded-tl-2xl ${commonStyles}`}>
                             Reliability
@@ -107,13 +108,11 @@ const Welcome = () => {
                                 </p>
                                 <div className="text-white font-semibold text-sm">
                                     {user ? (
-                                        // If the user is signed in, display their information.
                                         <>
                                             Email: {user.email}
                                         </>
                                     ) : (
-                                        // If the user is not signed in, you can display a message or redirect to a sign-in page.
-                                        <p className='text-white'> No user is signed in.</p>
+                                        <p className='text-white'> No user is signed in! </p>
                                     )}
                                 </div>
                             </div>

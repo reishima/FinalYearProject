@@ -10,6 +10,7 @@ contract CourseAttendance { //this will be used for student aide but for now i w
         uint256 deadline; //last time to take attendance
         string image;
         address[] attendees;
+        //we need a lecturer, owner is not enough
     }
 
     mapping(uint256 => Course) public courses;
