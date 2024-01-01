@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { Navbar, Footer } from '../components/index.js'
-import { contractABI, contractAddress } from '../utils/constants/aideConstant.js'
+import { contractABI, contractAddress } from '../utils/constants/aideConstant.js';
+import { contractABI as lABI, contractAddress as lAddress} from '../utils/constants/libraryConstant.js';
 import { ethers } from 'ethers';
 import { TransactionContext } from '../context/TransactionContext';
 import { shortenAddress } from '../utils/index.js';
@@ -203,10 +204,10 @@ const History = () => {
           // Handle any errors here
         }
       };     
-      
+      /* need to fix this V
       const fetchBooks = async (pId) => {
         const provider = new ethers.providers.Web3Provider(ethereum);
-        const contract = new ethers.Contract(contractAddress, contractABI, provider);
+        const contract = new ethers.Contract(lAddress, lABI, provider);
         const signer = provider.getSigner();
         const contractWithSigner = contract.connect(signer);
     
@@ -221,11 +222,11 @@ const History = () => {
                 pId: i,
             }));
     
-            setAides(parsedBooks);
+            setBooks(parsedBooks);
         } catch (error) {
             console.error("Error fetching books:", error);
         }
-    }
+    }*/
     
 
     return(
