@@ -140,11 +140,11 @@ const History = () => {
             fetchDonations();
         }
     }, [aides]);
-
+    /*
     useEffect(() => {
         fetchBooks();
     }, []);
-
+*/
     const fetchAides = async () => {
         // Fetch aides here, similar to how it's done in DisplayAides.jsx
         const provider = new ethers.providers.Web3Provider(ethereum);
