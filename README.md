@@ -1,13 +1,13 @@
-# Sample Hardhat Project
+Run with npm start
+=============================
+Push to git
+git add .
+git commmit -m "message"
+git push origin master
+===========================
+Deploy contracts 
+To deploy a contract on hardhat, add the script for deployment at scripts/deploy.js
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+then run npx hardhat run scripts/deploy.js --network sepolia
 
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
-```
+Then use contract address and ABI for constant (ABI should be generated, not sure because generated using tuffle last time. )
