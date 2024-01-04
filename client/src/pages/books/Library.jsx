@@ -7,7 +7,6 @@ const Library = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [books, setBooks] = useState([]);
     const [unavailable, setUnavailable] = useState([]);
-
     const {address, contract, getBooks, getUnavailable} = useStateContext();
 
     const fetchBooks = async() => {
