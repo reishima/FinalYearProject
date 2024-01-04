@@ -1,3 +1,5 @@
+To use the platform, users will need to have Metamask installed and a wallet ID attached to the Sepolia Test Network.
+
 ## FYP ----- Still work in progress!
 
 In the project directory, run:
