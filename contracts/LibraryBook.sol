@@ -57,6 +57,10 @@ contract LibraryBook { //this will be used for student aide but for now i will j
         return (availableBooks[_id].borrowers);
     }
 
+    function getBorrowersForUnavailable(uint256 _id) view public returns (address[] memory) {
+        return (unavailableBooks[_id].borrowers);
+    }
+
     function getBooks() public view returns (Book[] memory) {
         Book[] memory availableBooksArr = new Book[](numberofAvailable);
 

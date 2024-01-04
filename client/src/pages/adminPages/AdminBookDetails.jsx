@@ -8,13 +8,13 @@ const AdminBookDetails = () => {
 
     const { state } = useLocation();
     const navigate = useNavigate();
-    const { releaseBook, getBorrowers, contract, address} = useStateContext();
+    const { releaseBook, getBorrowersForUnavailable, contract, address} = useStateContext();
     const[isLoading, setIsLoading] = useState(false);
     const[borrowers, setBorrowers] = useState([]);
     //const remainingDays = daysLeft(state.submission);
   
     const fetchBorrowers = async () => {
-      const data = await getBorrowers(state.pId);
+      const data = await getBorrowersForUnavailable(state.pId);
       setBorrowers(data);
     }
 

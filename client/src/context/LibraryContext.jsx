@@ -124,6 +124,34 @@ export const StateContextProvider = ({ children }) => {
       }
     }
 
+    const getBorrowersForUnavailable = async(pId) => {
+      try {
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const borrowers = await contractWithSigner.getBorrowersForUnavailable(pId);
+    
+        
+        if (borrowers) {
+          const numberOfBorrowers = borrowers.length;
+    
+          const parsedBorrowers = [];
+    
+          for (let i = 0; i < numberOfBorrowers; i++) {
+            parsedBorrowers.push({
+              borrower: borrowers[i],
+            });
+          }
+    
+          return parsedBorrowers;
+        } else {
+          return [];
+        }
+      } catch (error) {
+        console.error('Error in getBorrowers:', error);
+        return [];
+      }
+    }
+
     return (
         <StateContext.Provider
         value={{
@@ -136,6 +164,7 @@ export const StateContextProvider = ({ children }) => {
             borrowBook,
             releaseBook,
             getBorrowers,
+            getBorrowersForUnavailable,
         }}
         >
             {children}
