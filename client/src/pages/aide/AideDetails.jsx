@@ -4,7 +4,7 @@ import user from '../../images/user.png';
 import { CountBox, CustomButton, Loading, Navbar, Footer } from '../../components';
 import { useStateContext } from '../../context/AideContext';
 import { calculateBarPercentage, daysLeft } from '../../utils';
-import AuthChecker from '../../utils/authChecker.js';
+import AuthChecker from '../../utils/handle.js';
 
 const AideDetails = () => {
 

@@ -1,10 +1,8 @@
 import React, {useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import user from '../../images/user.png';
 import { CountBox, CustomButton, Loading, Navbar, Footer } from '../../components';
 import { useStateContext } from '../../context/LibraryContext.jsx';
-import { calculateBarPercentage, daysLeft } from '../../utils';
-import AuthChecker from '../../utils/authChecker.js';
+import AuthChecker from '../../utils/handle.js';
 
 const BookDetails = () => {
 
@@ -13,15 +11,12 @@ const BookDetails = () => {
     const {borrowBook, getBorrowers, contract, address} = useStateContext();
     const[isLoading, setIsLoading] = useState(false);
     const[borrowers, setBorrowers] = useState([]);
-    const remainingDays = daysLeft(state.submission);
-    
-
+    //const remainingDays = daysLeft(state.submission);
+  
     const fetchBorrowers = async () => {
       const data = await getBorrowers(state.pId);
-
-      console.log(data);
-
       setBorrowers(data);
+      console.log(data);
     }
 
     useEffect(() => {
@@ -54,16 +49,12 @@ const BookDetails = () => {
                 <img src={state.image} alt="campaign" className="w-full h-[410px] object-cover rounded-xl" />
                 <div className='relative w-full h-[5px] bg-[#3a3a43] mt-2'>
                   <div className='absolute h-full bg-[#4acd8d]'
-                    style={{
-                      width: `${calculateBarPercentage(state.target)}%`,
-                      maxWidth: '100%',
-                    }}>
+                  >
                   </div>
                 </div>
               </div>
               <div className='flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]'>
-                <CountBox title="Days Left" value={remainingDays} />
-                <CountBox title ='Total Backers' value={borrowers.length}/>
+                <CountBox title ='Total Borrowers' value={borrowers.length}/>
               </div>
             </div>
             <div className="mt-[60px] flex lg:flex-row flex-col gap-5">
@@ -71,9 +62,6 @@ const BookDetails = () => {
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">Book Title </h4>
                         <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
-                            <div className='w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] cursor-pointer'>
-                                <img src={user} alt="user" className="w-[60%] h-[60%] object-contain"/>
-                            </div>
                             <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">{state.title}</h4>
                         </div>
                     </div>
@@ -99,7 +87,7 @@ const BookDetails = () => {
                               <p className='font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-all'> {index + 1}. {item.borrower}</p>
                             </div>
                            )) : (
-                            <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] text-justify"> No donators yet. Be the first one! </p>
+                            <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] text-justify"> No borrowers yet. Be the first one! </p>
                            )}
                            
                         </div>
@@ -107,8 +95,6 @@ const BookDetails = () => {
                 </div>
             </div>
             <div className='flex-1'>
-              <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">Fund</h4>
-
               <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px]'>
                 <p className='font-epilogue font-medium text-[20px] leading-[30px] text-center text-[#808191]'>
                   Borrow this book
@@ -116,8 +102,7 @@ const BookDetails = () => {
                 <div className='mt-[30px]'>
                   <div className='my-[20px] p-4 bg-[#13131a] rounded-[10px]'>
                     <h4 className='font-epilogue font-semibold text-[14px] leading-[22px] text-white'>
-                      Back it because you believe in it.
-                      <p className='mt-[20px] font-epilogue font-normal leading-[22px] text-[#808191]'> Support the project for no reward, just because it speaks to you. </p>
+                      <p className='mt-[20px] font-epilogue font-normal leading-[22px] text-[#808191]'>  </p>
                       <CustomButton
                         btnType = "button"
                         title="Borrow Book"

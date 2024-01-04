@@ -34,6 +34,7 @@ main().catch((error) => {
 */
 
 const main = async () => {
+  /*
   const Transactions = await hre.ethers.getContractFactory("Transactions");
   const transactions = await Transactions.deploy();
 
@@ -54,14 +55,14 @@ const main = async () => {
   await courseattendance.waitForDeployment();
 
   console.log("CourseAttendance deployed to:", courseattendance.target);
-
+*/
   const LibraryBook = await hre.ethers.getContractFactory("LibraryBook");
   const librarybook = await LibraryBook.deploy();
 
   await librarybook.waitForDeployment();
 
   console.log("LibraryBook deployed to:", librarybook.target);
-
+/*
   const Migration = await hre.ethers.getContractFactory("Migrations");
   const migration = await Migration.deploy();
 
@@ -75,7 +76,7 @@ const main = async () => {
   await studentaide.waitForDeployment();
 
   console.log("StudentAide deployed to:", studentaide.target);
-
+*/
 }
 
 

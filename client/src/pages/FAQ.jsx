@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Footer } from '../components/index.js'
-import AuthChecker from '../utils/authChecker.js';
+import AuthChecker from '../utils/handle.js';
 
 const FAQ = () => {
     return(

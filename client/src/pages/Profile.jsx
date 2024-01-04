@@ -4,7 +4,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc, collection, updateDoc } from 'firebase/firestore';
 import { database } from '../utils/FirebaseConfig.js';
 import { checkIfImage } from '../utils/index.js';
-import AuthChecker from '../utils/authChecker.js';
+import AuthChecker from '../utils/handle.js';
 
 const Profile = () => {
     const [ user, setUser ] = useState(null);

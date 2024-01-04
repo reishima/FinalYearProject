@@ -48,7 +48,7 @@ export const StateContextProvider = ({ children }) => {
     };
     
 
-    const getBooks= async () => {
+    const getBooks = async () => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const contract = new ethers.Contract(contractAddress, contractABI, provider);
       const signer = provider.getSigner();
@@ -64,10 +64,34 @@ export const StateContextProvider = ({ children }) => {
       return parsedBooks;
     };
 
+    const getUnavailable = async() => {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+      const signer = provider.getSigner();
+      const contractWithSigner = contract.connect(signer);
+      const books = await contractWithSigner.getUnavailable();
+      const unavailableBooks = books.map((book, i) => ({
+        title: book.title,
+        description: book.description,
+        submission: book.submission.toNumber(),
+        image: book.image,
+        pId: i,
+      }));
+      return unavailableBooks;
+    }
+
     const borrowBook = async(pId) => {
       const signer = provider.getSigner();
       const contractWithSigner = contract.connect(signer);
       const data = await contractWithSigner.borrow(pId);
+
+      return data;
+    }
+
+    const releaseBook = async(pId) => {
+      const signer = provider.getSigner();
+      const contractWithSigner = contract.connect(signer);
+      const data = await contractWithSigner.bookReturned(pId);
 
       return data;
     }
@@ -108,7 +132,9 @@ export const StateContextProvider = ({ children }) => {
             connect,
             createBook: publishBook,
             getBooks,
+            getUnavailable,
             borrowBook,
+            releaseBook,
             getBorrowers,
         }}
         >

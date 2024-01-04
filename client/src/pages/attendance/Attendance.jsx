@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DisplayCourses, Navbar, Footer } from '../../components/index.js';
 import { useStateContext } from '../../context/AttendanceContext.jsx';
-import AuthChecker from '../../utils/authChecker.js';
+import AuthChecker from '../../utils/handle.js';
 
 const Attendance = () => {
     const [isLoading, setIsLoading] = useState(false);

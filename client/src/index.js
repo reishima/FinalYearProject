@@ -18,7 +18,7 @@ import {
 } from "react-router-dom";
 
 import { FAQ, History, Attendance, StudentAide, Profile, CreateAide, AideDetails, AttendanceDetails, CreateAttendance, SignIn, SignUp, ForgotPassword, Library, Error, CreateBook, BookDetails } from './pages/index.js';
-import Admin from './pages/adminPages/Admin.jsx';
+import { Admin, AdminLibrary, AdminBookDetails } from './pages/adminPages/adminindex.js';
 
 const router = createBrowserRouter([
   {
@@ -96,6 +96,14 @@ const router = createBrowserRouter([
   {
     path: "/library/:id",
     element: <BookDetails/>,
+  },
+  {
+    path: "/adminlibrary/:id",
+    element: <AdminBookDetails/>,
+  },
+  {
+    path: "/adminlibrary",
+    element: <AdminLibrary/>,
   }
 ]);
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DisplayAides, Navbar, Footer } from '../../components/index.js';
 import { useStateContext } from '../../context/AideContext.jsx';
-import AuthChecker from '../../utils/authChecker.js';
+import AuthChecker from '../../utils/handle.js';
 
 const StudentAide = () => {
     const [isLoading, setIsLoading] = useState(false);

@@ -5,7 +5,7 @@ import { contractABI as lABI, contractAddress as lAddress} from '../utils/consta
 import { ethers } from 'ethers';
 import { TransactionContext } from '../context/TransactionContext';
 import { shortenAddress } from '../utils/index.js';
-import AuthChecker from '../utils/authChecker.js';
+import AuthChecker from '../utils/handle.js';
 
 const {ethereum} = window
 

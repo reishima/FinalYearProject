@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DisplayBooks, Navbar, Footer } from '../../components/index.js';
 import { useStateContext } from '../../context/LibraryContext.jsx';
-import AuthChecker from '../../utils/authChecker.js';
+import AuthChecker from '../../utils/handle.js';
 
 const Library = () => {
     const [isLoading, setIsLoading] = useState(false);
