@@ -20,7 +20,7 @@ const DisplayUnavailableBooks = ({ title }) => {
     const contractWithSigner = contract.connect(signer);
     const unavailableBooks = await contractWithSigner.getUnavailable();
 
-    const parsedUnavailableBooks = unavailableBooks.map((book, i) => ({
+    const parsedUnavailableBooks = unavailableBooks.map((unavailableBooks, i) => ({
       title: unavailableBooks.title,
       description: unavailableBooks.description,
       submission: unavailableBooks.submission.toNumber(),
@@ -44,7 +44,7 @@ const DisplayUnavailableBooks = ({ title }) => {
   }, []);
 
   const handleNavigate = (unavailableBooks) => {
-    navigate(`/adminlibrary/${unavailableBooks.title}`, {state : unavailableBooks})
+    navigate(`/library/u/${unavailableBooks.title}`, {state : unavailableBooks})
   }
     
   return (

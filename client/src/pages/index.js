@@ -15,3 +15,4 @@ export { default as Library } from './books/Library';
 export { default as Error } from './error';
 export { default as CreateBook } from './books/CreateBook';
 export { default as BookDetails } from './books/BookDetails';
+export { default as UnavailableBookDetails } from './books/UnavailableBookDetails.jsx';
