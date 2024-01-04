@@ -9,11 +9,10 @@ const { ethereum } = window;
 
 const DisplayUnavailableBooksAdmin = ({ title }) => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true); // Set initial loading state
-  const [unavailableBooks, setUnavailableBooks] = useState([]); // Initialize unavailableBooks as an empty array
+  const [isLoading, setIsLoading] = useState(true); 
+  const [unavailableBooks, setUnavailableBooks] = useState([]); 
 
   const getUnavailableBooks = async () => {
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
     const provider = new ethers.providers.Web3Provider(ethereum);
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     const signer = provider.getSigner();
@@ -31,15 +30,14 @@ const DisplayUnavailableBooksAdmin = ({ title }) => {
   };
 
   useEffect(() => {
-    // Fetch unavailableBooks when the component mounts
     getUnavailableBooks()
       .then((parsedUnavailableBooks) => {
         setUnavailableBooks(parsedUnavailableBooks);
-        setIsLoading(false); // Set loading state to false when data is fetched
+        setIsLoading(false); 
       })
       .catch((error) => {
         console.error('Failed to fetch unavailable books:', error);
-        setIsLoading(false); // Set loading state to false on error
+        setIsLoading(false); 
       });
   }, []);
 

@@ -2,10 +2,12 @@ import { Navbar, Welcome, Footer } from './components';  {/* export at ../compon
 
 const App = () => {
   return (
-    <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen">
-      <div className="bg-[#13131a]">
+    <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-col">
+      <div className="bg-[#13131a] flex-grow">
         <Navbar />
-        <Welcome />
+        <div className='mt-[60px]'>
+          <Welcome />
+        </div>
       </div>
       <Footer />
     </div>

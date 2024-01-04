@@ -38,17 +38,17 @@ const CreateBook = () => {
     }
 
     return(
-        <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen">
-            <div className="bg-[#13131a]">
+        <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-col">
+            <div className="bg-[#13131a] flex-grow">
                 <AdminChecker/>
                 <Navbar/>
-                <div className="flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4 blue-glassmorphism"> 
+                <div className="flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4 blue-glassmorphism ml-[300px] mr-[300px]"> 
                     {isLoading && <Loading/>}
-                    <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[3a3a43] rounded-[10px]">
+                    <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[3a3a43] rounded-[10px] ">
                         <h1 className='font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-white'> Create a Book </h1>
                     </div>
-                    <form onSubmit={handleSubmit} className="w-full mt-[65px] flex flex-col gap-[30px]">
-                        <div className="flex flex-wrap flex-col gap-[40px]">
+                    <form onSubmit={handleSubmit} className="w-full mt-[6px] mb-[15px] flex flex-col gap-[30px]">
+                        <div className="flex flex-wrap flex-col gap-[40px] ">
                             <FormField 
                             labelName="Book Title *"
                             placeholder="Write a title"
@@ -64,29 +64,20 @@ const CreateBook = () => {
                                 value={form.description}
                                 handleChange={(e) => handleFormFieldChange('description', e)}
                             />
-                            <div className="flex flex-wrap gap-[40px]">
-                            <FormField //this is weird
-                                labelName="Submission Date *"
-                                placeholder="Dubmission Date"
-                                inputType="date"
-                                value={form.submission}
-                                handleChange={(e) => handleFormFieldChange('submission', e)}
-                            />
-                            </div>
                             <FormField 
-                                labelName="Book image *" //in this case the image is a url to an image. maybe we can use that to hook up pfps? upload the image to database?
-                                placeholder="Place image URL of your campaign"
+                                labelName="Book Image *" //in this case the image is a url to an image. maybe we can use that to hook up pfps? upload the image to database?
+                                placeholder="Place image URL of the book"
                                 inputType="url"
                                 value={form.image}
                                 handleChange={(e) => handleFormFieldChange('image', e)}
                             />
                         </div>
                         {isLoading? (
-                            <Loading />
+                            <Loading/>
                         ) : (
                             <CustomButton 
                                 btnType="submit"
-                                title="Create a book"
+                                title="Create Book"
                                 styles="bg-[#8934eb] cursor-pointer hover:bg-[#a834eb]"
                             />
                         )}

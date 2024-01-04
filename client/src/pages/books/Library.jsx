@@ -30,21 +30,26 @@ const Library = () => {
     }, [address, contract]);
 
     return(
-        <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen">
-            <div className="bg-[#13131a]">
+        <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen flex flex-col">
+            <div className="bg-[#13131a] flex-grow">
                 <Navbar/>
                 <AuthChecker/>
-                <DisplayBooks
-                    title="Available books"
-                    isLoading = {isLoading}
-                    books = {books}
-                />
+                <div className="ml-[300px] ">
+                    <DisplayBooks
+                        title="Available Books"
+                        isLoading = {isLoading}
+                        books = {books}
+                        className="ml-[20px] "
+                    />
+                </div>
                 <br/>
-                <DisplayUnavailableBooks
-                    title="Unavailable"
-                    isLoading = {isLoading}
-                    unavailable = {unavailable}
-                />
+                <div className="ml-[300px] ">
+                    <DisplayUnavailableBooks
+                        title="Unavailable Books"
+                        isLoading = {isLoading}
+                        unavailable = {unavailable}
+                    />
+                </div>
             </div>
             <Footer />
         </div>

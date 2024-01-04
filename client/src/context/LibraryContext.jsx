@@ -1,31 +1,26 @@
 import React, { useContext, createContext } from 'react';
-import {contractABI, contractAddress} from '../utils/constants/libraryConstant'; 
-import {ethers} from 'ethers';
-const {ethereum} = window;
+import { contractABI, contractAddress } from '../utils/constants/libraryConstant'; 
+import { ethers } from 'ethers';
+const { ethereum } = window;
 
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
     const provider = new ethers.providers.Web3Provider(ethereum);
-  
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
-
-    const address = window.ethereum.selectedAddress // Get the connected Ethereum address
-
+    const address = window.ethereum.selectedAddress;
+    
     const connect = async () => {
         try {
-        // Request user's permission to connect Metamask
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
         } catch (error) {
-        console.error('Metamask connection error:', error);
+          console.error('Metamask connection error:', error);
         }
     };
 
     const publishBook = async (form) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
-  
       const contract = new ethers.Contract(contractAddress, contractABI, provider);
-
       const address = window.ethereum.selectedAddress 
       try {
         if (!address) {
@@ -46,7 +41,6 @@ export const StateContextProvider = ({ children }) => {
         console.error('Contract call failure', error);
       }
     };
-    
 
     const getBooks = async () => {
       const provider = new ethers.providers.Web3Provider(ethereum);
@@ -101,11 +95,9 @@ export const StateContextProvider = ({ children }) => {
         const signer = provider.getSigner();
         const contractWithSigner = contract.connect(signer);
         const borrowers = await contractWithSigner.getBorrowers(pId);
-    
         
         if (borrowers) {
           const numberOfBorrowers = borrowers.length;
-    
           const parsedBorrowers = [];
     
           for (let i = 0; i < numberOfBorrowers; i++) {
@@ -129,11 +121,9 @@ export const StateContextProvider = ({ children }) => {
         const signer = provider.getSigner();
         const contractWithSigner = contract.connect(signer);
         const borrowers = await contractWithSigner.getBorrowersForUnavailable(pId);
-    
-        
+     
         if (borrowers) {
           const numberOfBorrowers = borrowers.length;
-    
           const parsedBorrowers = [];
     
           for (let i = 0; i < numberOfBorrowers; i++) {
@@ -154,18 +144,18 @@ export const StateContextProvider = ({ children }) => {
 
     return (
         <StateContext.Provider
-        value={{
-            address,
-            contract,
-            connect,
-            createBook: publishBook,
-            getBooks,
-            getUnavailable,
-            borrowBook,
-            releaseBook,
-            getBorrowers,
-            getBorrowersForUnavailable,
-        }}
+          value={{
+              address,
+              contract,
+              connect,
+              createBook: publishBook,
+              getBooks,
+              getUnavailable,
+              borrowBook,
+              releaseBook,
+              getBorrowers,
+              getBorrowersForUnavailable,
+          }}
         >
             {children}
         </StateContext.Provider>

@@ -9,11 +9,10 @@ const { ethereum } = window;
 
 const DisplayBooks = ({ title }) => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true); // Set initial loading state
-  const [books, setBooks] = useState([]); // Initialize books as an empty array
+  const [isLoading, setIsLoading] = useState(true); 
+  const [books, setBooks] = useState([]); 
 
   const getBooks = async () => {
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
     const provider = new ethers.providers.Web3Provider(ethereum);
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     const signer = provider.getSigner();
@@ -31,15 +30,14 @@ const DisplayBooks = ({ title }) => {
   };
 
   useEffect(() => {
-    // Fetch books when the component mounts
     getBooks()
       .then((parsedBooks) => {
         setBooks(parsedBooks);
-        setIsLoading(false); // Set loading state to false when data is fetched
+        setIsLoading(false); 
       })
       .catch((error) => {
         console.error('Failed to fetch books:', error);
-        setIsLoading(false); // Set loading state to false on error
+        setIsLoading(false); 
       });
   }, []);
 
@@ -59,7 +57,7 @@ const DisplayBooks = ({ title }) => {
         )}
         {!isLoading && books.length === 0 && (
           <p className="font-epilogue dont-semibold text-[14px] leading-[30px] text-[#818183]">
-            You have not created any books yet.
+            There are no available books at this time.
           </p>
         )}
 

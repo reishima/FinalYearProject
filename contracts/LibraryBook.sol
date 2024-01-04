@@ -2,7 +2,7 @@
 pragma experimental ABIEncoderV2;
 pragma solidity >=0.4.22 <0.9.0;
 
-contract LibraryBook { //this will be used for student aide but for now i will just copy the crowdfunding campaign solidity
+contract LibraryBook {
     struct Book {
         string title;
         string description;
@@ -28,7 +28,7 @@ contract LibraryBook { //this will be used for student aide but for now i will j
 
         numberofAvailable++;
 
-        return numberofAvailable - 1; //index of newest book
+        return numberofAvailable - 1; 
     }
 
     function borrow(uint256 _id) public payable {
