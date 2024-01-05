@@ -10,8 +10,6 @@ export const StateContextProvider = ({ children }) => {
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     const address = window.ethereum.selectedAddress;
 
-  
-
     const connect = async () => {
         try {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -52,7 +50,6 @@ export const StateContextProvider = ({ children }) => {
       const signer = provider.getSigner();
       const contractWithSigner = contract.connect(signer);
       const aides = await contractWithSigner.getAides();
-      console.log('All Aides:', aides);
 
       const parsedAides = aides.map((aide, i) => ({
         title: aide.title,
@@ -116,6 +113,30 @@ export const StateContextProvider = ({ children }) => {
       }
     }
 
+    const getRequestersCount = async (pId) => {
+      try {
+          const signer = provider.getSigner();
+          const contractWithSigner = contract.connect(signer);
+          const requestersCount = await contractWithSigner.getNumberOfRequesters(pId);
+          return requestersCount.toNumber();
+      } catch (error) {
+          console.error('Error in getRequestersCount:', error);
+          return 1;
+        }
+    };
+
+    const getRequestersCountForFull = async (pId) => {
+      try {
+          const signer = provider.getSigner();
+          const contractWithSigner = contract.connect(signer);
+          const requestersCount = await contractWithSigner.getNumberOfRequestersforFull(pId);
+          return requestersCount.toNumber();
+      } catch (error) {
+          console.error('Error in getRequestersCount:', error);
+          return 1;
+        }
+    };
+
     const getRequestersForFull = async (pId) => {
       try {
         const signer = provider.getSigner();
@@ -153,7 +174,9 @@ export const StateContextProvider = ({ children }) => {
             getFullAides,
             requestAide,
             getRequesters,
-            getRequestersForFull
+            getRequestersForFull,
+            getRequestersCount,
+            getRequestersCountForFull,
         }}
         >
             {children}

@@ -17,3 +17,4 @@ export { default as CreateBook } from './books/CreateBook';
 export { default as BookDetails } from './books/BookDetails';
 export { default as UnavailableBookDetails } from './books/UnavailableBookDetails.jsx';
 export { default as Home } from './Home.jsx';
+export { default as UnavailableAideDetails } from './aide/UnavailableAideDetails.jsx';

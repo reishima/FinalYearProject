@@ -15,4 +15,5 @@ export { default as FooterInOut } from './FooterInOut';
 export { default as Redirecting } from './Redirecting';
 export { default as DisplayBooks } from './DisplayBooks';
 export { default as DisplayUnavailableBooks } from './DisplayUnavailableBooks';
+export { default as DisplayUnavailableAides } from './DisplayUnavailableAides';
 

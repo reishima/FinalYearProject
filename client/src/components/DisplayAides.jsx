@@ -9,19 +9,18 @@ const { ethereum } = window;
 
 const DisplayAides = ({ title }) => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true); // Set initial loading state
-  const [aides, setAides] = useState([]); // Initialize aides as an empty array
+  const [isLoading, setIsLoading] = useState(true);
+  const [aides, setAides] = useState([]); 
 
   useEffect(() => {
-    // Fetch aides when the component mounts
     getAides()
       .then((parsedAides) => {
         setAides(parsedAides);
-        setIsLoading(false); // Set loading state to false when data is fetched
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error('Failed to fetch aides:', error);
-        setIsLoading(false); // Set loading state to false on error
+        setIsLoading(false); 
       });
   }, []);
 

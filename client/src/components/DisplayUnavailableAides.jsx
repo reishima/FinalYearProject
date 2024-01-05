@@ -7,73 +7,69 @@ import { v4 as uuidv4 } from "uuid";
 
 const { ethereum } = window;
 
-const DisplayAides = ({ title }) => {
+const DisplayUnavailableAides = ({ title }) => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true); // Set initial loading state
-  const [aides, setAides] = useState([]); // Initialize aides as an empty array
+  const [isLoading, setIsLoading] = useState(true); 
+  const [fullAides, setFullAides] = useState([]); 
 
-  useEffect(() => {
-    // Fetch aides when the component mounts
-    getAides()
-      .then((parsedAides) => {
-        setAides(parsedAides);
-        setIsLoading(false); // Set loading state to false when data is fetched
-      })
-      .catch((error) => {
-        console.error('Failed to fetch aides:', error);
-        setIsLoading(false); // Set loading state to false on error
-      });
-  }, []);
-
-  const getAides = async () => {
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  const getFullAides = async () => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
-    const aides = await contractWithSigner.getAides();
-
-    const parsedAides = aides.map((aide, i) => ({
-      owner: aide.owner,
-      title: aide.title,
-      description: aide.description,
-      target: ethers.utils.formatEther(aide.target.toString()),
-      deadline: aide.deadline.toNumber(),
-      amountCollected: ethers.utils.formatEther(aide.amountCollected.toString()),
-      image: aide.image,
-      pId: i,
+    const fullAides = await contractWithSigner.getFullAides();
+    console.log(fullAides);
+    const parsedfullAides = fullAides.map((fullAides, i) => ({
+        title: fullAides.title,
+        description: fullAides.description,
+        maxRequesters: fullAides.maxRequesters,
+        deadline: fullAides.deadline.toNumber(),
+        image: fullAides.image,
+        pId: i,
     }));
-    return parsedAides;
+    return parsedfullAides;
   };
 
-  const handleNavigate = (aide) => {
-    navigate(`/student-aide/${aide.title}`, {state : aide})
+  useEffect(() => {
+    getFullAides()
+      .then((parsedfullAides) => {
+        setFullAides(parsedfullAides);
+        setIsLoading(false); 
+      })
+      .catch((error) => {
+        console.error('Failed to fetch full aides:', error);
+        setIsLoading(false); 
+      });
+  }, []);
+
+  const handleNavigate = (fullAides) => {
+    navigate(`/student-aide/u/${fullAides.title}`, {state : fullAides})
   }
     
   return (
     <div>
       <h1 className="font-epilogue font-semibold text-[18px] text-white text-left">
-        {title} ({aides.length})
+        {title} ({fullAides.length})
       </h1>
   
       <div className="flex flex-wrap mt-[20px] gap-[26px]">
         {isLoading && (
           <Loading />
         )}
-        {!isLoading && aides.length === 0 && (
+        {!isLoading && fullAides.length === 0 && (
           <p className="font-epilogue dont-semibold text-[14px] leading-[30px] text-[#818183]">
-            There are currently no available aides.
+            All aides are available.
           </p>
         )}
 
-        {!isLoading && aides.length > 0 && aides.map((aide) => <AideCard 
+        {!isLoading && fullAides.length > 0 && fullAides.map((fullAides) => <AideCard 
           key={uuidv4()}
-          {...aide}
-          handleClick = {() => handleNavigate(aide)}
+          {...fullAides}
+          handleClick = {() => handleNavigate(fullAides)}
         />)}
       </div>
     </div>
   );
 };
 
-export default DisplayAides;
+export default DisplayUnavailableAides;

@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { CountBox, CustomButton, Loading, Navbar, Footer } from '../../components';
 import { useStateContext } from '../../context/AideContext';
 import { calculateBarPercentage, daysLeft } from '../../utils';
@@ -8,46 +8,23 @@ import AuthChecker from '../../utils/handle.js';
 const AideDetails = () => {
 
     const { state } = useLocation();
-    const navigate = useNavigate();
-    const { requestAide, getRequesters, contract, address, getRequestersCount } = useStateContext();
+    const { getRequestersForFull, contract, address, getRequestersCountForFull } = useStateContext();
     const[isLoading, setIsLoading] = useState(false);
     const[requesters, setRequesters] = useState([]);
-    const[currentRequesterAmount, setCurrentRequesterAmount] = useState([]);
+    const [currentRequesterAmount, setCurrentRequesterAmount] = useState([]);
     const remainingDays = daysLeft(state.deadline);
     
     const fetchRequesters = async () => {
-      const data = await getRequesters(state.pId);
+      const data = await getRequestersForFull(state.pId);
       setRequesters(data);
-      const requesterCount = await getRequestersCount(state.pId);
+      console.log(data);
+      const requesterCount = await getRequestersCountForFull(state.pId);
       setCurrentRequesterAmount(requesterCount);
     }
 
     useEffect(() => {
       if(contract) fetchRequesters();
-    }, [contract, address])
-
-    const handleRequest = async () => {
-      setIsLoading(true);
-      try {
-          await requestAide(state.pId);
-          setIsLoading(false);
-          navigate('/student-aide');
-      } catch (error) {
-          console.error("Error requesting aide: ", error);
-          if (error.message.includes("Aide has reached the maximum number of requesters")) {
-            alert("This Aide has reached the maximum number of requesters.");
-            navigate('/student-aide');
-          }
-          if (error.message.includes("You have already requested for this Aide.")) {
-            alert("You have already requested for this Aide.");
-            navigate('/student-aide');
-          } else {
-            alert("Error requesting Aide. Please try again.");
-          }
-          setIsLoading(false);
-          
-      }
-    };
+    }, [contract, address])  
 
     const formatDeadline = (deadline) => {
       const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
@@ -81,7 +58,7 @@ const AideDetails = () => {
             <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
-                        <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Aide Title </h4>
+                        <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">Aide Title </h4>
                         <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
                             <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">{state.title}</h4>
                         </div>
@@ -103,7 +80,7 @@ const AideDetails = () => {
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Aide Deadline</h4>
                         <div className="mt-[20px]">
-                            <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] text-justify">{formatDeadline(state.deadline)} 12:00AM</p>
+                            <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] text-justify"> Expired on: {formatDeadline(state.deadline)} 12:OOAM</p>
                         </div>
                     </div>
                 </div>
@@ -135,9 +112,8 @@ const AideDetails = () => {
                     <h4 className='font-epilogue font-semibold text-[14px] leading-[22px] text-white'>
                       <CustomButton
                         btnType = "button"
-                        title="Request Aide"
-                        styles="w-[715px] bg-[#8c6dfd]"
-                        handleClick={handleRequest}
+                        title="This aide is no longer available."
+                        styles="w-[715px] bg-[gray] hover:bg-[gray]"
                       />
                     </h4>
                 </div>

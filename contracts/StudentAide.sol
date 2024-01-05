@@ -9,10 +9,8 @@ contract StudentAide {
         string description;
         uint256 maxRequesters;
         uint256 deadline;
-        //uint256 amountCollected;
         string image;
         address[] requesters;
-        //uint256[] donations;
     }
 
     mapping(uint256 => Aide) public aides;
@@ -20,6 +18,8 @@ contract StudentAide {
 
     uint256 public numberofAides = 0;
     uint256 public numberoffullAides = 0;
+
+    Aide[] public tempAides;
 
     function createAide(string memory _title, string memory _description, uint256 _maxRequesters, uint256 _deadline, string memory _image) public returns (uint256) {
         Aide storage aide = aides[numberofAides];
@@ -32,31 +32,55 @@ contract StudentAide {
 
         numberofAides++;
 
-        return numberofAides - 1; //index of newest aide
+        return numberofAides - 1; 
     }
 
     function requestAide(uint256 _id) public payable {
-    Aide storage aide = aides[_id];
+        Aide storage aide = aides[_id];
 
-    aide.requesters.push(msg.sender);
+        require(!isDeadlineReached(_id), "Aide deadline has already passed.");
+        require(aide.requesters.length < aide.maxRequesters, "Aide has reached the maximum number of requesters.");
 
-    require(aide.requesters.length <= aide.maxRequesters, "Aide has reached the maximum number of requesters.");
+        // Check if the requester has not already requested this aide
+        require(!isRequesterAlreadyInList(_id, msg.sender), "You have already requested for this Aide.");
 
-    if (aide.requesters.length == aide.maxRequesters) {
-        // Swap with the last element in the aides array
-        uint256 lastIndex = numberofAides - 1;
-        aides[_id] = aides[lastIndex];
+        aide.requesters.push(msg.sender);
 
-        // Move the Aide to the fullAides array
-        fullAides[numberoffullAides] = aide;
-        numberoffullAides++;
+        if (aide.requesters.length == aide.maxRequesters || isDeadlineReached(_id)) {
+            tempAides.push(aide);
 
-        // Remove the Aide from the aides array
-        delete aides[lastIndex];
+            removeAideAtIndex(_id);
+
+            fullAides[numberoffullAides] = tempAides[0];
+            numberoffullAides++;
+
+            delete tempAides;
+        }
+    }
+
+    function isRequesterAlreadyInList(uint256 _id, address _requester) internal view returns (bool) {
+        Aide storage aide = aides[_id];
+        for (uint256 i = 0; i < aide.requesters.length; i++) {
+            if (aide.requesters[i] == _requester) {
+                return true; 
+            }
+        }
+        return false; 
+    }
+
+    function removeAideAtIndex(uint256 index) internal {
+        require(index < numberofAides, "Invalid index");
+
+        aides[index] = aides[numberofAides - 1];
+
+        delete aides[numberofAides - 1];
+
         numberofAides--;
     }
-}
 
+    function isDeadlineReached(uint256 _id) internal view returns (bool) {
+        return block.timestamp > aides[_id].deadline;
+    }
 
     function getRequesters(uint256 _id) view public returns (address[] memory) {
         return (aides[_id].requesters);
@@ -69,9 +93,8 @@ contract StudentAide {
     function getAides() public view returns (Aide[] memory) {
         Aide[] memory availableAides = new Aide[](numberofAides);
 
-        for(uint i = 0; i < numberofAides; i++){
+        for (uint i = 0; i < numberofAides; i++) {
             Aide storage item = aides[i];
-
             availableAides[i] = item;
         }
 
@@ -81,16 +104,14 @@ contract StudentAide {
     function getFullAides() public view returns (Aide[] memory) {
         Aide[] memory fullAidesArr = new Aide[](numberoffullAides);
 
-        for(uint i = 0; i < numberoffullAides; i++){
+        for (uint i = 0; i < numberoffullAides; i++) {
             Aide storage item = fullAides[i];
-
             fullAidesArr[i] = item;
         }
 
         return fullAidesArr;
     }
 
-    /*
     function getNumberOfRequesters(uint256 _id) public view returns (uint256) {
         return aides[_id].requesters.length;
     }
@@ -98,6 +119,4 @@ contract StudentAide {
     function getNumberOfRequestersforFull(uint256 _id) public view returns (uint256) {
         return fullAides[_id].requesters.length;
     }
-    */
-
 }

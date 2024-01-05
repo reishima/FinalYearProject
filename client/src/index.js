@@ -16,7 +16,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { FAQ, History, UnavailableBookDetails, Attendance, StudentAide, Profile, CreateAide, AideDetails, Home, AttendanceDetails, CreateAttendance, SignIn, SignUp, ForgotPassword, Library, Error, CreateBook, BookDetails } from './pages/index.js';
+import { FAQ, History, UnavailableBookDetails, Attendance, StudentAide, Profile, CreateAide, AideDetails, UnavailableAideDetails, Home, AttendanceDetails, CreateAttendance, SignIn, SignUp, ForgotPassword, Library, Error, CreateBook, BookDetails } from './pages/index.js';
 import { Admin, AdminLibrary, AdminBookDetails } from './pages/adminPages/adminindex.js';
 
 const router = createBrowserRouter([
@@ -107,6 +107,10 @@ const router = createBrowserRouter([
   {
     path: "/library/u/:id",
     element: <UnavailableBookDetails/>,
+  },
+  {
+    path: "/student-aide/u/:id",
+    element: <UnavailableAideDetails/>,
   }
 ]);
 

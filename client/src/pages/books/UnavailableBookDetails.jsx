@@ -14,7 +14,6 @@ const UnavailableBookDetails = () => {
     const fetchBorrowers = async () => {
       const data = await getBorrowersForUnavailable(state.pId);
       setBorrowers(data);
-      console.log(data);
     }
 
     useEffect(() => {

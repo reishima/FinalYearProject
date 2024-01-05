@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DisplayAides, Navbar, Footer } from '../../components/index.js';
+import { DisplayAides, Navbar, Footer, DisplayUnavailableAides } from '../../components/index.js';
 import { useStateContext } from '../../context/AideContext.jsx';
 import AuthChecker from '../../utils/handle.js';
 
@@ -28,6 +28,14 @@ const StudentAide = () => {
                 <div className="ml-[300px] ">
                     <DisplayAides 
                         title="Available Aides"
+                        isLoading = {isLoading}
+                        aides = {aides}
+                    />
+                </div>
+                <br/>
+                <div className="ml-[300px] ">
+                    <DisplayUnavailableAides 
+                        title="Unavailable Aides"
                         isLoading = {isLoading}
                         aides = {aides}
                     />
