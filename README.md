@@ -1,13 +1,14 @@
-Run with npm start
+To use the platform, users will need to have Metamask installed and a wallet ID attached to the Sepolia Test Network.
+
+## FYP ----- Still work in progress!
+
+In the project directory, run:
+## `cd client -> npm start`
 =============================
-Push to git
-git add .
-git commmit -m "message"
-git push origin master
-===========================
-Deploy contracts 
-To deploy a contract on hardhat, add the script for deployment at scripts/deploy.js
+## To deploy contracts onto the platform
 
-then run npx hardhat run scripts/deploy.js --network sepolia
+Contract deployment is done via Hardhat to the Sepolia Test Network
+1. Add the script for deployment at scripts/deploy.js
+2. run `npx hardhat run scripts/deploy.js --network sepolia` from the project directory
 
-Then use contract address and ABI for constant (ABI should be generated, not sure because generated using tuffle last time. )
+Then use contract address and ABI for constants.
