@@ -162,6 +162,24 @@ export const StateContextProvider = ({ children }) => {
         return [];
       }
     }
+
+    const getBlockchainIDsForFullAides = async (pId) => {
+      try {
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const requesters = await contractWithSigner.getRequestersforFull(pId);
+  
+        if (requesters) {
+          const blockchainIDs = requesters.map((blockchainID) => blockchainID);
+          return blockchainIDs;
+        } else {
+          return [];
+        }
+      } catch (error) {
+        console.error('Error in getBlockchainIDsForFullAides:', error);
+        return [];
+      }
+    };
     
     return (
         <StateContext.Provider
@@ -177,6 +195,7 @@ export const StateContextProvider = ({ children }) => {
             getRequestersForFull,
             getRequestersCount,
             getRequestersCountForFull,
+            getBlockchainIDsForFullAides,
         }}
         >
             {children}

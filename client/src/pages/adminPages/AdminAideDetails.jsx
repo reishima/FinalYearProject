@@ -3,16 +3,20 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { CountBox, CustomButton, Loading, Navbar, Footer } from '../../components';
 import { useStateContext } from '../../context/AideContext';
 import { calculateBarPercentage, daysLeft } from '../../utils';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { database } from '../../utils/FirebaseConfig.js';
 import AdminChecker from '../../utils/handle.js';
 
 const AdminAideDetails = () => {
 
     const { state } = useLocation();
     const navigate = useNavigate();
-    const { requestAide, getRequesters, contract, address, getRequestersCount } = useStateContext();
+    const { getRequesters, contract, address, getRequestersCount, getBlockchainIDsForFullAides } = useStateContext();
     const[isLoading, setIsLoading] = useState(false);
     const[requesters, setRequesters] = useState([]);
     const[currentRequesterAmount, setCurrentRequesterAmount] = useState([]);
+    const { getFullAides, getRequestersForFull } = useStateContext();
+    const [approvedEmails, setApprovedEmails] = useState([]);
     const remainingDays = daysLeft(state.deadline);
     
     const fetchRequesters = async () => {
@@ -26,26 +30,39 @@ const AdminAideDetails = () => {
       if(contract) fetchRequesters();
     }, [contract, address])
 
-    const handleRequest = async () => {
-      setIsLoading(true);
+    const getBlockchainIDsToApprove = async () => {
       try {
-          await requestAide(state.pId);
-          setIsLoading(false);
-          navigate('/student-aide');
+        const blockchainIDs = await getBlockchainIDsForFullAides(state.pId);
+        return blockchainIDs;
       } catch (error) {
-          console.error("Error requesting aide: ", error);
-          if (error.message.includes("Aide has reached the maximum number of requesters")) {
-            alert("This Aide has reached the maximum number of requesters.");
-            navigate('/student-aide');
-          }
-          if (error.message.includes("You have already requested for this Aide.")) {
-            alert("You have already requested for this Aide.");
-            navigate('/student-aide');
-          } else {
-            alert("Error requesting Aide. Please try again.");
-          }
-          setIsLoading(false);
-          
+        console.error('Error getting blockchain IDs for full aides:', error);
+        return [];
+      }
+    };
+  
+    const handleApproveAides = async () => {
+      try {
+        const blockchainIDsToApprove = await getBlockchainIDsToApprove();
+        console.log('Blockchain IDs to approve:', blockchainIDsToApprove);
+
+        // Query Firestore users collection for emails with matching blockchain IDs
+        const usersCollection = collection(database, 'users');
+        const emailsToApprove = [];
+
+        for (const blockchainID of blockchainIDsToApprove) {
+          const q = query(usersCollection, where('blockchainId', '==', blockchainID));
+          const querySnapshot = await getDocs(q);
+
+          querySnapshot.forEach((doc) => {
+            const email = doc.data().email;
+            emailsToApprove.push(email);
+          });
+        }
+
+        console.log('Emails to approve:', emailsToApprove);
+
+      } catch (error) {
+        console.error('Error approving aides:', error);
       }
     };
 
@@ -137,7 +154,7 @@ const AdminAideDetails = () => {
                         btnType = "button"
                         title="Approve Aide"
                         styles="w-[715px] bg-[#8c6dfd]"
-                        handleClick={handleRequest}
+                        handleClick={handleApproveAides}
                       />
                     </h4>
                 </div>
