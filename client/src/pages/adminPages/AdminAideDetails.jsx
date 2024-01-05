@@ -44,28 +44,45 @@ const AdminAideDetails = () => {
       try {
         const blockchainIDsToApprove = await getBlockchainIDsToApprove();
         console.log('Blockchain IDs to approve:', blockchainIDsToApprove);
-
+    
         // Query Firestore users collection for emails with matching blockchain IDs
         const usersCollection = collection(database, 'users');
         const emailsToApprove = [];
-
+    
         for (const blockchainID of blockchainIDsToApprove) {
           const q = query(usersCollection, where('blockchainId', '==', blockchainID));
           const querySnapshot = await getDocs(q);
-
+    
           querySnapshot.forEach((doc) => {
             const email = doc.data().email;
             emailsToApprove.push(email);
           });
         }
-
+    
         console.log('Emails to approve:', emailsToApprove);
-
+    
+        // Display the emails in a textarea for easy copying
+        const emailsTextArea = document.createElement('textarea');
+        emailsTextArea.value = emailsToApprove.join(', ');
+        emailsTextArea.setAttribute('readonly', '');
+        emailsTextArea.style.position = 'absolute';
+        emailsTextArea.style.left = '-9999px';
+    
+        document.body.appendChild(emailsTextArea);
+        emailsTextArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(emailsTextArea);
+        //const emailLink = `mailto:${emailsToApprove.join(',')}?subject=Your%20Subject&body=Your%20Body%20Text`;
+        //window.open(emailLink, '_blank');
+        //To mailto, admin will need to go to their browsers handler. such as chrome://settings/handlers
+        //then user will need to remove mail.google.com from Not allowed to handle protocols
+        //then go to gmail.com and click on the handler at the url and allow
+        alert('Emails copied to clipboard!');
       } catch (error) {
         console.error('Error approving aides:', error);
       }
     };
-
+    
     const formatDeadline = (deadline) => {
       const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
       return new Date(deadline).toLocaleDateString('en-GB', options);
