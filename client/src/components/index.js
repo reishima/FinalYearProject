@@ -16,4 +16,3 @@ export { default as Redirecting } from './Redirecting';
 export { default as DisplayBooks } from './DisplayBooks';
 export { default as DisplayUnavailableBooks } from './DisplayUnavailableBooks';
 
-//for fast exports such as import { Loader, Footer, Navbar, Welcome } from '../components/index.js';

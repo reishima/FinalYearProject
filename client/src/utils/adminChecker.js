@@ -18,7 +18,6 @@ const AdminChecker = ({ children }) => {
                 alert('You must be logged in to access this page.');
                 navigate('/login');
             } else {
-                // Check if the user has admin privileges in Firestore
                 const usersCollection = collection(database, 'users');
                 const userDoc = doc(usersCollection, user.uid);
                 const userDocSnapshot = await getDoc(userDoc);

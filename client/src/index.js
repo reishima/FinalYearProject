@@ -3,11 +3,10 @@
 import React from 'react'; 
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { TransactionProvider } from './context/TransactionContext';
-import { StateContextProvider as AideStateProvider} from './context/AideContext';
-import { StateContextProvider as AttendanceStateProvider } from './context/AttendanceContext';
+import reportWebVitals from './reportWebVitals.js';
+import { TransactionProvider } from './context/TransactionContext.jsx';
+import { StateContextProvider as AideStateProvider} from './context/AideContext.jsx';
+import { StateContextProvider as AttendanceStateProvider } from './context/AttendanceContext.jsx';
 import { StateContextProvider as LibraryStateProvider } from './context/LibraryContext.jsx';
 import { setupAccountsChangedListener, removeAccountsChangedListener } from './utils/handle.js';
 import { FaRobot } from "react-icons/fa6";
@@ -17,7 +16,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { FAQ, History, UnavailableBookDetails, Attendance, StudentAide, Profile, CreateAide, AideDetails, AttendanceDetails, CreateAttendance, SignIn, SignUp, ForgotPassword, Library, Error, CreateBook, BookDetails } from './pages/index.js';
+import { FAQ, History, UnavailableBookDetails, Attendance, StudentAide, Profile, CreateAide, AideDetails, Home, AttendanceDetails, CreateAttendance, SignIn, SignUp, ForgotPassword, Library, Error, CreateBook, BookDetails } from './pages/index.js';
 import { Admin, AdminLibrary, AdminBookDetails } from './pages/adminPages/adminindex.js';
 
 const router = createBrowserRouter([
@@ -27,7 +26,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <App />,
+    element: <Home />,
   },
   {
     path: "/faq",

@@ -6,7 +6,7 @@ const Error = () => {
         <div className="min-h-screen flex flex-col bg-[#13131a] min-h-screen">
              <Navbar/>
             <div className="justify-center flex-1 flex items-center text-white text-bold">
-                <div> That page does not exist! </div>
+                <div> The page you requested does not exist! </div>
             </div>
             <Footer />
         </div>

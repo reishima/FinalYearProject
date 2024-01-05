@@ -1,11 +1,13 @@
-import { Navbar, Welcome, Footer } from './components';  {/* export at ../components/index.js then import*/}
+import { Navbar, Welcome, Footer } from '../components/index.js';  
 
 const App = () => {
   return (
     <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-col">
-      <div className="bg-[#13131a] flex-1">
+      <div className="bg-[#13131a] flex-grow">
         <Navbar />
-        <Welcome />
+        <div className='mt-[60px]'>
+          <Welcome />
+        </div>
       </div>
       <Footer />
     </div>
@@ -13,3 +15,4 @@ const App = () => {
 }
 
 export default App;
+
