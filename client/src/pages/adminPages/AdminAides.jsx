@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { DisplayAides, Navbar, Footer, DisplayUnavailableAides } from '../../components/index.js';
+import { Navbar, Footer} from '../../components/index.js';
+import { DisplayAidesAdmin } from '../adminPages/adminindex.js';
 import { useStateContext } from '../../context/AideContext.jsx';
 import AdminChecker from '../../utils/adminChecker.js';
 
@@ -26,17 +27,9 @@ const AdminAides = () => {
                 <Navbar/>
                 <AdminChecker/>
                 <div className="ml-[300px] ">
-                <div className="text-white text-bold"> DISPLAY LIST OF BORROWERS WITH AIDES TO APPROVE/REJECT </div>
-                    <DisplayAides 
+                <div className="text-white text-bold"> DISPLAY LIST OF BORROWERS WITH AIDES TO APPROVE </div>
+                    <DisplayAidesAdmin
                         title="Available Aides"
-                        isLoading = {isLoading}
-                        aides = {aides}
-                    />
-                </div>
-                <br/>
-                <div className="ml-[300px] ">
-                    <DisplayUnavailableAides 
-                        title="Unavailable Aides"
                         isLoading = {isLoading}
                         aides = {aides}
                     />

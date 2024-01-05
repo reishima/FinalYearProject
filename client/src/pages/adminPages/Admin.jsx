@@ -84,7 +84,7 @@ const Admin = () => {
                                     Welcome {name !== null && name !== "" ? name : (blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...')}
                                 </h1>
                                 <p className = "text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base"> 
-                                    Admin Page
+                                    Admin Page - CREATION OF ADMINS?
                                 </p>
                                 <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
                                     <div className={`rounded-tl-2xl ${commonStyles} cursor-pointer`}>

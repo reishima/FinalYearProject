@@ -128,14 +128,14 @@ const AdminAideDetails = () => {
             <div className='flex-1'>
             <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] ml-[634px]'>
                 <p className='font-epilogue font-medium text-[20px] leading-[30px] text-center text-[#808191]'>
-                  Request for Aide
+                  for now this is request aide V
                 </p>
                   <div className='mt-[5px]'>
                   <div className='my-[20px] p-4 bg-[#13131a] rounded-[10px]'>
                     <h4 className='font-epilogue font-semibold text-[14px] leading-[22px] text-white'>
                       <CustomButton
                         btnType = "button"
-                        title="Request Aide"
+                        title="Approve Aide"
                         styles="w-[715px] bg-[#8c6dfd]"
                         handleClick={handleRequest}
                       />
