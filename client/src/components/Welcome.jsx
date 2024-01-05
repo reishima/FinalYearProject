@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoPersonSharp } from 'react-icons/io5';
 import logo from '../images/shield.png';
-import { TransactionContext } from '../context/TransactionContext'; //For form input
 import { shortenAddress } from '../utils/index.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import AuthChecker from '../utils/handle.js';

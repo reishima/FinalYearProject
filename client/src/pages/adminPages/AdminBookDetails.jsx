@@ -30,7 +30,7 @@ const AdminBookDetails = () => {
       } catch (error) {
         console.error("Error returning Book: ", error);
       } finally {
-        navigate('/adminlibrary');
+        navigate('/admin/admin-library');
         setIsLoading(false);
       }
     }

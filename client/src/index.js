@@ -17,7 +17,7 @@ import {
 } from "react-router-dom";
 
 import { FAQ, History, UnavailableBookDetails, Attendance, StudentAide, Profile, CreateAide, AideDetails, UnavailableAideDetails, Home, AttendanceDetails, CreateAttendance, SignIn, SignUp, ForgotPassword, Library, Error, CreateBook, BookDetails } from './pages/index.js';
-import { Admin, AdminLibrary, AdminBookDetails } from './pages/adminPages/adminindex.js';
+import { Admin, AdminLibrary, AdminBookDetails, AdminAideDetails, AdminAides, } from './pages/adminPages/adminindex.js';
 
 const router = createBrowserRouter([
   {
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
     element: <Profile/>,
   },
   {
-    path: "/create-aide",
+    path: "/admin/create-aide",
     element: <CreateAide/>,
   },
   {
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
     element: <AttendanceDetails/>,
   },
   {
-    path: "/create-attendance",
+    path: "/admin/create-attendance",
     element: <CreateAttendance/>,
   },
   {
@@ -89,7 +89,7 @@ const router = createBrowserRouter([
     element: <Error/>
   },
   {
-    path:"/create-book",
+    path:"/admin/create-book",
     element: <CreateBook/>
   },
   {
@@ -97,11 +97,11 @@ const router = createBrowserRouter([
     element: <BookDetails/>,
   },
   {
-    path: "/adminlibrary/:id",
+    path: "/admin/admin-library/:id",
     element: <AdminBookDetails/>,
   },
   {
-    path: "/adminlibrary",
+    path: "/admin/admin-library",
     element: <AdminLibrary/>,
   },
   {
@@ -111,6 +111,14 @@ const router = createBrowserRouter([
   {
     path: "/student-aide/u/:id",
     element: <UnavailableAideDetails/>,
+  },
+  {
+    path: "/admin/admin-aides/",
+    element: <AdminAides/>,
+  },
+  {
+    path: "/admin/admin-aides/:id",
+    element: <AdminAideDetails/>,
   }
 ]);
 

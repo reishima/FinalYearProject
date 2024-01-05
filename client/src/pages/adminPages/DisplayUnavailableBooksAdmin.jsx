@@ -42,7 +42,7 @@ const DisplayUnavailableBooksAdmin = ({ title }) => {
   }, []);
 
   const handleNavigate = (unavailableBooks) => {
-    navigate(`/adminlibrary/${unavailableBooks.title}`, {state : unavailableBooks})
+    navigate(`/admin/admin-library/${unavailableBooks.title}`, {state : unavailableBooks})
   }
     
   return (
