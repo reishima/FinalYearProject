@@ -35,9 +35,9 @@ export const StateContextProvider = ({ children }) => {
           form.description, 
           form.image
         );
-    
-        console.log('Contract call success', data);
+        console.log('Contract call success');
       } catch (error) {
+
         console.error('Contract call failure', error);
       }
     };

@@ -7,14 +7,13 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
     const provider = new ethers.providers.Web3Provider(ethereum);
-  
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
+    const address = window.ethereum.selectedAddress;
 
-    const address = window.ethereum.selectedAddress // Get the connected Ethereum address
+  
 
     const connect = async () => {
         try {
-        // Request user's permission to connect Metamask
         await window.ethereum.request({ method: 'eth_requestAccounts' });
         } catch (error) {
         console.error('Metamask connection error:', error);
@@ -23,36 +22,29 @@ export const StateContextProvider = ({ children }) => {
 
     const publishAide = async (form) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
-  
       const contract = new ethers.Contract(contractAddress, contractABI, provider);
-
-      const address = window.ethereum.selectedAddress // Get the connected Ethereum address
+      const address = window.ethereum.selectedAddress 
       try {
-        // Connect Metamask if not already connected
         if (!address) {
           await connect();
         }
     
-        // Create a signer using the connected Ethereum address
         const signer = provider.getSigner();
-        // Create a contract instance with the signer
         const contractWithSigner = contract.connect(signer);
         
         const data = await contractWithSigner.createAide(
-          address, // owner
-          form.title, // title
-          form.description, // description
-          form.target,
-          new Date(form.deadline).getTime(), // deadline
+          form.title,
+          form.description, 
+          form.maxRequesters,
+          new Date(form.deadline).getTime(),
           form.image
         );
-    
-        console.log('Contract call success', data);
+        console.log('Contract call success');
+
       } catch (error) {
         console.error('Contract call failure', error);
       }
     };
-    
 
     const getAides = async () => {
       const provider = new ethers.providers.Web3Provider(ethereum);
@@ -60,43 +52,94 @@ export const StateContextProvider = ({ children }) => {
       const signer = provider.getSigner();
       const contractWithSigner = contract.connect(signer);
       const aides = await contractWithSigner.getAides();
+      console.log('All Aides:', aides);
+
       const parsedAides = aides.map((aide, i) => ({
-        owner: aide.owner,
         title: aide.title,
         description: aide.description,
-        target: ethers.utils.formatEther(aide.target.toString()),
+        maxRequesters: aide.maxRequesters,
         deadline: aide.deadline.toNumber(),
-        amountCollected: ethers.utils.formatEther(aide.amountCollected.toString()),
         image: aide.image,
         pId: i,
       }));
       return parsedAides;
     };
 
-    const donate = async(pId, amount) => {
+    const getFullAides = async () => {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
       const signer = provider.getSigner();
       const contractWithSigner = contract.connect(signer);
-      const data = await contractWithSigner.sendAide(pId, {value: ethers.utils.parseEther(amount)});
+      const aides = await contractWithSigner.getFullAides();
+      const fullAides = aides.map((aide, i) => ({
+        title: aide.title,
+        description: aide.description,
+        maxRequesters: aide.maxRequesters,
+        deadline: aide.deadline.toNumber(),
+        image: aide.image,
+        pId: i,
+      }));
+      return fullAides;
+    };
+
+    const requestAide = async(pId) => {
+      const signer = provider.getSigner();
+      const contractWithSigner = contract.connect(signer);
+      const data = await contractWithSigner.requestAide(pId);
 
       return data;
     }
 
-    const getDonations = async(pId) => {
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const donations = await contractWithSigner.getDonators(pId);
-      const numberOfDonations = donations[0].length;
-
-      const parsedDonations = [];
-
-      for( let i = 0; i < numberOfDonations; i++ ){
-        parsedDonations.push({
-          donator: donations[0][i],
-          donation: ethers.utils.formatEther(donations[1][i].toString())
-        })
+    const getRequesters = async (pId) => {
+      try {
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const requesters = await contractWithSigner.getRequesters(pId);
+        
+        if (requesters) {
+          const numberOfRequesters = requesters.length;
+          const parsedRequesters = [];
+    
+          for (let i = 0; i < numberOfRequesters; i++) {
+            parsedRequesters.push({
+              requester: requesters[i],
+            });
+          }
+    
+          return parsedRequesters;
+        } else {
+          return [];
+        }
+      } catch (error) {
+        console.error('Error in getRequesters:', error);
+        return [];
       }
+    }
 
-      return parsedDonations;
+    const getRequestersForFull = async (pId) => {
+      try {
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const requesters = await contractWithSigner.getRequestersforFull(pId);
+        
+        if (requesters) {
+          const numberOfRequesters = requesters.length;
+          const parsedRequesters = [];
+    
+          for (let i = 0; i < numberOfRequesters; i++) {
+            parsedRequesters.push({
+              requester: requesters[i],
+            });
+          }
+    
+          return parsedRequesters;
+        } else {
+          return [];
+        }
+      } catch (error) {
+        console.error('Error in getRequestersforFull:', error);
+        return [];
+      }
     }
 
     return (
@@ -107,9 +150,10 @@ export const StateContextProvider = ({ children }) => {
             connect,
             createAide: publishAide,
             getAides,
-            //getUserAides,
-            donate,
-            getDonations,
+            getFullAides,
+            requestAide,
+            getRequesters,
+            getRequestersForFull
         }}
         >
             {children}

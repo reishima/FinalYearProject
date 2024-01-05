@@ -21,15 +21,17 @@ const StudentAide = () => {
     }, [address, contract]);
 
     return(
-        <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen">
-            <div className="bg-[#13131a] ">
+        <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen flex flex-col">
+            <div className="bg-[#13131a] flex-grow">
                 <Navbar/>
                 <AuthChecker/>
-                <DisplayAides 
-                    title="Available aides"
-                    isLoading = {isLoading}
-                    aides = {aides}
-                />
+                <div className="ml-[300px] ">
+                    <DisplayAides 
+                        title="Available Aides"
+                        isLoading = {isLoading}
+                        aides = {aides}
+                    />
+                </div>
             </div>
             <Footer />
         </div>

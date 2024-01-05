@@ -26,17 +26,20 @@ const DisplayAides = ({ title }) => {
   }, []);
 
   const getAides = async () => {
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
     const provider = new ethers.providers.Web3Provider(ethereum);
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
     const aides = await contractWithSigner.getAides();
-    console.log('All Aides:', aides);
+
     const parsedAides = aides.map((aide, i) => ({
+      owner: aide.owner,
       title: aide.title,
       description: aide.description,
-      maxRequesters: aide.maxRequesters,
+      target: ethers.utils.formatEther(aide.target.toString()),
       deadline: aide.deadline.toNumber(),
+      amountCollected: ethers.utils.formatEther(aide.amountCollected.toString()),
       image: aide.image,
       pId: i,
     }));

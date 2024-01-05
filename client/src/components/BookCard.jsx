@@ -1,9 +1,6 @@
 import React from 'react'
-import user from '../images/user.png';
-import { daysLeft } from '../utils/index';
 
-const BookCard = ({owner, title, description, target, deadline, amountCollected, image, handleClick}) => {
-    const remainingDays = daysLeft(deadline);
+const BookCard = ({title, description,  image, handleClick}) => {
     return (
         <div className="sm:w-[286px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer" onClick = {handleClick}>
             <img src={image} alt="fund" className='w-full h-[158px] object-cover rounded-[15px]'/>

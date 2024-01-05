@@ -2,8 +2,9 @@ import React from 'react'
 import user from '../images/user.png';
 import { daysLeft } from '../utils/index';
 
-const AideCard = ({owner, title, description, target, deadline, amountCollected, image, handleClick}) => {
+const AideCard = ({ title, description, maxRequesters, deadline, requesters, image, handleClick}) => {
     const remainingDays = daysLeft(deadline);
+    const maxRequestersString = maxRequesters.toString();
     return (
         <div className="sm:w-[286px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer" onClick = {handleClick}>
             <img src={image} alt="fund" className='w-full h-[158px] object-cover rounded-[15px]'/>
@@ -22,9 +23,9 @@ const AideCard = ({owner, title, description, target, deadline, amountCollected,
                     {/* Amount raised portion */}
                     <div className="flex flex-col">
                         <h4 className='font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]'>
-                            {amountCollected}
+                            {requesters}
                         </h4>
-                        <p className="mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate"> Raised of {target}</p>
+                        <p className="mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate"> requested of {maxRequestersString}</p>
                     </div>
                     {/* Amount raised portion end*/}
                     <div className="flex flex-col">
@@ -34,7 +35,7 @@ const AideCard = ({owner, title, description, target, deadline, amountCollected,
                         <p className="mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate"> Days Left </p>
                     </div>
                 </div>
-                    {/* owner portion */}
+                    {/* owner portion 
                     <div className='flex items-center mt-[20px] gap-[12px]'>
                         <div className="w-[30px] h-[30px] rounded-full flex justify-center items-center bg-[#13131a]">
                            <img src={user} alt ="user" className="w-1/2 h-1/2 object-contain"></img> 
@@ -43,7 +44,7 @@ const AideCard = ({owner, title, description, target, deadline, amountCollected,
                             by <span className="text-[#b2b3bd]">{owner}</span>
                         </p>
                     </div>
-                    {/* owner portion end*/}
+                    */}
             </div>
         </div>
     )

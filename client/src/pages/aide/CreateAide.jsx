@@ -12,16 +12,19 @@ const CreateAide = () => {
     const [ isLoading, setIsLoading ] = useState(false);
     const { createAide } = useStateContext();
     const[ form, setForm ] = useState({
-        name: '',
         title: '',
         description: '',
-        target: '',
+        maxRequesters: '',
         deadline: '',
         image: ''
     });
 
     const handleFormFieldChange =(fieldName, e) =>{
-        setForm({...form, [fieldName]: e.target.value}) //function that makes the value update for each field accordingly
+        let value = e.target.value;
+        if (fieldName === 'maxRequesters') {
+            value = value.replace(/\D/g, ''); // Remove non-digit characters
+        }
+        setForm({...form, [fieldName]: value});
     }
 
     const handleSubmit = async (e) => {
@@ -30,7 +33,7 @@ const CreateAide = () => {
         checkIfImage(form.image, async(exists) => {
             if(exists){
                 setIsLoading(true);
-                await createAide({...form, target: ethers.utils.parseUnits(form.target, 18)})
+                await createAide({...form})
                 setIsLoading(false);
                 navigate('/student-aide');
             } else {
@@ -40,12 +43,30 @@ const CreateAide = () => {
         })
     }
 
+    const getTomorrowDate = () => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const year = tomorrow.getFullYear();
+        const month = `${tomorrow.getMonth() + 1}`.padStart(2, '0');
+        const day = `${tomorrow.getDate()}`.padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      };
+    
+      const handleDeadlineChange = (e) => {
+        const selectedDate = e.target.value;
+        if (selectedDate < getTomorrowDate()) {
+          setForm({ ...form, deadline: getTomorrowDate() });
+        } else {
+          setForm({ ...form, deadline: selectedDate });
+        }
+      };
+
     return(
-        <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen">
-            <div className="bg-[#13131a]">
+        <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-col">
+            <div className="bg-[#13131a] flex-grow">
                 <AdminChecker/>
                 <Navbar/>
-                <div className="flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4 blue-glassmorphism"> 
+                <div className="flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4 blue-glassmorphism ml-[300px] mr-[300px]"> 
                     {isLoading && <Loading/>}
                     <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[3a3a43] rounded-[10px]">
                         <h1 className='font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-white'> Create an Aide </h1>
@@ -53,47 +74,39 @@ const CreateAide = () => {
                     <form onSubmit={handleSubmit} className="w-full mt-[65px] flex flex-col gap-[30px]">
                         <div className="flex flex-wrap flex-col gap-[40px]">
                             <FormField 
-                            labelName="Your Name *"
-                            placeholder="John Doe"
-                            inputType="text"
-                            value={form.name}
-                            handleChange={(e) => handleFormFieldChange('name', e)}
-                            />
-                            <FormField 
                             labelName="Aide Title *"
-                            placeholder="Write a title"
+                            placeholder="Provide the title of the Aide"
                             inputType="text"
                             value={form.title}
                             handleChange={(e) => handleFormFieldChange('title', e)}
                             />
-                        
                             <FormField 
-                                labelName="Story *"
-                                placeholder="Write your story"
+                                labelName="Aide Description *"
+                                placeholder="Provide a description of the Aide"
                                 isTextArea
                                 value={form.description}
                                 handleChange={(e) => handleFormFieldChange('description', e)}
                             />
                             <div className="flex flex-wrap gap-[40px]">
                             <FormField 
-                                labelName="Goal *"
-                                placeholder="ETH 0.50"
+                                labelName="Requester Threshold"
+                                placeholder="Enter the maximum number of requesters"
                                 inputType="text"
-                                value={form.target}
-                                handleChange={(e) => handleFormFieldChange('target', e)}
+                                value={form.maxRequesters}
+                                handleChange={(e) => handleFormFieldChange('maxRequesters', e)}
                             />
-
-                            <FormField 
-                                labelName="End Date *"
-                                placeholder="End Date"
+                            <FormField
+                                labelName="End Date * - Deadline to Request the Aide. The minimum deadline is tomorrow's date."
+                                placeholder="Deadline to Request the Aide. The minimum deadline is tomorrow's date."
                                 inputType="date"
                                 value={form.deadline}
-                                handleChange={(e) => handleFormFieldChange('deadline', e)}
+                                handleChange={handleDeadlineChange}
+                                min={getTomorrowDate()}
                             />
                             </div>
                             <FormField 
-                                labelName="Campaign image *" //in this case the image is a url to an image. maybe we can use that to hook up pfps? upload the image to database?
-                                placeholder="Place image URL of your campaign"
+                                labelName="Campaign image *" 
+                                placeholder="Place image URL for the Aide"
                                 inputType="url"
                                 value={form.image}
                                 handleChange={(e) => handleFormFieldChange('image', e)}

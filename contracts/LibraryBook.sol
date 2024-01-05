@@ -32,26 +32,37 @@ contract LibraryBook {
     }
 
     function borrow(uint256 _id) public payable {
+        require(numberofAvailable > 0, "No available books to borrow.");
+        require(_id < numberofAvailable, "Invalid book ID.");
 
         Book storage book = availableBooks[_id];
 
         book.borrowers.push(msg.sender);
 
         unavailableBooks[numberofUnavailable] = book;
-        delete availableBooks[_id];
-        numberofAvailable--;
         numberofUnavailable++;
+
+        // Swap with the last element and decrease the length
+        availableBooks[_id] = availableBooks[numberofAvailable - 1];
+        delete availableBooks[numberofAvailable - 1];
+        numberofAvailable--;
     }
 
     function bookReturned(uint256 _id) public {
+        require(numberofUnavailable > 0, "No books to return.");
+        require(_id < numberofUnavailable, "Invalid book ID.");
+
         Book storage book = unavailableBooks[_id];
 
         availableBooks[numberofAvailable] = book;
-        delete unavailableBooks[_id];
-        numberofUnavailable--;
         numberofAvailable++;
 
+        // Swap with the last element and decrease the length
+        unavailableBooks[_id] = unavailableBooks[numberofUnavailable - 1];
+        delete unavailableBooks[numberofUnavailable - 1];
+        numberofUnavailable--;
     }
+
 
     function getBorrowers(uint256 _id) view public returns (address[] memory) {
         return (availableBooks[_id].borrowers);
