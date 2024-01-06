@@ -21,15 +21,17 @@ const Attendance = () => {
     }, [address, contract]);
 
     return(
-        <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen">
-            <div className="bg-[#13131a]">
+        <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen flex flex-col">
+            <div className="bg-[#13131a] flex-grow">
             <AuthChecker/>
                 <Navbar/>
+                <div className="ml-[300px] ">
                 <DisplayCourses
                     title="All Courses"
                     isLoading = {isLoading}
                     courses = {courses}
                 />
+                </div>
             </div>
             <Footer />
         </div>
