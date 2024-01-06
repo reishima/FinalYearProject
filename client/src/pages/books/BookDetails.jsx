@@ -11,10 +11,16 @@ const BookDetails = () => {
     const {borrowBook, getBorrowers, contract, address} = useStateContext();
     const[isLoading, setIsLoading] = useState(false);
     const[borrowers, setBorrowers] = useState([]);
+    const[isLoadingBorrowers, setIsLoadingBorrowers] = useState([]);
   
     const fetchBorrowers = async () => {
-      const data = await getBorrowers(state.pId);
-      setBorrowers(data);
+      setIsLoadingBorrowers(true);
+      try{ 
+        const data = await getBorrowers(state.pId);
+        setBorrowers(data);
+      } finally {
+        setIsLoadingBorrowers(false);
+      }
     }
 
     useEffect(() => {
@@ -45,15 +51,13 @@ const BookDetails = () => {
               <div className='flex-1 flex-col'>
                 <img src={state.image} alt="campaign" className="w-[640px] h-[410px] object-cover rounded-xl" />
                 <div className='relative w-[full] h-[5px] bg-[#3a3a43] mt-2'>
-                  <div className='absolute h-full bg-[#4acd8d]'>
-                  </div>
                 </div>
               </div>
               <div className='flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]'>
-                <CountBox title ='Total Borrowers' value={borrowers.length}/>
+                <CountBox title ='Total Borrowers' value={isLoadingBorrowers ? <Loading/>: borrowers.length}/>
               </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">Book Title </h4>
@@ -63,7 +67,7 @@ const BookDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">Story</h4>
@@ -73,12 +77,13 @@ const BookDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5">
+            {/*
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
-                        <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase ml-[634px]">Borrowers</h4>
-                        <div className="mt-[20px] flex flex-col gap-4 ml-[634px]">
-                           {borrowers.length > 0 ? borrowers.map((item, index) => (
+                        <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase ">Borrowers</h4>
+                          <div className="mt-[20px] flex flex-col gap-4 ">*/}
+                           {/*borrowers.length > 0 ? borrowers.map((item, index) => (
                             <div key={`${item.borrower}-${index}`} className='flex justify-between items-center gap-4'>
                               <p className='font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-all'> {index + 1}. {item.borrower}</p>
                             </div>
@@ -88,9 +93,10 @@ const BookDetails = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+                           </div>*/}
+
             <div className='flex-1'>
-              <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] ml-[634px]'>
+              <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] mx-auto'>
                 <p className='font-epilogue font-medium text-[20px] leading-[30px] text-center text-[#808191]'>
                   Borrow this book
                 </p>
@@ -100,7 +106,7 @@ const BookDetails = () => {
                       <CustomButton
                         btnType = "button"
                         title="Borrow Book"
-                        styles="w-[715px] bg-[#8c6dfd]"
+                        styles="max-w-[715px] w-full bg-[#8c6dfd]"
                         handleClick={handleBorrow}
                       />
                     </h4>

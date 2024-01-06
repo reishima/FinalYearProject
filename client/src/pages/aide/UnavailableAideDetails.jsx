@@ -13,14 +13,19 @@ const AideDetails = () => {
     const[requesters, setRequesters] = useState([]);
     const [currentRequesterAmount, setCurrentRequesterAmount] = useState([]);
     const remainingDays = daysLeft(state.deadline);
-    
+    const [isLoadingRequesters, setIsLoadingRequesters] = useState(true);
+
     const fetchRequesters = async () => {
-      const data = await getRequestersForFull(state.pId);
-      setRequesters(data);
-      console.log(data);
-      const requesterCount = await getRequestersCountForFull(state.pId);
-      setCurrentRequesterAmount(requesterCount);
-    }
+      setIsLoadingRequesters(true);
+      try {
+        const data = await getRequestersForFull(state.pId);
+        setRequesters(data);
+        const requesterCount = await getRequestersCountForFull(state.pId);
+        setCurrentRequesterAmount(requesterCount);
+      } finally {
+        setIsLoadingRequesters(false);
+      }
+    };
 
     useEffect(() => {
       if(contract) fetchRequesters();
@@ -51,11 +56,11 @@ const AideDetails = () => {
               </div>
               <div className='flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]'>
                 <CountBox title="Days Left" value={remainingDays} />
-                <CountBox title={`Requests of ${state.maxRequesters}`} value={currentRequesterAmount}/>
+                <CountBox title={`Requests of ${state.maxRequesters}`} value={isLoadingRequesters ? <Loading/>: currentRequesterAmount}/>
                 <CountBox title ='Total Requests' value={requesters.length}/>
               </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">Aide Title </h4>
@@ -65,7 +70,7 @@ const AideDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Aide Description </h4>
@@ -75,7 +80,7 @@ const AideDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Aide Deadline</h4>
@@ -85,12 +90,13 @@ const AideDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            {/*
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Requesters </h4>
-                        <div className="mt-[20px] flex flex-col gap-4">
-                           {requesters.length > 0 ? requesters.map((item, index) => (
+                  <div className="mt-[20px] flex flex-col gap-4">*/}
+                           {/*requesters.length > 0 ? requesters.map((item, index) => ( 
                             <div key={`${item.requester}-${index}`} className='flex justify-between items-center gap-4'>
                               <p className='font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-all'> {index + 1}. {item.requester}</p>
                             </div>
@@ -101,9 +107,10 @@ const AideDetails = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+                           </div>*/}
+            
             <div className='flex-1'>
-            <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] ml-[634px]'>
+            <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] mx-auto'>
                 <p className='font-epilogue font-medium text-[20px] leading-[30px] text-center text-[#808191]'>
                   Request for Aide
                 </p>
@@ -113,7 +120,7 @@ const AideDetails = () => {
                       <CustomButton
                         btnType = "button"
                         title="This aide is no longer available."
-                        styles="w-[715px] bg-[gray] hover:bg-[gray]"
+                        styles="max-w-[715px] w-full bg-[gray] hover:bg-[gray]"
                       />
                     </h4>
                 </div>

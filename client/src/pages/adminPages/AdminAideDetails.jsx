@@ -18,13 +18,19 @@ const AdminAideDetails = () => {
     const { getFullAides, getRequestersForFull } = useStateContext();
     const [approvedEmails, setApprovedEmails] = useState([]);
     const remainingDays = daysLeft(state.deadline);
-    
+    const [isLoadingRequesters, setIsLoadingRequesters] = useState(true);
+
     const fetchRequesters = async () => {
-      const data = await getRequesters(state.pId);
-      setRequesters(data);
-      const requesterCount = await getRequestersCount(state.pId);
-      setCurrentRequesterAmount(requesterCount);
-    }
+      setIsLoadingRequesters(true);
+      try {
+        const data = await getRequesters(state.pId);
+        setRequesters(data);
+        const requesterCount = await getRequestersCount(state.pId);
+        setCurrentRequesterAmount(requesterCount);
+      } finally {
+        setIsLoadingRequesters(false);
+      }
+    };
 
     useEffect(() => {
       if(contract) fetchRequesters();
@@ -108,11 +114,11 @@ const AdminAideDetails = () => {
               </div>
               <div className='flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]'>
                 <CountBox title="Days Left" value={remainingDays} />
-                <CountBox title={`Requests of ${state.maxRequesters}`} value={currentRequesterAmount}/>
+                <CountBox title={`Requests of ${state.maxRequesters}`} value={isLoadingRequesters ? <Loading/>: currentRequesterAmount}/>
                 <CountBox title ='Total Requests' value={requesters.length}/>
               </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Aide Title </h4>
@@ -122,7 +128,7 @@ const AdminAideDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Aide Description </h4>
@@ -132,7 +138,7 @@ const AdminAideDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Aide Deadline</h4>
@@ -142,7 +148,7 @@ const AdminAideDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Requesters </h4>
@@ -160,17 +166,17 @@ const AdminAideDetails = () => {
                 </div>
             </div>
             <div className='flex-1'>
-            <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] ml-[634px]'>
+            <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] mx-auto'>
                 <p className='font-epilogue font-medium text-[20px] leading-[30px] text-center text-[#808191]'>
-                  for now this is request aide V
+                  Email Users
                 </p>
                   <div className='mt-[5px]'>
                   <div className='my-[20px] p-4 bg-[#13131a] rounded-[10px]'>
                     <h4 className='font-epilogue font-semibold text-[14px] leading-[22px] text-white'>
                       <CustomButton
                         btnType = "button"
-                        title="Approve Aide"
-                        styles="w-[715px] bg-[#8c6dfd]"
+                        title="Copy emails to clipboard"
+                        styles="max-w-[715px] w-full bg-[#8c6dfd]"
                         handleClick={handleApproveAides}
                       />
                     </h4>

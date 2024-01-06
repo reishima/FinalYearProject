@@ -61,7 +61,7 @@ const Navbar = () => {
             </ul>
             <div className="flex relative"> {/* for side menu on mobile devices */}
                 {toggleMenu
-                ? <AiOutlineClose fontSize={28} className="text-white md:hidden cursor-pointer" onClick={()=> setToggleMenu(false)}/>
+                ? <AiOutlineClose fontSize={28} className="text-[#13131a] md:hidden cursor-pointer" onClick={()=> setToggleMenu(false)}/>
                 : <HiMenuAlt4 fontSize={28} className="text-white md:hidden cursor-pointer" onClick={()=> setToggleMenu(true)}/> }
                 {toggleMenu && (
                     <ul className="z-10 fixed top-0 -right-2 p-3 w-[70vw] h-screen shadow-2xl md:hidden list-none flex 

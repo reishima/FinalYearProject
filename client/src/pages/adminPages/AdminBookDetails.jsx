@@ -11,10 +11,16 @@ const AdminBookDetails = () => {
     const { releaseBook, getBorrowersForUnavailable, contract, address} = useStateContext();
     const[isLoading, setIsLoading] = useState(false);
     const[borrowers, setBorrowers] = useState([]);
+    const[isLoadingBorrowers, setIsLoadingBorrowers] = useState([]);
   
     const fetchBorrowers = async () => {
-      const data = await getBorrowersForUnavailable(state.pId);
-      setBorrowers(data);
+      setIsLoadingBorrowers(true);
+      try{ 
+        const data = await getBorrowersForUnavailable(state.pId);
+        setBorrowers(data);
+      } finally {
+        setIsLoadingBorrowers(false);
+      }
     }
 
     useEffect(() => {
@@ -50,7 +56,7 @@ const AdminBookDetails = () => {
                 </div>
               </div>
               <div className='flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]'>
-                <CountBox title ='Total Borrowers' value={borrowers.length}/>
+                <CountBox title ='Total Borrowers' value={isLoadingBorrowers ? <Loading/>: borrowers.length}/>
               </div>
             </div>
             <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
