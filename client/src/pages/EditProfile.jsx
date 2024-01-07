@@ -5,8 +5,10 @@ import { getDoc, doc, collection, updateDoc } from 'firebase/firestore';
 import { database } from '../utils/FirebaseConfig.js';
 import { checkIfImage } from '../utils/index.js';
 import AuthChecker from '../utils/handle.js';
+import { useNavigate } from 'react-router-dom';
 
-const Profile = () => {
+const EditProfile = () => {
+    const navigate = useNavigate();
     const [ user, setUser ] = useState(null);
     const [ blockchainId, setblockchainId] = useState(null);
     const [ course, setCourse ] = useState('');
@@ -85,6 +87,10 @@ const Profile = () => {
 
     const handleEdit = () => {
         setEditMode(true);
+    }
+
+    const handleRegister = () => {
+        navigate('/registration');
     }
 
     const handleCancel = () => {
@@ -178,6 +184,10 @@ const Profile = () => {
                                 <button type="button" onClick={handleEdit} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]">
                                     Edit
                                 </button>
+                                <br/>
+                                <button type="button" onClick={handleRegister} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]">
+                                    Registration
+                                </button>
                             </div>
                         )}
                     </div>
@@ -191,4 +201,4 @@ const Profile = () => {
     )
 }
 
-export default Profile ;
+export default EditProfile ;

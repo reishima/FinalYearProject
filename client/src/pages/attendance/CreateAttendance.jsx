@@ -39,11 +39,11 @@ const CreateAttendance = () => {
     }
 
     return(
-        <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen">
-            <div className="bg-[#13131a]">
+        <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-col">
+            <div className="bg-[#13131a] flex-grow">
                 <AdminChecker/>
                 <Navbar/>
-                <div className="flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4 blue-glassmorphism"> 
+                <div className="flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4 blue-glassmorphism ml-[300px] mr-[300px] mx-auto"> 
                     {isLoading && <Loading/>}
                     <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[3a3a43] rounded-[10px]">
                         <h1 className='font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-white'> Create Course Attendance </h1>
