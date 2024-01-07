@@ -19,6 +19,7 @@ const Welcome = () => {
     const [ phone, setPhone ] = useState('');
     const [ editMode, setEditMode ] = useState(false);
     const [showFullId, setShowFullId] = useState(false);
+    
     const handleIdToggle = () => {
         setShowFullId(!showFullId);
       };

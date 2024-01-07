@@ -9,7 +9,7 @@ export const daysLeft = (deadline) => {
   const remainingDays = Math.floor(difference / (1000 * 3600 * 24));
 
   // Ensure that the days left is at least 1 on the date itself
-  return Math.max(remainingDays, 1);
+  return Math.max(remainingDays, 0);
 };
 
   

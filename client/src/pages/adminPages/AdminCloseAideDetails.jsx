@@ -1,28 +1,27 @@
 import React, {useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CountBox, CustomButton, Loading, Navbar, Footer } from '../../components';
 import { useStateContext } from '../../context/AideContext';
 import { calculateBarPercentage, daysLeft } from '../../utils';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { database } from '../../utils/FirebaseConfig.js';
 import AdminChecker from '../../utils/handle.js';
 
-const AdminAideDetails = () => {
+const AdminCloseAideDetails = () => {
 
     const { state } = useLocation();
-    const { getRequestersForFull, contract, address, getRequestersCountForFull, getBlockchainIDsForFullAides } = useStateContext();
+    const navigate = useNavigate();
+    const { getRequesters, contract, address, getRequestersCount, closeAide } = useStateContext();
     const[isLoading, setIsLoading] = useState(false);
-    const[requesters, setRequesters] = useState([]);
     const[currentRequesterAmount, setCurrentRequesterAmount] = useState([]);
+    const [ requesters, setRequesters ] = useState([]);
     const remainingDays = daysLeft(state.deadline);
     const [isLoadingRequesters, setIsLoadingRequesters] = useState(true);
 
     const fetchRequesters = async () => {
       setIsLoadingRequesters(true);
       try {
-        const data = await getRequestersForFull(state.pId);
+        const data = await getRequesters(state.pId);
         setRequesters(data);
-        const requesterCount = await getRequestersCountForFull(state.pId);
+        const requesterCount = await getRequestersCount(state.pId);
         setCurrentRequesterAmount(requesterCount);
       } finally {
         setIsLoadingRequesters(false);
@@ -32,55 +31,15 @@ const AdminAideDetails = () => {
     useEffect(() => {
       if(contract) fetchRequesters();
     }, [contract, address])
-
-    const getBlockchainIDsToApprove = async () => {
-      try {
-        const blockchainIDs = await getBlockchainIDsForFullAides(state.pId);
-        return blockchainIDs;
-      } catch (error) {
-        console.error('Error getting blockchain IDs for full aides:', error);
-        return [];
-      }
-    };
   
-    const handleApproveAides = async () => {
+    const handleClose = async () => {
       try {
-        const blockchainIDsToApprove = await getBlockchainIDsToApprove();
-        console.log('Blockchain IDs to approve:', blockchainIDsToApprove);
-    
-        const usersCollection = collection(database, 'users');
-        const emailsToApprove = [];
-    
-        for (const blockchainID of blockchainIDsToApprove) {
-          const q = query(usersCollection, where('blockchainId', '==', blockchainID));
-          const querySnapshot = await getDocs(q);
-    
-          querySnapshot.forEach((doc) => {
-            const email = doc.data().email;
-            emailsToApprove.push(email);
-          });
-        }
-    
-        console.log('Emails to approve:', emailsToApprove);
-    
-        const emailsTextArea = document.createElement('textarea');
-        emailsTextArea.value = emailsToApprove.join(', ');
-        emailsTextArea.setAttribute('readonly', '');
-        emailsTextArea.style.position = 'absolute';
-        emailsTextArea.style.left = '-9999px';
-    
-        document.body.appendChild(emailsTextArea);
-        emailsTextArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(emailsTextArea);
-        //const emailLink = `mailto:${emailsToApprove.join(',')}?subject=Your%20Subject&body=Your%20Body%20Text`;
-        //window.open(emailLink, '_blank');
-        //To mailto, admin will need to go to their browsers handler. such as chrome://settings/handlers
-        //then user will need to remove mail.google.com from Not allowed to handle protocols
-        //then go to gmail.com and click on the handler at the url and allow
-        alert('Emails copied to clipboard!');
+        setIsLoading(true);
+        await closeAide(state.pId);
       } catch (error) {
-        console.error('Error approving aides:', error);
+        console.error('Error closing aide:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     
@@ -163,17 +122,17 @@ const AdminAideDetails = () => {
             <div className='flex-1'>
             <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] mx-auto'>
                 <p className='font-epilogue font-medium text-[20px] leading-[30px] text-center text-[#808191]'>
-                  Email Users
+                  Close The Aide
                 </p>
                   <div className='mt-[5px]'>
                   <div className='my-[20px] p-4 bg-[#13131a] rounded-[10px]'>
                     <h4 className='font-epilogue font-semibold text-[14px] leading-[22px] text-white'>
                       <CustomButton
                         btnType = "button"
-                        title="Copy emails to clipboard"
+                        title="Close This Aide"
                         styles="max-w-[715px] w-full bg-[#8c6dfd]"
-                        handleClick={handleApproveAides}
-                      />
+                        handleClick={handleClose}
+                    />
                     </h4>
                 </div>
               </div>
@@ -185,4 +144,4 @@ const AdminAideDetails = () => {
       );
     };
 
-export default AdminAideDetails;
+export default AdminCloseAideDetails;

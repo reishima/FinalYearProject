@@ -1,4 +1,4 @@
 import abi from '../StudentAide.json';
 
 export const contractABI = abi.abi;
-export const contractAddress = '0x2C93f12613068CEa32FB1103e88d5c68175D9686';
+export const contractAddress = '0x45b4002f803dadf429a80afd0243b8276a7fa957';

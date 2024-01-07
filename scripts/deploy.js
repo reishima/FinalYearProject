@@ -41,7 +41,8 @@ const main = async () => {
   await transactions.waitForDeployment();
 
   console.log("Transactions deployed to:", transactions.target);
-
+  */
+/*
   const Authentication = await hre.ethers.getContractFactory("Authentication");
   const authentication = await Authentication.deploy();
 
@@ -72,13 +73,16 @@ const main = async () => {
 
   console.log("Migration deployed to:", migration.target);
 */
-  const StudentAide = await hre.ethers.getContractFactory("StudentAide");
-  const studentaide = await StudentAide.deploy();
+  try {
+    const StudentAide = await hre.ethers.getContractFactory("StudentAide");
+    const studentaide = await StudentAide.deploy();
 
-  await studentaide.waitForDeployment();
+    await studentaide.waitForDeployment();
 
-  console.log("StudentAide deployed to:", studentaide.target);
-  
+    console.log("StudentAide deployed to:", studentaide.target);
+  } catch (error) {
+    console.error("Error deploying StudentAide contract:", error);
+  }
 }
 
 

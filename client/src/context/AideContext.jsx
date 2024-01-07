@@ -37,7 +37,7 @@ export const StateContextProvider = ({ children }) => {
           new Date(form.deadline).getTime(),
           form.image
         );
-        console.log('Contract call success');
+        console.log('Contract call success', data);
 
       } catch (error) {
         console.error('Contract call failure', error);
@@ -181,6 +181,18 @@ export const StateContextProvider = ({ children }) => {
       }
     };
     
+    const closeAide = async (pId) => {
+      try{
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const data = await contractWithSigner.closeAide(pId);
+        return data;
+      } catch(error) { 
+        console.error("Error closing aide:", error);
+      }
+    }
+
+
     return (
         <StateContext.Provider
         value={{
@@ -196,6 +208,7 @@ export const StateContextProvider = ({ children }) => {
             getRequestersCount,
             getRequestersCountForFull,
             getBlockchainIDsForFullAides,
+            closeAide,
         }}
         >
             {children}

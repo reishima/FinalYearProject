@@ -38,15 +38,12 @@ contract StudentAide {
     function requestAide(uint256 _id) public payable {
         Aide storage aide = aides[_id];
 
-        require(!isDeadlineReached(_id), "Aide deadline has already passed.");
-        require(aide.requesters.length < aide.maxRequesters, "Aide has reached the maximum number of requesters.");
-
-        // Check if the requester has not already requested this aide
         require(!isRequesterAlreadyInList(_id, msg.sender), "You have already requested for this Aide.");
+        require(aide.requesters.length < aide.maxRequesters, "Aide has reached the maximum number of requesters.");
 
         aide.requesters.push(msg.sender);
 
-        if (aide.requesters.length == aide.maxRequesters || isDeadlineReached(_id)) {
+        if (aide.requesters.length == aide.maxRequesters || block.timestamp > aides[_id].deadline) {
             tempAides.push(aide);
 
             removeAideAtIndex(_id);
@@ -76,10 +73,6 @@ contract StudentAide {
         delete aides[numberofAides - 1];
 
         numberofAides--;
-    }
-
-    function isDeadlineReached(uint256 _id) internal view returns (bool) {
-        return block.timestamp > aides[_id].deadline;
     }
 
     function getRequesters(uint256 _id) view public returns (address[] memory) {
@@ -118,5 +111,18 @@ contract StudentAide {
 
     function getNumberOfRequestersforFull(uint256 _id) public view returns (uint256) {
         return fullAides[_id].requesters.length;
+    }
+
+   function closeAide(uint256 _id) public {
+        Aide storage aide = aides[_id];
+
+        tempAides.push(aide);
+
+        removeAideAtIndex(_id);
+
+        fullAides[numberoffullAides] = tempAides[0];
+        numberoffullAides++;
+
+        delete tempAides;
     }
 }

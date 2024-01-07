@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ethers } from 'ethers';
 import { checkIfImage } from '../../utils/index.js';
 import { Navbar, CustomButton, Loading, FormField, Footer } from '../../components/index.js';
 import   { useStateContext } from '../../context/AideContext.jsx';
@@ -19,10 +18,20 @@ const CreateAide = () => {
         image: ''
     });
 
+    const convertToUnixTimestamp = (dateString) => {
+        const dateObject = new Date(dateString);
+        return dateObject.getTime(); 
+    };
+
     const handleFormFieldChange =(fieldName, e) =>{
         let value = e.target.value;
         if (fieldName === 'maxRequesters') {
-            value = value.replace(/\D/g, ''); // Remove non-digit characters
+            value = value.replace(/\D/g, ''); 
+        }
+        if (fieldName === 'deadline') {
+            const unixTimestampDeadline = convertToUnixTimestamp(value);
+            console.log('New Unix Timestamp Deadline:', unixTimestampDeadline);
+            setForm({ ...form, [fieldName]: unixTimestampDeadline })
         }
         setForm({...form, [fieldName]: value});
     }
@@ -34,6 +43,7 @@ const CreateAide = () => {
             if(exists){
                 setIsLoading(true);
                 await createAide({...form})
+                console.log('Current time:',)
                 setIsLoading(false);
                 navigate('/student-aide');
             } else {
@@ -42,8 +52,8 @@ const CreateAide = () => {
             }
         })
     }
-
-    const getTomorrowDate = () => {
+    
+    const getTomorrowDate = () => {          
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
         const year = tomorrow.getFullYear();
