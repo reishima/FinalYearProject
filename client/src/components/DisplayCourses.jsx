@@ -11,7 +11,7 @@ const { ethereum } = window;
 
 const DisplayCourses= ({ title }) => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true); // Set initial loading state
+  const [isLoading, setIsLoading] = useState(false);; // Set initial loading state
   const [courses, setCourses] = useState([]); // Initialize aides as an empty array
   const [userDepartment, setUserDepartment ] = useState([]);
 
@@ -42,6 +42,7 @@ const DisplayCourses= ({ title }) => {
   useEffect(() => {
     // Fetch courses when userDepartment changes
     if (userDepartment !== null) {
+      setIsLoading(true);
       getCourses(userDepartment)
         .then((parsedCourses) => {
           setCourses(parsedCourses);
@@ -50,7 +51,11 @@ const DisplayCourses= ({ title }) => {
         .catch((error) => {
           console.error('Failed to fetch courses:', error);
           setIsLoading(false);
+        })
+        .finally(() => {
+          setIsLoading(false); // Set loading state to false when courses are fetched (or on error)
         });
+        ;
     }
   }, [userDepartment]);
 
