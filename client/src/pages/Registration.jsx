@@ -4,7 +4,6 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc, collection, updateDoc } from 'firebase/firestore';
 import { useStateContext } from '../context/AttendanceContext.jsx'
 import { database } from '../utils/FirebaseConfig.js';
-import { checkIfImage } from '../utils/index.js';
 import AuthChecker from '../utils/handle.js';
 
 const CourseList = () => {
@@ -26,7 +25,7 @@ const CourseList = () => {
   
     return (
       <div className="mt-8">
-        <h2 className="text-white text-2xl font-bold mb-4">List of Courses</h2>
+        <h2 className="text-white font-epilogue text-center font-semibold">List of Courses</h2>
         <ul className="list-disc list-inside">
           {courses.map((course) => (
             <li key={course.pId} className="text-white">
@@ -41,11 +40,8 @@ const CourseList = () => {
 const Registration = () => {
     const [ user, setUser ] = useState(null);
     const [ blockchainId, setblockchainId] = useState(null);
-    const [ course, setCourse ] = useState('');
     const [ department, setDepartment ] = useState('');
     const [ name, setName ] = useState('');
-    const [ picture, setPicture ] = useState('');
-    const [ phone, setPhone ] = useState('');
     const [ editMode, setEditMode ] = useState(false);
     const [ selectedCourse1, setSelectedCourse1 ] = useState('');
     const [ selectedCourse2, setSelectedCourse2 ] = useState('');
@@ -65,11 +61,8 @@ const Registration = () => {
                 const userDocSnapshot = await getDoc(userDoc);
                 if(userDocSnapshot.exists()) {
                     setblockchainId(userDocSnapshot.data().blockchainId);
-                    setCourse(userDocSnapshot.data().course || '');
                     setDepartment(userDocSnapshot.data().department || '');
                     setName(userDocSnapshot.data().name || '');
-                    setPicture(userDocSnapshot.data().picture || '');
-                    setPhone(userDocSnapshot.data().phone || '');
                 }
             } else {
                 setUser(null);
@@ -92,23 +85,10 @@ const Registration = () => {
             unsubscribe();
         }
     }, [getCourses]);
-
+    
     const handleSave = async () => {
         try {
-            // Check if the provided picture URL is not empty and is a valid image
-            if (picture.trim() !== '') {
-                checkIfImage(picture, (isValidImage) => {
-                    if (isValidImage) {
-                        updateProfile();
-                    } else {
-                        alert('Invalid image URL');
-                        // Handle invalid image URL case (e.g., show an error message)
-                    }
-                });
-            } else {
-                // If picture URL is empty, update the profile without image check
-                updateProfile();
-            }
+            updateProfile();
         } catch (error) {
             console.error('Error updating user information: ', error);
         }
@@ -129,11 +109,6 @@ const Registration = () => {
             ];
 
             await updateDoc(userDoc, {
-                course: course,
-                department: department,
-                name: name,
-                picture: picture,
-                phone: phone,
                 selectedCourses: updatedCourses,
             });
             setEditMode(false);
@@ -157,69 +132,16 @@ const Registration = () => {
              <AuthChecker>
             <div className="justify-center flex-1 flex items-center">
             {user ? (
-                    // If the user is signed in, display their information.
                     <div className='text-white font-epilogue text-center'>
                         <p>Blockchain ID: {blockchainId}</p>
                         <p>Email: {user.email}</p>
-                        {/* Editable form for description and image */}
                         {editMode ? (
-                            <form>
-                                <label>
-                                    Course:
-                                    <input
-                                        type="text"
-                                        className="text-black"
-                                        placeholder="course"
-                                        value={course}
-                                        onChange={(e) => setCourse(e.target.value)}
-                                    />
-                                </label>
-                                <br/>
-                                <label>
-                                    Department:
-                                    <input
-                                        type="text"
-                                        className="text-black"
-                                        placeholder="Department"
-                                        value={department}
-                                        onChange={(e) => setDepartment(e.target.value)}
-                                    />
-                                </label>
-                                <br />
-                                <label>
-                                    Name:
-                                    <input
-                                        type="text"
-                                        className="text-black"
-                                        placeholder="Name"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                    />
-                                </label>
-                                <br />
-                                 <label>
-                                    Picture URL:
-                                    <input
-                                        type="text"
-                                        className="text-black"
-                                        placeholder="picture url"
-                                        value={picture}
-                                        onChange={(e) => setPicture(e.target.value)}
-                                    />
-                                </label>
-                                <br/>
-                                <label>
-                                    Phone Number:
-                                    <input
-                                        type="text"
-                                        className="text-black"
-                                        placeholder="Phone Number"
-                                        value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
-                                    />
-                                </label>
-                                <br />
-                                <label htmlFor="courseSelect" className="text-white font-epilogue mr-2">Select Course 1:</label>
+                        <form>
+                        <p> Name: {name || 'Please edit'} </p>
+                        <p> Department: {department || 'Please edit'} </p>
+                        <CourseList/>
+                            <br />
+                        <label htmlFor="courseSelect" className="text-white font-epilogue mr-2">Select Course 1:</label>
                         <select
                           id="courseSelect"
                           name="courseSelect"
@@ -235,7 +157,7 @@ const Registration = () => {
                         ))}
                       </select>
                       <br/>
-                      <label htmlFor="courseSelect" className="text-white font-epilogue mr-2">Select Course 2:</label>
+                      <label htmlFor="courseSelect" className="text-white font-epilogue mr-2 ">Select Course 2:</label>
                         <select
                           id="courseSelect"
                           name="courseSelect"
@@ -278,15 +200,12 @@ const Registration = () => {
                         ) : (
                             <div className='flex flex-col justify-center items-center'>
                                 <p> Name: {name || 'Please edit'} </p>
-                                <p> Course: {course || 'Please edit'} </p>
                                 <p> Department: {department || 'Please edit'} </p>
-                                <p> Phone Number: {phone || 'Please edit'} </p>
-                                <p> Profile Picture: {picture && <img src={picture} alt="no user image available" className='object-scale-down h-48 w-96'/> || 'Please edit'} </p>
+                                <CourseList/>
                                 <br />
                                 <button type="button" onClick={handleEdit} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]">
                                     Edit
                                 </button>
-                                <CourseList/>
                             </div>
                             
                         )}

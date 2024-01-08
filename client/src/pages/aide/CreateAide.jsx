@@ -36,6 +36,7 @@ const CreateAide = () => {
         if (fieldName === 'title') {
             value = value.replace(/\//g, ''); // Remove forward slashes
         }
+        console.log({...form, [fieldName]: value});
         setForm({...form, [fieldName]: value});
     }
 

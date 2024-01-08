@@ -1,7 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox");
 
 const ALCHEMY_API_KEY ="jpYh7W8QJ144MENpDQh7Tyg0jw-kzRah-P87";
-const SEPOLIA_PRIVATE_KEY = "eaff766162269d838cdbc1959698b7bc38185c7f6dedab40a0c1edb0d39d1bbf";
+const SEPOLIA_PRIVATE_KEY = "2aa9c6e1ef6bd527ca9c80b492eb9725ebada2730387e5fb213cdd7bc18b0440";
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {

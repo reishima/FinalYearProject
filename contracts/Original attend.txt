@@ -1,0 +1,168 @@
+// SPDX-License-Identifier: MIT
+pragma experimental ABIEncoderV2;
+pragma solidity >=0.4.22 <0.9.0;
+/*
+contract CourseAtt { 
+
+    struct Course {
+        string lecturer;
+        string courseName;
+        string description;
+        string department;
+        uint256 startTime;
+        uint256 endTime;
+        uint256 date;
+        string image;
+        address[] attendees;
+    }
+
+    mapping(uint256 => Course) public courses;
+    mapping(uint256 => Course) public closedCourses;
+
+    uint256 public numberofCourses = 0;
+    uint256 public numberofclosedCourses = 0;
+
+    Course[] public tempCourses;
+
+    function createCourse(string memory _lecturer, string memory _courseName, string memory _description, string memory _department, uint256 _startTime, uint256 _endTime, uint256 _date, string memory _image) public returns (uint256) {
+        Course storage course = courses[numberofCourses];
+        
+        course.lecturer = _lecturer;
+        course.courseName = _courseName;
+        course.description = _description;
+        course.department = _department;
+        course.startTime = _startTime;
+        course.endTime = _endTime;
+        course.date = _date;
+        course.image = _image;
+
+        numberofCourses++;
+
+        return numberofCourses - 1; //index of newest aide
+    }
+
+    function attendCourse(uint256 _id) public payable {
+        Course storage course = courses[_id];
+
+        require(isClassTime(_id), "Class is not currently in session.");
+        require(!isAttendeeAlreadyInList(_id, msg.sender), "You have already attended this class.");
+
+        course.attendees.push(msg.sender);
+
+    }
+
+    function isAttendeeAlreadyInList(uint256 _id, address _attendee) internal view returns (bool){
+        Course storage course = courses[_id];
+        for(uint256 i = 0; i < course.attendees.length; i++){
+            if (course.attendees[i] == _attendee){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function removeCourseAtIndex(uint256 index) internal{
+        require (index < numberofCourses, "Invalid index");
+
+        courses[index] = courses[numberofCourses - 1];
+
+        delete courses[numberofCourses - 1];
+
+        numberofCourses--;
+
+    }
+
+    function isCorrectDate(uint256 _date) internal view returns (bool) {
+        uint256 currentDay = block.timestamp / 1 days;  // Convert to days to get the date part
+        uint256 inputDay = _date / 1 days;  // Convert _date to days to get the date part
+
+        return (currentDay == inputDay);
+    }
+
+    function isClassTime(uint256 _id) internal view returns (bool) {
+        Course storage course = courses[_id];
+        uint256 currentHour = (block.timestamp / 1 hours) % 24; // will result in 15 at 3 pm
+        bool correctDate = isCorrectDate(course.date);
+
+        return (correctDate && currentHour >= course.startTime && currentHour <= course.endTime);
+    }
+
+    function getAttendees(uint256 _id) view public returns (address[] memory) {
+        return (courses[_id].attendees);
+    }
+
+    function getAttendeesForClosed(uint256 _id) view public returns (address[] memory){
+        return (closedCourses[_id].attendees);
+    }
+
+    function getCourses(string memory _department) public view returns (Course[] memory) {
+        Course[] memory matchingCourses = new Course[](numberofCourses);
+        uint256 matchingCount = 0;
+
+        for (uint256 i = 0; i < numberofCourses; i++) {
+            if (keccak256(abi.encodePacked(courses[i].department)) == keccak256(abi.encodePacked(_department))) {
+                matchingCourses[matchingCount] = courses[i];
+                matchingCount++;
+            }
+        }
+        assembly {
+            mstore(matchingCourses, matchingCount)
+        }
+
+        return matchingCourses;
+    }
+
+    function getClosedCourses(string memory _department) public view returns (Course[] memory) {
+        Course[] memory matchingCourses = new Course[](numberofclosedCourses);
+        uint256 matchingCount = 0;
+
+        for (uint256 i = 0; i < numberofclosedCourses; i++) {
+            if (keccak256(abi.encodePacked(closedCourses[i].department)) == keccak256(abi.encodePacked(_department))) {
+                matchingCourses[matchingCount] = closedCourses[i];
+                matchingCount++;
+            }
+        }
+        assembly {
+            mstore(matchingCourses, matchingCount)
+        }
+
+        return matchingCourses;
+    }
+
+
+    //does not filter by department
+    function getAllCourses() public view returns (Course[] memory){ 
+        Course[] memory allCourses = new Course[](numberofCourses);
+
+        for(uint i = 0; i < numberofCourses; i++){
+            Course storage item = courses[i];
+
+            allCourses[i] = item;
+        }
+        return allCourses;
+    }
+
+    function getAllClosedCourses() public view returns (Course[] memory){
+        Course[] memory allClosedCourses = new Course[](numberofclosedCourses);
+
+        for(uint i = 0; i < numberofclosedCourses; i++){
+            Course storage item = closedCourses[i];
+
+            allClosedCourses[i] = item;
+        }
+        return allClosedCourses;
+    }
+
+    function closeCourse(uint256 _id) public {
+        Course storage course = courses[_id];
+
+        tempCourses.push(course);
+
+        removeCourseAtIndex(_id);
+
+        closedCourses[numberofclosedCourses] = tempCourses[0];
+        numberofclosedCourses++;
+
+        delete tempCourses;
+    }
+}
