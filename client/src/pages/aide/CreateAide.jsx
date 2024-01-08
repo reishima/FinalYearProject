@@ -32,6 +32,9 @@ const CreateAide = () => {
             const unixTimestampDeadline = convertToUnixTimestamp(value);
             console.log('New Unix Timestamp Deadline:', unixTimestampDeadline);
             setForm({ ...form, [fieldName]: unixTimestampDeadline })
+        } // Check for the title field and remove forward slashes
+        if (fieldName === 'title') {
+            value = value.replace(/\//g, ''); // Remove forward slashes
         }
         setForm({...form, [fieldName]: value});
     }
@@ -110,8 +113,9 @@ const CreateAide = () => {
                                 placeholder="Deadline to Request the Aide. The minimum deadline is tomorrow's date."
                                 inputType="date"
                                 value={form.deadline}
-                                handleChange={handleDeadlineChange}
-                                min={getTomorrowDate()}
+                                handleChange={(e) => handleFormFieldChange('deadline', e)}
+                                //handleChange={handleDeadlineChange}
+                                //min={getTomorrowDate()}
                             />
                             </div>
                             <FormField 

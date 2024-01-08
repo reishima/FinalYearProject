@@ -43,7 +43,7 @@ contract StudentAide {
 
         aide.requesters.push(msg.sender);
 
-        if (aide.requesters.length == aide.maxRequesters || block.timestamp > aides[_id].deadline) {
+        if (aide.requesters.length == aide.maxRequesters) {
             tempAides.push(aide);
 
             removeAideAtIndex(_id);
