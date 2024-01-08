@@ -79,7 +79,7 @@ const Welcome = () => {
                         Welcome {name !== null && name !== "" ? name : (blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...')}
                     </h1>
                     <p className = "text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base"> {/* for some reason adding a break tag <br/> makes the grids weird */}
-                        Identify Yourself
+                        Identify Yourself TEST GIT PULL
                     </p>
                     <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
                         <div className={`rounded-tl-2xl ${commonStyles}`}>
