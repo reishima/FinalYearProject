@@ -1,16 +1,16 @@
 import React, {useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import user from '../../images/user.png';
-import { CountBox, CustomButton, Loading, Navbar, Footer } from '../../components';
-import { useStateContext } from '../../context/AttendanceContext';
+import { CountBox, CustomButton, Loading, Navbar, Footer } from '../../components/index.js';
+import { useStateContext } from '../../context/AttendanceContext.jsx';
 //import { daysLeft, convert } from '../../utils';
-import AuthChecker from '../../utils/handle.js';
+import AdminChecker from '../../utils/adminChecker.js';
 
-const UnavailableAttendanceDetails = () => {
+const AdminCloseAttendanceDetails = () => {
 
     const { state } = useLocation();
     const navigate = useNavigate();
-    const { contract, address,  getAttendeesForClosed, getLecturer, getAttendeesCountForClosed} = useStateContext(); 
+    const { contract, address, closeCourse, getAttendees, getAttendeesCount, getLecturer } = useStateContext(); 
     const [ isLoading, setIsLoading ] = useState(false);
     const [ lecturer, setLecturer ] = useState('');
     //const[amount, setAmount]= useState('');
@@ -24,11 +24,10 @@ const UnavailableAttendanceDetails = () => {
       setIsLoadingAttendees(true);
       try{
         const lecturer = await getLecturer(state.pId);
-        const data = await getAttendeesForClosed(state.pId);
-        console.log(data)
+        const data = await getAttendees(state.pId);
         setAttendees(data);
         setLecturer(lecturer);
-        const attendeeCount = await getAttendeesCountForClosed(state.pId);
+        const attendeeCount = await getAttendeesCount(state.pId);
         setCurrentAttendeeCount(attendeeCount);
       } finally {
         setIsLoadingAttendees(false);
@@ -40,10 +39,28 @@ const UnavailableAttendanceDetails = () => {
       if(contract) fetchAttendees();
     }, [contract, address])
 
+    const handleClose = async () => {
+      setIsLoading(true);
+      try {
+        await closeCourse(state.pId);
+        setIsLoading(false);
+        navigate('/attendance');
+      } catch (error) {
+        console.error("Error attending: ", error);
+        if(error.message.includes("You have already attended this class.")){
+          alert('You have already attended this class.');
+          navigate('/attendance');
+        }
+      } finally {
+        navigate('/attendance');
+        setIsLoading(false);
+      }
+    }
+
     return (
         <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen">
           <div className="bg-[#13131a]">
-            <AuthChecker/>
+            <AdminChecker/>
             <Navbar />
             {isLoading && <Loading/>}
             <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px] max-w-[800px] mx-auto">
@@ -77,13 +94,12 @@ const UnavailableAttendanceDetails = () => {
                     </div>
                 </div>
             </div>
-            {/*
             <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">Attendees</h4>
-                        <div className="mt-[20px] flex flex-col gap-4">/*}
-                           {/*attendees.length > 0 ? attendees.map((item, index) => (
+                        <div className="mt-[20px] flex flex-col gap-4">
+                           {attendees.length > 0 ? attendees.map((item, index) => (
                             <div key={`${item.attendee}-${index}`} className='flex justify-between items-center gap-4'>
                               <p className='font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-all'> {index + 1}. {item.attendee}</p>
                             </div>
@@ -94,18 +110,19 @@ const UnavailableAttendanceDetails = () => {
                         </div>
                     </div>
                 </div>
-                           </div>*/}
+                           </div>
             <div className='flex-1'>
             <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] mx-auto'>
                 <p className='font-epilogue font-medium text-[20px] leading-[30px] text-center text-[#808191]'>
-                  Attend the Class
+                  Close the Class
                 </p>
                   <div className='my-[10px] p-2 bg-[#13131a] rounded-[10px]'>
                     <h4 className='font-epilogue font-semibold text-[14px] leading-[22px] text-white'>
                       <CustomButton
                         btnType = "button"
-                        title="This is a past class"
-                        styles="max-w-[715px] w-full bg-[gray] hover:bg-[gray]"
+                        title="Close the Class Session"
+                        styles="w-full max-w-[715px] bg-[#8c6dfd]"
+                        handleClick={handleClose}
                       />
                     </h4>
                 </div>
@@ -117,4 +134,4 @@ const UnavailableAttendanceDetails = () => {
       );
     };
 
-export default UnavailableAttendanceDetails;
+export default AdminCloseAttendanceDetails;

@@ -19,3 +19,4 @@ export { default as UnavailableBookDetails } from './books/UnavailableBookDetail
 export { default as Home } from './Home.jsx';
 export { default as UnavailableAideDetails } from './aide/UnavailableAideDetails.jsx';
 export { default as Registration } from './Registration.jsx';
+export { default as UnavailableAttendanceDetails } from './attendance/UnavailableAttendanceDetails.jsx';

@@ -7,3 +7,8 @@ export { default as AdminAides } from './AdminAides.jsx';
 export { default as DisplayAidesAdmin } from './DisplayAidesAdmin.jsx';
 export { default as DisplayAidesToClose } from './DisplayAidesToClose.jsx';
 export { default as AdminCloseAideDetails } from './AdminCloseAideDetails.jsx'
+export { default as AdminCourses } from './AdminAttendance.jsx';
+export { default as AdminCloseAttendanceDetails } from './AdminCloseAttendanceDetails.jsx';
+export { default as DisplayAttendanceToClose } from './DisplayAttendanceToClose.jsx';
+export { default as DisplayAttendanceAdmin } from './DisplayAttendanceAdmin.jsx';
+export { default as AdminPastAttendanceDetails } from './AdminPastAttendanceDetails.jsx'

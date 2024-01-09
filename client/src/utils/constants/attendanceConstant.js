@@ -1,4 +1,4 @@
 import abi from '../CourseAttendance.json';
 
 export const contractABI = abi.abi;
-export const contractAddress = '0xadaf1c3c166a2540ab0d378c592b3655bc2c82a3';
+export const contractAddress = '0x0d8435bd8606d39de500e49b1c5e6908ef006b22';

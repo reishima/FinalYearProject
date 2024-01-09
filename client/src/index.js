@@ -16,8 +16,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { FAQ, History, UnavailableBookDetails, Attendance, Registration, StudentAide, EditProfile, CreateAide, AideDetails, UnavailableAideDetails, Home, AttendanceDetails, CreateAttendance, SignIn, SignUp, ForgotPassword, Library, Error, CreateBook, BookDetails } from './pages/index.js';
-import { Admin, AdminLibrary, AdminBookDetails, AdminAideDetails, AdminAides, AdminCloseAideDetails } from './pages/adminPages/adminindex.js';
+import { FAQ, History, UnavailableBookDetails, Attendance, Registration, StudentAide, EditProfile, CreateAide, AideDetails, UnavailableAideDetails, Home, AttendanceDetails, UnavailableAttendanceDetails, CreateAttendance, SignIn, SignUp, ForgotPassword, Library, Error, CreateBook, BookDetails } from './pages/index.js';
+import { Admin, AdminLibrary, AdminBookDetails, AdminAideDetails, AdminAides, AdminCloseAideDetails, AdminCourses, AdminCloseAttendanceDetails, AdminPastAttendanceDetails } from './pages/adminPages/adminindex.js';
+import DisplayUnavailableCourses from './components/DisplayUnavailableCourses.jsx';
 
 const router = createBrowserRouter([
   {
@@ -127,6 +128,22 @@ const router = createBrowserRouter([
   {
     path: "/registration",
     element: <Registration/>,
+  },
+  {
+    path: "/admin/attendance",
+    element: <AdminCourses/>,
+  },
+  {
+    path: "/admin/attendance/c/:id",
+    element: <AdminCloseAttendanceDetails/>,
+  },
+  {
+    path: "/admin/attendance/p/:id",
+    element: <AdminPastAttendanceDetails/>,
+  },
+  {
+    path: "/attendance/c/:id",
+    element: <UnavailableAttendanceDetails/>,
   }
 ]);
 

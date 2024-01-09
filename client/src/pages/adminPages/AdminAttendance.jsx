@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { DisplayUnavailableCourses, Navbar, Footer, DisplayCourses } from '../../components/index.js';
+import {  Navbar, Footer } from '../../components/index.js';
+import { DisplayAttendanceAdmin, DisplayAttendanceToClose } from './adminindex.js';
 import { useStateContext } from '../../context/AttendanceContext.jsx';
 import AuthChecker from '../../utils/handle.js';
 
-const Attendance = () => {
+const AdminCourses = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [courses, setCourses] = useState([]);
 
@@ -26,18 +27,18 @@ const Attendance = () => {
             <AuthChecker/>
                 <Navbar/>
                 <div className="ml-[300px] ">
-                <DisplayCourses
-                    title="Available Classes"
-                    isLoading = {isLoading}
-                    courses = {courses}
-                />
+                    <DisplayAttendanceToClose
+                        title="Open Classes"
+                        isLoading = {isLoading}
+                        aides = {courses}
+                    />
                 </div>
                 <br/>
                 <div className="ml-[300px] ">
-                    <DisplayUnavailableCourses
-                        title="Past Classes"
+                    <DisplayAttendanceAdmin
+                        title="Closed Classes"
                         isLoading = {isLoading}
-                        aides = {courses}
+                        courses = {courses}
                     />
                 </div>
             </div>
@@ -46,4 +47,4 @@ const Attendance = () => {
     )
 }
 
-export default Attendance;
+export default AdminCourses;

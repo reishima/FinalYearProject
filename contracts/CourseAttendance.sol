@@ -72,6 +72,28 @@ contract CourseAttendance {
         return matchingCourses;
     }
 
+    function getAllCourses() public view returns (Course[] memory){
+        Course[] memory openCourses = new Course[](numberofCourses);
+
+        for (uint i = 0; i < numberofCourses; i++){
+            Course storage item = courses[i];
+            openCourses[i] = item;
+        }
+
+        return openCourses;
+    }
+
+    function getAllClosedCourses() public view returns (Course[] memory){
+        Course[] memory closedCoursesArr = new Course[](numberofclosedCourses);
+
+        for (uint i = 0; i < numberofclosedCourses; i++){
+            Course storage item = closedCourses[i];
+            closedCoursesArr[i] = item;
+        }
+
+        return closedCoursesArr;
+    }
+
     function getLecturer(uint256 _id) public view returns(string memory){
         return (courses[_id].lecturer);
     }

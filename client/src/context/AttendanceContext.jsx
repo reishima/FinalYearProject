@@ -112,6 +112,32 @@ export const StateContextProvider = ({ children }) => {
       }
     }
 
+    const getAttendeesForClosed = async (pId) => {
+      try {
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const attendees = await contractWithSigner.getAttendeesForClosed(pId);
+        
+        if (attendees) {
+          const numberOfAttendees = attendees.length;
+          const parsedAttendees = [];
+    
+          for (let i = 0; i < numberOfAttendees; i++) {
+            parsedAttendees.push({
+              attendee: attendees[i],
+            });
+          }
+    
+          return parsedAttendees;
+        } else {
+          return [];
+        }
+      } catch (error) {
+        console.error('Error in getAttendeesForClosed:', error);
+        return [];
+      }
+    }
+
     const attendCourse = async(pId) => {
       const signer = provider.getSigner();
       const contractWithSigner = contract.connect(signer);
@@ -135,7 +161,7 @@ export const StateContextProvider = ({ children }) => {
       try {
           const signer = provider.getSigner();
           const contractWithSigner = contract.connect(signer);
-          const attendeesCount = await contractWithSigner.getNumberOfAttendeesForClosed(pId);
+          const attendeesCount = await contractWithSigner.getNumberOfAttendeesforClosed(pId);
           return attendeesCount.toNumber();
       } catch (error) {
           console.error('Error in getAttendeesCountForClosed:', error);
@@ -152,6 +178,36 @@ export const StateContextProvider = ({ children }) => {
         console.error('Error in getting lecturer', error);
       }
     }
+
+    const closeCourse = async (pId) => {
+      try{
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const data = await contractWithSigner.closeAttendance(pId);
+        return data;
+      } catch(error) { 
+        console.error("Error closing aide:", error);
+      }
+    }
+    
+    const getBlockchainIDsForClosedClasses = async(pId) => {
+      try {
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const attendees = await contractWithSigner.getAttendeesForClosed(pId);
+  
+        if (attendees) {
+          const blockchainIDs = attendees.map((blockchainID) => blockchainID);
+          return blockchainIDs;
+        } else {
+          return [];
+        }
+      } catch (error) {
+        console.error('Error in getBlockchainIDsForClosedClasses:', error);
+        return [];
+      }
+    }
+
 /*
     const getAides = async () => {
       const provider = new ethers.providers.Web3Provider(ethereum);
@@ -311,10 +367,13 @@ export const StateContextProvider = ({ children }) => {
             createCourse: publishCourse,
             getCourses,
             getAttendees,
+            getAttendeesForClosed,
             attendCourse,
             getAttendeesCount,
             getAttendeesCountForClosed,
             getLecturer,
+            closeCourse,
+            getBlockchainIDsForClosedClasses,
         }}
         >
             {children}

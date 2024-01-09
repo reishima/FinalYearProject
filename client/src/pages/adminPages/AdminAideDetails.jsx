@@ -80,7 +80,7 @@ const AdminAideDetails = () => {
         //then go to gmail.com and click on the handler at the url and allow
         alert('Emails copied to clipboard!');
       } catch (error) {
-        console.error('Error approving aides:', error);
+        console.error('Error copying emails:', error);
       }
     };
     
