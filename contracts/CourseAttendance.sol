@@ -9,8 +9,8 @@ contract CourseAttendance {
         string description;
         string department;
         string image;
-        uint256 startTime;
-        uint256 endTime;
+        //uint256 startTime;
+        //uint256 endTime;
         address[] attendees;
     }
 
@@ -22,7 +22,7 @@ contract CourseAttendance {
 
     Course[] public tempCourses;
 
-    function createCourse(string memory _lecturer, string memory _courseName, string memory _description, string memory _department, string memory _image, uint256 _startTime, uint256 _endTime) public returns (uint256) {
+    function createCourse(string memory _lecturer, string memory _courseName, string memory _description, string memory _department, string memory _image) public returns (uint256) {
         Course storage course = courses[numberofCourses];
 
         course.lecturer = _lecturer;
@@ -30,8 +30,8 @@ contract CourseAttendance {
         course.description = _description;
         course.department = _department;
         course.image = _image;
-        course.startTime = _startTime;
-        course.endTime = _endTime;
+        //course.startTime = _startTime;
+        //course.endTime = _endTime;
 
         numberofCourses++;
 
@@ -55,23 +55,41 @@ contract CourseAttendance {
         return matchingCourses;
     }
 
+    function getClosedCourses(string memory _department) public view returns (Course[] memory) {
+        Course[] memory matchingCourses = new Course[](numberofclosedCourses);
+        uint256 matchingCount = 0;
+
+        for (uint256 i = 0; i < numberofclosedCourses; i++) {
+            if (keccak256(abi.encodePacked(closedCourses[i].department)) == keccak256(abi.encodePacked(_department))) {
+                matchingCourses[matchingCount] = closedCourses[i];
+                matchingCount++;
+            }
+        }
+        assembly {
+            mstore(matchingCourses, matchingCount)
+        }
+
+        return matchingCourses;
+    }
+
+    function getLecturer(uint256 _id) public view returns(string memory){
+        return (courses[_id].lecturer);
+    }
+
     function attendCourse(uint256 _id) public payable {
         Course storage course = courses[_id];
 
         require(!isAttendeeAlreadyInList(_id, msg.sender), "You have already attended this class.");
-
-        course.attendees.push(msg.sender);
-
-        if (!isClassTime(_id)) {
+        /*
+        if(block.timestamp > courses[_id].endTime){
             tempCourses.push(course);
-
             removeCourseAtIndex(_id);
-
             closedCourses[numberofclosedCourses] = tempCourses[0];
             numberofclosedCourses++;
-
             delete tempCourses;
-        }
+        }*/
+
+        course.attendees.push(msg.sender);
     }
 
     function isAttendeeAlreadyInList(uint256 _id, address _attendee) internal view returns (bool) {
@@ -93,7 +111,7 @@ contract CourseAttendance {
 
         numberofCourses--;
     }
-
+/*
     function isClassTime(uint256 _id) internal view returns (bool){
         if(block.timestamp >= courses[_id].startTime && block.timestamp <= courses[_id].endTime){
             return true;
@@ -111,55 +129,33 @@ contract CourseAttendance {
     function getBlockTime() view public returns(uint256){
         return block.timestamp;
     }
-/*
-    function getRequesters(uint256 _id) view public returns (address[] memory) {
-        return (aides[_id].requesters);
+    */
+    function getAttendees(uint256 _id) view public returns (address[] memory) {
+        return (courses[_id].attendees);
     }
 
-    function getRequestersforFull(uint256 _id) view public returns (address[] memory) {
-        return (fullAides[_id].requesters);
+    function getAttendeesForClosed(uint256 _id) view public returns (address[] memory) {
+        return (closedCourses[_id].attendees);
     }
 
-    function getAides() public view returns (Aide[] memory) {
-        Aide[] memory availableAides = new Aide[](numberofAides);
-
-        for (uint i = 0; i < numberofAides; i++) {
-            Aide storage item = aides[i];
-            availableAides[i] = item;
-        }
-
-        return availableAides;
+    function getNumberOfAttendees(uint256 _id) public view returns (uint256) {
+        return courses[_id].attendees.length;
     }
 
-    function getFullAides() public view returns (Aide[] memory) {
-        Aide[] memory fullAidesArr = new Aide[](numberoffullAides);
-
-        for (uint i = 0; i < numberoffullAides; i++) {
-            Aide storage item = fullAides[i];
-            fullAidesArr[i] = item;
-        }
-
-        return fullAidesArr;
+    function getNumberOfAttendeesforClosed(uint256 _id) public view returns (uint256) {
+        return closedCourses[_id].attendees.length;
     }
 
-    function getNumberOfRequesters(uint256 _id) public view returns (uint256) {
-        return aides[_id].requesters.length;
+    function closeAttendance(uint256 _id) public {
+        Course storage course = courses[_id];
+
+        tempCourses.push(course);
+
+        removeCourseAtIndex(_id);
+
+        closedCourses[numberofclosedCourses] = tempCourses[0];
+        numberofclosedCourses++;
+
+        delete tempCourses;
     }
-
-    function getNumberOfRequestersforFull(uint256 _id) public view returns (uint256) {
-        return fullAides[_id].requesters.length;
-    }
-
-   function closeAide(uint256 _id) public {
-        Aide storage aide = aides[_id];
-
-        tempAides.push(aide);
-
-        removeAideAtIndex(_id);
-
-        fullAides[numberoffullAides] = tempAides[0];
-        numberoffullAides++;
-
-        delete tempAides;
-    }*/
 }

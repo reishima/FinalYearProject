@@ -12,7 +12,29 @@ export const daysLeft = (deadline) => {
   return Math.max(remainingDays, 0);
 };
 
-  
+/*
+export const convert = (blockTime) => {
+  const timestamp = blockTime.toString();
+  const date = new Date(timestamp * 1000);
+
+  // Format the time
+  const hours = date.getHours();
+  const minutes = '0' + date.getMinutes();
+  const seconds = '0' + date.getSeconds();
+  const formattedTime = hours % 12 + ':' + minutes.substr(-2) + ':' + seconds.substr(-2) + ' ' + (hours >= 12 ? 'PM' : 'AM');
+
+  // Format the date
+  const month = date.getMonth() + 1; // Months are zero-based
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  const formattedDate = day + '/' + month + '/' + year;
+
+  // Combine the time and date
+  const result = formattedTime + ' - ' + formattedDate;
+  return result;
+};*/
+
 export const calculateBarPercentage = (goal, raisedAmount) => {
   const percentage = Math.round((raisedAmount * 100) / goal);
   

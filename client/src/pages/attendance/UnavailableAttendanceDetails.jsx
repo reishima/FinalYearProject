@@ -10,7 +10,7 @@ const AttendanceDetails = () => {
 
     const { state } = useLocation();
     const navigate = useNavigate();
-    const { contract, address, attendCourse, getAttendees, getAttendeesCount, getLecturer } = useStateContext(); 
+    const { contract, address,  getAttendeesForClosed, getAttendeesCountForClosed, getLecturer } = useStateContext(); 
     const [ isLoading, setIsLoading ] = useState(false);
     const [ lecturer, setLecturer ] = useState('');
     //const[amount, setAmount]= useState('');
@@ -24,10 +24,10 @@ const AttendanceDetails = () => {
       setIsLoadingAttendees(true);
       try{
         const lecturer = await getLecturer(state.pId);
-        const data = await getAttendees(state.pId);
+        const data = await getAttendeesForClosed(state.pId);
         setAttendees(data);
         setLecturer(lecturer);
-        const attendeeCount = await getAttendeesCount(state.pId);
+        const attendeeCount = await getAttendeesCountForClosed(state.pId);
         setCurrentAttendeeCount(attendeeCount);
       } finally {
         setIsLoadingAttendees(false);
@@ -38,24 +38,6 @@ const AttendanceDetails = () => {
       console.log(state);
       if(contract) fetchAttendees();
     }, [contract, address])
-
-    const handleAttend = async () => {
-      setIsLoading(true);
-      try {
-        await attendCourse(state.pId);
-        setIsLoading(false);
-        navigate('/attendance');
-      } catch (error) {
-        console.error("Error attending: ", error);
-        if(error.message.includes("You have already attended this class.")){
-          alert('You have already attended this class.');
-          navigate('/attendance');
-        }
-      } finally {
-        navigate('/attendance');
-        setIsLoading(false);
-      }
-    }
 
     return (
         <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen">
@@ -120,9 +102,8 @@ const AttendanceDetails = () => {
                     <h4 className='font-epilogue font-semibold text-[14px] leading-[22px] text-white'>
                       <CustomButton
                         btnType = "button"
-                        title="Attend"
-                        styles="w-full max-w-[715px] bg-[#8c6dfd]"
-                        handleClick={handleAttend}
+                        title="This is a past class"
+                        styles="max-w-[715px] w-full bg-[gray] hover:bg-[gray]"
                       />
                     </h4>
                 </div>
@@ -134,4 +115,4 @@ const AttendanceDetails = () => {
       );
     };
 
-export default AttendanceDetails;
+export default UnavailableAttendanceDetails;

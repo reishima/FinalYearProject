@@ -18,7 +18,7 @@ export const StateContextProvider = ({ children }) => {
         }
     };
 
-    const publishCourse = async (form, startTime, endTime) => {
+    const publishCourse = async (form) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const contract = new ethers.Contract(contractAddress, contractABI, provider);
       const address = window.ethereum.selectedAddress 
@@ -29,16 +29,17 @@ export const StateContextProvider = ({ children }) => {
     
         const signer = provider.getSigner();
         const contractWithSigner = contract.connect(signer);
-        console.log('From context start time is:', startTime);
-        console.log('From context end time is:', endTime);
+        //console.log("from context lecturer is:", form.lecturer);
+        //console.log('From context start time is:', startTime);
+        //console.log('From context end time is:', endTime);
         const data = await contractWithSigner.createCourse(
           form.lecturer,
           form.courseName,
           form.description, 
           form.department,
           form.image,
-          startTime,
-          endTime,
+          //startTime,
+          //endTime,
         );
         console.log('Contract call success', data);
 
@@ -59,15 +60,14 @@ export const StateContextProvider = ({ children }) => {
         courseName: course.courseName,
         description: course.description,
         department: course.department,
-        startTime: course.startTime,
-        endTime: course.endTime,
-        //date: course.date.toNumber(),
+        //startTime: course.startTime,
+        //endTime: course.endTime,
         image: course.image,
         pId: i,
       }));
       return parsedCourses;
     };
-
+/*
     const getBlockTime = async() => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const contract = new ethers.Contract(contractAddress, contractABI, provider);
@@ -85,7 +85,7 @@ export const StateContextProvider = ({ children }) => {
       const classTime = await contractWithSigner.getClassTime(pId);
       return classTime;
     }
-
+*/
     const getAttendees = async (pId) => {
       try {
         const signer = provider.getSigner();
@@ -118,6 +118,39 @@ export const StateContextProvider = ({ children }) => {
       const data = await contractWithSigner.attendCourse(pId);
 
       return data;
+    }
+
+    const getAttendeesCount = async (pId) => {
+      try {
+          const signer = provider.getSigner();
+          const contractWithSigner = contract.connect(signer);
+          const attendeesCount = await contractWithSigner.getNumberOfAttendees(pId);
+          return attendeesCount.toNumber();
+      } catch (error) {
+          console.error('Error in getAttendeesCount:', error);
+        }
+    };
+
+    const getAttendeesCountForClosed = async (pId) => {
+      try {
+          const signer = provider.getSigner();
+          const contractWithSigner = contract.connect(signer);
+          const attendeesCount = await contractWithSigner.getNumberOfAttendeesForClosed(pId);
+          return attendeesCount.toNumber();
+      } catch (error) {
+          console.error('Error in getAttendeesCountForClosed:', error);
+        }
+    };
+
+    const getLecturer = async(pId) => {
+      try{ 
+        const signer = provider.getSigner();
+          const contractWithSigner = contract.connect(signer);
+          const lecturerName = await contractWithSigner.getLecturer(pId);
+          return lecturerName;
+      } catch(error){
+        console.error('Error in getting lecturer', error);
+      }
     }
 /*
     const getAides = async () => {
@@ -278,16 +311,10 @@ export const StateContextProvider = ({ children }) => {
             createCourse: publishCourse,
             getCourses,
             getAttendees,
-            attendCourse,/*
-            getFullAides,
-            requestAide,
-            getRequestersForFull,
-            getRequestersCount,
-            getRequestersCountForFull,
-            getBlockchainIDsForFullAides,
-            closeAide,*/
-            getBlockTime,
-            isClassTime,
+            attendCourse,
+            getAttendeesCount,
+            getAttendeesCountForClosed,
+            getLecturer,
         }}
         >
             {children}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loading, CourseCard } from '../components/index.js';
+import { Loading, CourseCard } from './index.js';
 import { contractABI, contractAddress } from '../utils/constants/attendanceConstant.js';
 import { ethers } from 'ethers';
 import { v4 as uuidv4 } from "uuid";
@@ -9,7 +9,7 @@ import { doc, getFirestore, getDoc } from 'firebase/firestore';
 
 const { ethereum } = window;
 
-const DisplayCourses= ({ title }) => {
+const DisplayUnavailableCourses= ({ title }) => {
   const navigate = useNavigate();
   const [ isLoading, setIsLoading ] = useState(false);; // Set initial loading state
   const [ courses, setCourses ] = useState([]); // Initialize aides as an empty array
@@ -43,7 +43,7 @@ const DisplayCourses= ({ title }) => {
     // Fetch courses when userDepartment changes
     if (userDepartment !== null) {
       setIsLoading(true);
-      getCourses(userDepartment, takenCourses)
+      getClosedCourses(userDepartment, takenCourses)
         .then((parsedCourses) => {
           setCourses(parsedCourses);
         })
@@ -65,20 +65,20 @@ const DisplayCourses= ({ title }) => {
     };*/
   }, [userDepartment]);
 
-  const getCourses = async (userDepartment, courseNames) => {
+  const getClosedCourses = async (userDepartment, courseNames) => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
-    const courses = await contractWithSigner.getCourses(userDepartment); //needs to pass user department
+    const courses = await contractWithSigner.getClosedCourses(userDepartment); //needs to pass user department
 
     const parsedCourses = courses.map((course, i) => ({
       lecturer: course.lecturer,
       courseName: course.courseName,
       description: course.description,
       department: course.department,
-      startTime: course.startTime,
-      endTime: course.endTime,
+      //startTime: course.startTime,
+      //endTime: course.endTime,
       image: course.image,
       pId: i,
     }));
@@ -99,7 +99,7 @@ const DisplayCourses= ({ title }) => {
   }*/
 
   const handleNavigate = (course) => {
-    navigate(`/attendance/${course.courseName}`, {state : course})
+    navigate(`/attendance/c/${course.courseName}`, {state : course})
   }
     
   return (
@@ -114,7 +114,7 @@ const DisplayCourses= ({ title }) => {
         )}
         {!isLoading && courses.length === 0 && (
           <p className="font-epilogue dont-semibold text-[14px] leading-[30px] text-[#818183]">
-            You have not created any courses yet.
+            There are no past courses.
           </p>
         )}
 
@@ -128,4 +128,4 @@ const DisplayCourses= ({ title }) => {
   );
 };
 
-export default DisplayCourses;
+export default DisplayUnavailableCourses;

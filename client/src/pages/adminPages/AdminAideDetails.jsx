@@ -11,11 +11,11 @@ const AdminAideDetails = () => {
 
     const { state } = useLocation();
     const { getRequestersForFull, contract, address, getRequestersCountForFull, getBlockchainIDsForFullAides } = useStateContext();
-    const[isLoading, setIsLoading] = useState(false);
-    const[requesters, setRequesters] = useState([]);
-    const[currentRequesterAmount, setCurrentRequesterAmount] = useState([]);
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ requesters, setRequesters] = useState([]);
+    const [ currentRequesterAmount, setCurrentRequesterAmount ] = useState([]);
     const remainingDays = daysLeft(state.deadline);
-    const [isLoadingRequesters, setIsLoadingRequesters] = useState(true);
+    const [ isLoadingRequesters, setIsLoadingRequesters ] = useState(true);
 
     const fetchRequesters = async () => {
       setIsLoadingRequesters(true);

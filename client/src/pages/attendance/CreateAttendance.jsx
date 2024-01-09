@@ -18,15 +18,15 @@ const CreateAttendance = () => {
         image:'',
     });
 
-    const [ startTime, setStartTime ] = useState('');
-    const [ endTime, setEndTime ] = useState('');
+    //const [ startTime, setStartTime ] = useState('');
+    //const [ endTime, setEndTime ] = useState('');
     /*
     const convertUnixTimestampToUTC8 = (unixTimestamp) => {
         const dateObject = new Date(unixTimestamp * 1000); // Convert back to milliseconds
         const utc8DateTimeString = dateObject.toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur', hour12: false });
         return utc8DateTimeString;
     };*/
-
+/*
     useEffect(() => {
         console.log('Start time', startTime);
         console.log('End time', endTime);
@@ -36,16 +36,16 @@ const CreateAttendance = () => {
         const selectedDate = new Date(dateTimeString);
         return Math.floor(selectedDate.getTime() / 1000);
     }
-
+    */
     const handleFormFieldChange =(fieldName, e) =>{
         let value = e.target.value;
         if (fieldName === 'courseName') {
             value = value.replace(/\//g, ''); 
         }
-        setForm({...form, [fieldName]: value});
-        console.log({...form, [fieldName]: value});
+        setForm(prevForm => ({ ...prevForm, [fieldName]: value }));
+        console.log({ ...form, [fieldName]: value });
     }
-
+/*
     const handleStartTime = (e) =>{
         let value = e.target.value;
         const unix = convertToUnixTimestamp(value);
@@ -57,13 +57,14 @@ const CreateAttendance = () => {
         const unix = convertToUnixTimestamp(value);
         setEndTime(unix);
     }
-
+*/
     const handleSubmit = async (e) => {
         e.preventDefault();
         checkIfImage(form.image, async(exists) => {
             if(exists){
                 setIsLoading(true);
-                await createCourse({...form}, startTime, endTime);
+                await createCourse({...form});
+                //await createCourse({...form}, startTime, endTime);
                 setIsLoading(false);
                 navigate('/attendance');
             } else {
@@ -86,18 +87,18 @@ const CreateAttendance = () => {
                     <form onSubmit={handleSubmit} className="w-full mt-[65px] flex flex-col gap-[30px]">
                         <div className="flex flex-wrap flex-col gap-[40px]">
                             <FormField 
-                                labelName="Lecturer"
-                                placeholder="Provide lecturer's name"
-                                inputType="text"
-                                value={form.lecturer}
-                                handleChange={(e) => handleFormFieldChange('lecturer', e)}
-                            />
-                            <FormField 
                                 labelName="Course Name"
                                 placeholder="Provide the title of the Attendance"
                                 inputType="text"
                                 value={form.courseName}
                                 handleChange={(e) => handleFormFieldChange('courseName', e)}
+                            />
+                            <FormField 
+                                labelName="Lecturer"
+                                placeholder="Provide lecturer's name"
+                                inputType="text"
+                                value={form.lecturer}
+                                handleChange={(e) => handleFormFieldChange('lecturer', e)}
                             />
                             <FormField 
                                 labelName="Attendance Description *"
@@ -113,7 +114,7 @@ const CreateAttendance = () => {
                                 value={form.department}
                                 handleChange={(e) => handleFormFieldChange('department', e)}
                             />
-                            <div className="flex flex-wrap gap-[40px]">
+                                {/*}
                             <FormField
                                 labelName="Start Time * "
                                 placeholder="Start Time"
@@ -131,8 +132,7 @@ const CreateAttendance = () => {
                                 handleChange={(e) => handleEndTime(e)}
                                 //handleChange={handleDeadlineChange}
                                 //min={getTomorrowDate()}
-                            />
-                            </div>
+    />*/}
                             <FormField 
                                 labelName="Campaign image *" 
                                 placeholder="Place image URL for the Attendance"

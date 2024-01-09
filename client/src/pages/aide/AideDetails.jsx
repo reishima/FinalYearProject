@@ -10,9 +10,9 @@ const AideDetails = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
     const { requestAide, getRequesters, contract, address, getRequestersCount } = useStateContext();
-    const[isLoading, setIsLoading] = useState(false);
-    const[requesters, setRequesters] = useState([]);
-    const[currentRequesterAmount, setCurrentRequesterAmount] = useState([]);
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ requesters, setRequesters ] = useState([]);
+    const [ currentRequesterAmount, setCurrentRequesterAmount ] = useState([]);
     const remainingDays = daysLeft(state.deadline);
     const [isLoadingRequesters, setIsLoadingRequesters] = useState(true);
 
