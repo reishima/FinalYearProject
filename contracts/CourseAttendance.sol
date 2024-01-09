@@ -8,32 +8,30 @@ contract CourseAttendance {
         string courseName;
         string description;
         string department;
+        string image;
         uint256 startTime;
         uint256 endTime;
-        uint256 date;
-        string image;
         address[] attendees;
     }
 
     mapping(uint256 => Course) public courses;
-    mapping(uint256 => Course) public fullCourses;
+    mapping(uint256 => Course) public closedCourses;
 
     uint256 public numberofCourses = 0;
-    uint256 public numberoffullCourses = 0;
+    uint256 public numberofclosedCourses = 0;
 
     Course[] public tempCourses;
 
-    function createCourse(string memory _lecturer, string memory _courseName, string memory _description, string memory _department, uint256 _startTime, uint256 _endTime, uint256 _date, string memory _image) public returns (uint256) {
+    function createCourse(string memory _lecturer, string memory _courseName, string memory _description, string memory _department, string memory _image, uint256 _startTime, uint256 _endTime) public returns (uint256) {
         Course storage course = courses[numberofCourses];
 
         course.lecturer = _lecturer;
         course.courseName = _courseName;
         course.description = _description;
         course.department = _department;
+        course.image = _image;
         course.startTime = _startTime;
         course.endTime = _endTime;
-        course.date = _date;
-        course.image = _image;
 
         numberofCourses++;
 
@@ -56,47 +54,64 @@ contract CourseAttendance {
 
         return matchingCourses;
     }
-/*
-    function requestCourse(uint256 _id) public payable {
-        Aide storage aide = aides[_id];
 
-        require(!isRequesterAlreadyInList(_id, msg.sender), "You have already requested for this Aide.");
-        require(aide.requesters.length < aide.maxRequesters, "Aide has reached the maximum number of requesters.");
+    function attendCourse(uint256 _id) public payable {
+        Course storage course = courses[_id];
 
-        aide.requesters.push(msg.sender);
+        require(!isAttendeeAlreadyInList(_id, msg.sender), "You have already attended this class.");
 
-        if (aide.requesters.length == aide.maxRequesters) {
-            tempAides.push(aide);
+        course.attendees.push(msg.sender);
 
-            removeAideAtIndex(_id);
+        if (!isClassTime(_id)) {
+            tempCourses.push(course);
 
-            fullAides[numberoffullAides] = tempAides[0];
-            numberoffullAides++;
+            removeCourseAtIndex(_id);
 
-            delete tempAides;
+            closedCourses[numberofclosedCourses] = tempCourses[0];
+            numberofclosedCourses++;
+
+            delete tempCourses;
         }
     }
 
-    function isRequesterAlreadyInList(uint256 _id, address _requester) internal view returns (bool) {
-        Aide storage aide = aides[_id];
-        for (uint256 i = 0; i < aide.requesters.length; i++) {
-            if (aide.requesters[i] == _requester) {
+    function isAttendeeAlreadyInList(uint256 _id, address _attendee) internal view returns (bool) {
+        Course storage course = courses[_id];
+        for (uint256 i = 0; i < course.attendees.length; i++) {
+            if (course.attendees[i] == _attendee) {
                 return true; 
             }
         }
         return false; 
     }
 
-    function removeAideAtIndex(uint256 index) internal {
-        require(index < numberofAides, "Invalid index");
+    function removeCourseAtIndex(uint256 index) internal {
+        require(index < numberofCourses, "Invalid index");
 
-        aides[index] = aides[numberofAides - 1];
+        courses[index] = courses[numberofCourses - 1];
 
-        delete aides[numberofAides - 1];
+        delete courses[numberofCourses - 1];
 
-        numberofAides--;
+        numberofCourses--;
     }
 
+    function isClassTime(uint256 _id) internal view returns (bool){
+        if(block.timestamp >= courses[_id].startTime && block.timestamp <= courses[_id].endTime){
+            return true;
+        }
+        return false;
+    }
+
+    function getClassTime(uint256 _id) view public returns (bool){
+        if(block.timestamp >= courses[_id].startTime && block.timestamp <= courses[_id].endTime){
+            return true;
+        }
+        return false;
+    }
+
+    function getBlockTime() view public returns(uint256){
+        return block.timestamp;
+    }
+/*
     function getRequesters(uint256 _id) view public returns (address[] memory) {
         return (aides[_id].requesters);
     }

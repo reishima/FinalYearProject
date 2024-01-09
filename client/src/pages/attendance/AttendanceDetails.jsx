@@ -10,19 +10,27 @@ const AttendanceDetails = () => {
 
     const { state } = useLocation();
     const navigate = useNavigate();
-    const {attend, contract, address} = useStateContext(); 
+    const { contract, address, attendCourse, getAttendees, getAttendeesCount, isClassTime} = useStateContext(); 
     const[isLoading, setIsLoading] = useState(false);
     //const[amount, setAmount]= useState('');
     const[attendees, setAttendees] = useState([]);
-    const remainingDays = daysLeft(state.deadline);
+    const [ currentAttendeeCount, setCurrentAttendeeCount ] = useState([]);
+    const remainingDays = daysLeft(state.endTime);
+    const [ isLoadingAttendees, setIsLoadingAttendees ] = useState(true);
     
 
     const fetchAttendees = async () => {
-      const data = await contract.getAttendees(state.pId);
-
-      //console.log(data);
-
-      setAttendees(data);
+      setIsLoadingAttendees(true);
+      try{
+        const time = await isClassTime(state.pId);
+        console.log(time);
+        const data = await getAttendees(state.pId);
+        setAttendees(data);
+        const attendeeCount = await getAttendeesCount(state.pId);
+        setCurrentAttendeeCount(attendeeCount);
+      } finally {
+        setIsLoadingAttendees(false);
+      }
     }
 
     useEffect(() => {
@@ -32,11 +40,15 @@ const AttendanceDetails = () => {
     const handleAttend = async () => {
       setIsLoading(true);
       try {
-        await attend(state.pId);
-
+        await attendCourse(state.pId);
         setIsLoading(false);
+        navigate('/attendance');
       } catch (error) {
         console.error("Error attending: ", error);
+        if(error.message.includes("You have already attended this class.")){
+          alert('You have already attended this class.');
+          navigate('/attendance');
+        }
       } finally {
         navigate('/attendance');
         setIsLoading(false);
@@ -56,7 +68,7 @@ const AttendanceDetails = () => {
               </div>
               <div className='flex md:w-[150px] w-full flex-wrap justify-between '>
                 <CountBox title="Days Left" value={remainingDays} />
-                <CountBox title ='Attendees' value={attendees.length}/>
+                <CountBox title ='Attendees' value={isLoadingAttendees ? <Loading/> : currentAttendeeCount}/>
               </div>
             </div>
             <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">

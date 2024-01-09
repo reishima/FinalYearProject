@@ -29,7 +29,7 @@ contract StudentAide {
         aide.maxRequesters = _maxRequesters;
         aide.deadline = _deadline;
         aide.image = _image;
-
+    
         numberofAides++;
 
         return numberofAides - 1; 

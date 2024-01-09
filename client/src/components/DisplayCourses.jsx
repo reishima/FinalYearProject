@@ -57,6 +57,16 @@ const DisplayCourses= ({ title }) => {
         });
         ;
     }
+    const fetchBlockTime = async () => {
+      try {
+        const blockTime = await getBlockTime();
+        console.log('Block Time:', blockTime);
+      } catch (error) {
+        console.error('Error fetching block time:', error);
+      }
+    };
+
+    fetchBlockTime();
   }, [userDepartment]);
 
   const getCourses = async (userDepartment) => {
@@ -80,6 +90,15 @@ const DisplayCourses= ({ title }) => {
     }));
     return parsedCourses;
   };
+
+  const getBlockTime = async() => {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const contract = new ethers.Contract(contractAddress, contractABI, provider);
+    const signer = provider.getSigner();
+    const contractWithSigner = contract.connect(signer);
+    const blockTime = await contractWithSigner.getBlockTime();
+    return blockTime;
+  }
 
   const handleNavigate = (course) => {
     navigate(`/attendance/${course.courseName}`, {state : course})

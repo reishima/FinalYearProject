@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { checkIfImage } from '../../utils/index.js';
 import { Navbar, CustomButton, Loading, FormField, Footer } from '../../components/index.js';
@@ -15,39 +15,55 @@ const CreateAttendance = () => {
         courseName:'',
         description:'',
         department:'',
-        startTime:'',
-        endTime: '',
-        date:'',
         image:'',
     });
 
-    const convertToUnixTimestamp = (dateString) => {
-        const dateObject = new Date(dateString);
-        return dateObject.getTime(); 
-    };
+    const [ startTime, setStartTime ] = useState('');
+    const [ endTime, setEndTime ] = useState('');
+    /*
+    const convertUnixTimestampToUTC8 = (unixTimestamp) => {
+        const dateObject = new Date(unixTimestamp * 1000); // Convert back to milliseconds
+        const utc8DateTimeString = dateObject.toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur', hour12: false });
+        return utc8DateTimeString;
+    };*/
+
+    useEffect(() => {
+        console.log('Start time', startTime);
+        console.log('End time', endTime);
+      }, [startTime, endTime]);
+
+    const convertToUnixTimestamp = (dateTimeString) => {
+        const selectedDate = new Date(dateTimeString);
+        return Math.floor(selectedDate.getTime() / 1000);
+    }
 
     const handleFormFieldChange =(fieldName, e) =>{
         let value = e.target.value;
-        if (fieldName === 'date') {
-            const unixTimestampDeadline = convertToUnixTimestamp(value);
-            console.log('New Unix Timestamp Date:', unixTimestampDeadline);
-            setForm({ ...form, [fieldName]: unixTimestampDeadline })
-        } // Check for the title field and remove forward slashes
         if (fieldName === 'courseName') {
-            value = value.replace(/\//g, ''); // Remove forward slashes
+            value = value.replace(/\//g, ''); 
         }
-        console.log({...form, [fieldName]: value});
         setForm({...form, [fieldName]: value});
+        console.log({...form, [fieldName]: value});
+    }
+
+    const handleStartTime = (e) =>{
+        let value = e.target.value;
+        const unix = convertToUnixTimestamp(value);
+        setStartTime(unix);
+    }
+
+    const handleEndTime = (e) =>{
+        let value = e.target.value;
+        const unix = convertToUnixTimestamp(value);
+        setEndTime(unix);
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
         checkIfImage(form.image, async(exists) => {
             if(exists){
                 setIsLoading(true);
-                await createCourse({...form})
-                console.log('Current time:',)
+                await createCourse({...form}, startTime, endTime);
                 setIsLoading(false);
                 navigate('/attendance');
             } else {
@@ -56,24 +72,6 @@ const CreateAttendance = () => {
             }
         })
     }
-    
-    const getTomorrowDate = () => {          
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const year = tomorrow.getFullYear();
-        const month = `${tomorrow.getMonth() + 1}`.padStart(2, '0');
-        const day = `${tomorrow.getDate()}`.padStart(2, '0');
-        return `${year}-${month}-${day}`;
-      };
-    
-      const handleDeadlineChange = (e) => {
-        const selectedDate = e.target.value;
-        if (selectedDate < getTomorrowDate()) {
-          setForm({ ...form, deadline: getTomorrowDate() });
-        } else {
-          setForm({ ...form, deadline: selectedDate });
-        }
-      };
 
     return(
         <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-col">
@@ -117,29 +115,20 @@ const CreateAttendance = () => {
                             />
                             <div className="flex flex-wrap gap-[40px]">
                             <FormField
-                                labelName="start time * "
-                                placeholder="start time"
-                                inputType="text"
-                                value={form.startTime}
-                                handleChange={(e) => handleFormFieldChange('startTime', e)}
+                                labelName="Start Time * "
+                                placeholder="Start Time"
+                                inputType="datetime-local"
+                                value={form.startTime} //startTime //endTime is like endDate similar to startTime being date.
+                                handleChange={(e) => handleStartTime(e)}
                                 //handleChange={handleDeadlineChange}
                                 //min={getTomorrowDate()}
                             />
                             <FormField
-                                labelName="endTime "
-                                placeholder="endTime"
-                                inputType="text"
-                                value={form.endTime}
-                                handleChange={(e) => handleFormFieldChange('endTime', e)}
-                                //handleChange={handleDeadlineChange}
-                                //min={getTomorrowDate()}
-                            />
-                            <FormField
-                                labelName="Date * "
-                                placeholder="date"
-                                inputType="date"
-                                value={form.date}
-                                handleChange={(e) => handleFormFieldChange('date', e)}
+                                labelName="End Time * "
+                                placeholder="End Time"
+                                inputType="datetime-local"
+                                value={form.endTime} //startTime //endTime is like endDate similar to startTime being date.
+                                handleChange={(e) => handleEndTime(e)}
                                 //handleChange={handleDeadlineChange}
                                 //min={getTomorrowDate()}
                             />

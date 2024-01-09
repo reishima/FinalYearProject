@@ -18,7 +18,7 @@ export const StateContextProvider = ({ children }) => {
         }
     };
 
-    const publishCourse = async (form) => {
+    const publishCourse = async (form, startTime, endTime) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const contract = new ethers.Contract(contractAddress, contractABI, provider);
       const address = window.ethereum.selectedAddress 
@@ -29,16 +29,16 @@ export const StateContextProvider = ({ children }) => {
     
         const signer = provider.getSigner();
         const contractWithSigner = contract.connect(signer);
-        
+        console.log('From context start time is:', startTime);
+        console.log('From context end time is:', endTime);
         const data = await contractWithSigner.createCourse(
           form.lecturer,
           form.courseName,
           form.description, 
           form.department,
-          form.startTime,
-          form.endTime,
-          new Date(form.date).getTime(),
-          form.image
+          form.image,
+          startTime,
+          endTime,
         );
         console.log('Contract call success', data);
 
@@ -61,12 +61,64 @@ export const StateContextProvider = ({ children }) => {
         department: course.department,
         startTime: course.startTime,
         endTime: course.endTime,
-        date: course.date.toNumber(),
+        //date: course.date.toNumber(),
         image: course.image,
         pId: i,
       }));
       return parsedCourses;
     };
+
+    const getBlockTime = async() => {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+      const signer = provider.getSigner();
+      const contractWithSigner = contract.connect(signer);
+      const blockTime = await contractWithSigner.getBlockTime();
+      return blockTime;
+    }
+
+    const isClassTime = async(pId) => {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+      const signer = provider.getSigner();
+      const contractWithSigner = contract.connect(signer);
+      const classTime = await contractWithSigner.getClassTime(pId);
+      return classTime;
+    }
+
+    const getAttendees = async (pId) => {
+      try {
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const attendees = await contractWithSigner.getAttendees(pId);
+        
+        if (attendees) {
+          const numberOfAttendees = attendees.length;
+          const parsedAttendees = [];
+    
+          for (let i = 0; i < numberOfAttendees; i++) {
+            parsedAttendees.push({
+              attendee: attendees[i],
+            });
+          }
+    
+          return parsedAttendees;
+        } else {
+          return [];
+        }
+      } catch (error) {
+        console.error('Error in getAttendees:', error);
+        return [];
+      }
+    }
+
+    const attendCourse = async(pId) => {
+      const signer = provider.getSigner();
+      const contractWithSigner = contract.connect(signer);
+      const data = await contractWithSigner.attendCourse(pId);
+
+      return data;
+    }
 /*
     const getAides = async () => {
       const provider = new ethers.providers.Web3Provider(ethereum);
@@ -224,15 +276,18 @@ export const StateContextProvider = ({ children }) => {
             contract,
             connect,
             createCourse: publishCourse,
-            getCourses,/*
+            getCourses,
+            getAttendees,
+            attendCourse,/*
             getFullAides,
             requestAide,
-            getRequesters,
             getRequestersForFull,
             getRequestersCount,
             getRequestersCountForFull,
             getBlockchainIDsForFullAides,
             closeAide,*/
+            getBlockTime,
+            isClassTime,
         }}
         >
             {children}
