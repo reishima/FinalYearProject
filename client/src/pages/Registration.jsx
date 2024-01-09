@@ -5,7 +5,7 @@ import { getDoc, doc, collection, updateDoc } from 'firebase/firestore';
 import { useStateContext } from '../context/AttendanceContext.jsx'
 import { database } from '../utils/FirebaseConfig.js';
 import AuthChecker from '../utils/handle.js';
-
+/*
 const CourseList = () => {
     const { getCourses } = useStateContext();
     const [courses, setCourses] = useState([]);
@@ -13,7 +13,7 @@ const CourseList = () => {
     useEffect(() => {
       const fetchCourses = async () => {
         try {
-          const fetchedCourses = await getCourses();
+          const fetchedCourses = await getCourses(userDepartment);
           setCourses(fetchedCourses);
         } catch (error) {
           console.error('Error fetching courses:', error);
@@ -35,7 +35,7 @@ const CourseList = () => {
         </ul>
       </div>
     );
-  };
+  };*/
   
 const Registration = () => {
     const [ user, setUser ] = useState(null);
@@ -72,8 +72,9 @@ const Registration = () => {
 
         const fetchCourses = async () => {
             try {
-                const fetchedCourses = await getCourses();
+                const fetchedCourses = await getCourses(department); //drop down list does nothave courses
                 setCourses(fetchedCourses);
+                console.log(courses);
             } catch (error) {
                 console.error('Error fetching courses:', error);
             }
@@ -84,7 +85,7 @@ const Registration = () => {
         return () => {
             unsubscribe();
         }
-    }, [getCourses]);
+    }, [getCourses, department]);
     
     const handleSave = async () => {
         try {
@@ -139,7 +140,7 @@ const Registration = () => {
                         <form>
                         <p> Name: {name || 'Please edit'} </p>
                         <p> Department: {department || 'Please edit'} </p>
-                        <CourseList/>
+                        {/*<CourseList/>*/}
                             <br />
                         <label htmlFor="courseSelect" className="text-white font-epilogue mr-2">Select Course 1:</label>
                         <select
@@ -201,7 +202,7 @@ const Registration = () => {
                             <div className='flex flex-col justify-center items-center'>
                                 <p> Name: {name || 'Please edit'} </p>
                                 <p> Department: {department || 'Please edit'} </p>
-                                <CourseList/>
+                                {/*<CourseList/>*/}
                                 <br />
                                 <button type="button" onClick={handleEdit} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]">
                                     Edit

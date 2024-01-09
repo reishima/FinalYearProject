@@ -46,11 +46,9 @@ const DisplayCourses= ({ title }) => {
       getCourses(userDepartment)
         .then((parsedCourses) => {
           setCourses(parsedCourses);
-          setIsLoading(false);
         })
         .catch((error) => {
           console.error('Failed to fetch courses:', error);
-          setIsLoading(false);
         })
         .finally(() => {
           setIsLoading(false); // Set loading state to false when courses are fetched (or on error)

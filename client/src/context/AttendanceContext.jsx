@@ -47,12 +47,12 @@ export const StateContextProvider = ({ children }) => {
       }
     };
 
-    const getCourses = async () => {
+    const getCourses = async (department) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const contract = new ethers.Contract(contractAddress, contractABI, provider);
       const signer = provider.getSigner();
       const contractWithSigner = contract.connect(signer);
-      const courses = await contractWithSigner.getCourses();
+      const courses = await contractWithSigner.getCourses(department);
 
       const parsedCourses = courses.map((course, i) => ({
         lecturer: course.lecturer,
