@@ -44,7 +44,7 @@ const AdminCloseAttendanceDetails = () => {
       try {
         await closeCourse(state.pId);
         setIsLoading(false);
-        navigate('/attendance');
+        navigate('/admin/attendance');
       } catch (error) {
         console.error("Error attending: ", error);
         if(error.message.includes("You have already attended this class.")){
@@ -52,7 +52,7 @@ const AdminCloseAttendanceDetails = () => {
           navigate('/attendance');
         }
       } finally {
-        navigate('/attendance');
+        navigate('/admin/attendance');
         setIsLoading(false);
       }
     }

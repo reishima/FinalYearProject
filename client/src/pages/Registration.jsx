@@ -72,8 +72,20 @@ const Registration = () => {
 
         const fetchCourses = async () => {
             try {
-                const fetchedCourses = await getCourses(department); //drop down list does nothave courses
-                setCourses(fetchedCourses);
+              const userDepartmentCourses = getCourses(department);
+              const multiDepartmentCourses = getCourses('multi');
+  
+              // Wait for both requests to complete
+              const [userDepartmentCoursesData, multiDepartmentCoursesData] = await Promise.all([
+                  userDepartmentCourses,
+                  multiDepartmentCourses
+              ]);
+  
+              // Combine the results
+              const allCourses = [...userDepartmentCoursesData, ...multiDepartmentCoursesData];
+  
+              setCourses(allCourses);
+              console.log(allCourses);
                 console.log(courses);
             } catch (error) {
                 console.error('Error fetching courses:', error);

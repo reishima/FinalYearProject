@@ -43,9 +43,15 @@ const DisplayCourses= ({ title }) => {
     // Fetch courses when userDepartment changes
     if (userDepartment !== null) {
       setIsLoading(true);
-      getCourses(userDepartment, takenCourses)
-        .then((parsedCourses) => {
-          setCourses(parsedCourses);
+  
+      const fetchCoursesForDepartment = getCourses(userDepartment, takenCourses);
+      const fetchCoursesForMulti = getCourses('multi', takenCourses);
+  
+      Promise.all([fetchCoursesForDepartment, fetchCoursesForMulti])
+        .then(([parsedCoursesDepartment, parsedCoursesMulti]) => {
+          // Combine courses from both departments
+          const combinedCourses = [...parsedCoursesDepartment, ...parsedCoursesMulti];
+          setCourses(combinedCourses);
         })
         .catch((error) => {
           console.error('Failed to fetch courses:', error);
@@ -53,17 +59,8 @@ const DisplayCourses= ({ title }) => {
         .finally(() => {
           setIsLoading(false); // Set loading state to false when courses are fetched (or on error)
         });
-        ;
-    }/*
-    const fetchBlockTime = async () => {
-      try {
-        const blockTime = await getBlockTime();
-        //console.log('Block Time:', blockTime);
-      } catch (error) {
-        console.error('Error fetching block time:', error);
-      }
-    };*/
-  }, [userDepartment]);
+    }
+  }, [userDepartment, takenCourses]);
 
   const getCourses = async (userDepartment, courseNames) => {
     const provider = new ethers.providers.Web3Provider(ethereum);
