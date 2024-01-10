@@ -40,50 +40,45 @@ const DisplayCourses= ({ title }) => {
   }, []);
 
   useEffect(() => {
-    // Fetch courses when userDepartment changes
     if (userDepartment !== null) {
       setIsLoading(true);
-  
-      const fetchCoursesForDepartment = getCourses(userDepartment, takenCourses);
-      const fetchCoursesForMulti = getCourses('multi', takenCourses);
-  
-      Promise.all([fetchCoursesForDepartment, fetchCoursesForMulti])
-        .then(([parsedCoursesDepartment, parsedCoursesMulti]) => {
-          // Combine courses from both departments
-          const combinedCourses = [...parsedCoursesDepartment, ...parsedCoursesMulti];
-          setCourses(combinedCourses);
+      getAllCourses()
+        .then((parsedCourses) => {
+          // Filter courses based on the user's selectedCourses
+          const filteredCourses = parsedCourses.filter((course) =>
+            takenCourses.includes(course.courseName)
+          );
+
+          setCourses(filteredCourses);
         })
         .catch((error) => {
           console.error('Failed to fetch courses:', error);
         })
         .finally(() => {
-          setIsLoading(false); // Set loading state to false when courses are fetched (or on error)
+          setIsLoading(false);
         });
     }
   }, [userDepartment, takenCourses]);
+  
 
-  const getCourses = async (userDepartment, courseNames) => {
+  const getAllCourses = async () => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
-    const courses = await contractWithSigner.getCourses(userDepartment); //needs to pass user department
+    const courses = await contractWithSigner.getAllCourses(); //needs to pass user department
 
     const parsedCourses = courses.map((course, i) => ({
       lecturer: course.lecturer,
       courseName: course.courseName,
       description: course.description,
       department: course.department,
-      startTime: course.startTime,
-      endTime: course.endTime,
       image: course.image,
       pId: i,
     }));
-    console.log(parsedCourses);
-    const filteredCourses = parsedCourses.filter( course => courseNames.includes(course.courseName));
 
-    console.log(filteredCourses);
-    return filteredCourses;
+    console.log(parsedCourses);
+    return parsedCourses;
   };
   /*
   const getBlockTime = async() => {

@@ -79,7 +79,7 @@ const AdminCloseAttendanceDetails = () => {
                             <div className='w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] cursor-pointer'>
                                 <img src={user} alt="user" className="w-[60%] h-[60%] object-contain"/>
                             </div>
-                            <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">{lecturer}</h4> 
+                            <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">{lecturer} and department: {state.department}</h4> 
                         </div>
                     </div>
                 </div>

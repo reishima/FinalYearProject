@@ -41,6 +41,7 @@ export const StateContextProvider = ({ children }) => {
           //startTime,
           //endTime,
         );
+        console.log(form);
         console.log('Contract call success', data);
 
       } catch (error) {

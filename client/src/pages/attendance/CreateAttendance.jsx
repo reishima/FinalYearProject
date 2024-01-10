@@ -18,6 +18,8 @@ const CreateAttendance = () => {
         image:'',
     });
 
+    const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science'];
+
     //const [ startTime, setStartTime ] = useState('');
     //const [ endTime, setEndTime ] = useState('');
     /*
@@ -107,13 +109,22 @@ const CreateAttendance = () => {
                                 value={form.description}
                                 handleChange={(e) => handleFormFieldChange('description', e)}
                             />
-                            <FormField 
-                                labelName="Department"
-                                placeholder="Provide available department"
-                                inputType="text"
-                                value={form.department}
-                                handleChange={(e) => handleFormFieldChange('department', e)}
-                            />
+                            <label className="font-epilogue font-medium text-[16px] text-white" htmlFor="department">Department *</label>
+                                <select
+                                    id="department"
+                                    className="w-[300px] p-[8px] rounded-[5px] bg-[#3a3a43] text-white"
+                                    value={form.department}
+                                    onChange={(e) => setForm({...form, department: e.target.value})}
+                                >
+                                    <option value="" disabled>
+                                        Select Department
+                                    </option>
+                                    {departmentOptions.map((option) => (
+                                        <option key={option} value={option}>
+                                        {option}
+                                        </option>
+                                    ))}
+                                    </select>
                                 {/*}
                             <FormField
                                 labelName="Start Time * "

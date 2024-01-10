@@ -50,6 +50,8 @@ const Registration = () => {
 
     const { getCourses } = useStateContext();
 
+    const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science'];
+
     useEffect(() => {
         const auth = getAuth();
 

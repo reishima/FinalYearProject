@@ -17,7 +17,7 @@ const EditProfile = () => {
     const [ picture, setPicture ] = useState('');
     const [ phone, setPhone ] = useState('');
     const [ editMode, setEditMode ] = useState(false);
-
+    const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science'];
     useEffect(() => {
         const auth = getAuth();
 
@@ -123,13 +123,18 @@ const EditProfile = () => {
                                 <br/>
                                 <label>
                                     Department:
-                                    <input
-                                        type="text"
+                                    <select
                                         className="text-black"
-                                        placeholder="Department"
                                         value={department}
                                         onChange={(e) => setDepartment(e.target.value)}
-                                    />
+                                    >
+                                        <option value="" disabled>Select Department</option>
+                                        {departmentOptions.map((option) => (
+                                            <option key={option} value={option}>
+                                                {option}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </label>
                                 <br />
                                 <label>
