@@ -74,7 +74,7 @@ const AdminCloseAttendanceDetails = () => {
             <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
-                        <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Lecturer </h4>
+                        <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Lecturer and program level: {state.programLevel} </h4>
                         <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
                             <div className='w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] cursor-pointer'>
                                 <img src={user} alt="user" className="w-[60%] h-[60%] object-contain"/>
@@ -87,7 +87,7 @@ const AdminCloseAttendanceDetails = () => {
             <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
-                        <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Class description and course code: {state.courseCode} {state.week}</h4>
+                        <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Class description and course code, week: {state.courseCode} {state.week}</h4>
                         <div className="mt-[20px]">
                             <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] text-justify"> {state.description} </p>
                         </div>

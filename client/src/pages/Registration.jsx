@@ -41,6 +41,7 @@ const Registration = () => {
     const [ user, setUser ] = useState(null);
     const [ blockchainId, setblockchainId] = useState(null);
     const [ department, setDepartment ] = useState('');
+    const [ programLevel, setProgramLevel ] = useState('');
     const [ name, setName ] = useState('');
     const [ editMode, setEditMode ] = useState(false);
     const [ selectedCourse1, setSelectedCourse1 ] = useState('');
@@ -49,8 +50,6 @@ const Registration = () => {
     const [courses, setCourses] = useState([]);
 
     const { getCourses } = useStateContext();
-
-    const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science'];
 
     useEffect(() => {
         const auth = getAuth();
@@ -64,6 +63,7 @@ const Registration = () => {
                 if(userDocSnapshot.exists()) {
                     setblockchainId(userDocSnapshot.data().blockchainId);
                     setDepartment(userDocSnapshot.data().department || '');
+                    setProgramLevel(userDocSnapshot.data().programLevel || '');
                     setName(userDocSnapshot.data().name || '');
                 }
             } else {
@@ -74,17 +74,17 @@ const Registration = () => {
 
         const fetchCourses = async () => {
             try {
-              const userDepartmentCourses = getCourses(department);
-              const multiDepartmentCourses = getCourses('multi');
+              const userDepartmentCourses = getCourses(department, programLevel);
+              const multiDepartmentCourses = getCourses('All', programLevel);
   
               // Wait for both requests to complete
-              const [userDepartmentCoursesData, multiDepartmentCoursesData] = await Promise.all([
+              const [userDepartmentCoursesData, multiDepartmentCoursesData ] = await Promise.all([
                   userDepartmentCourses,
-                  multiDepartmentCourses
+                  multiDepartmentCourses,
               ]);
   
               // Combine the results
-              const allCourses = [...userDepartmentCoursesData, ...multiDepartmentCoursesData];
+              const allCourses = [...userDepartmentCoursesData, ...multiDepartmentCoursesData ];
   
               setCourses(allCourses);
               console.log(allCourses);
@@ -99,7 +99,7 @@ const Registration = () => {
         return () => {
             unsubscribe();
         }
-    }, [getCourses, department]);
+    }, [getCourses, department, programLevel]);
     
     const handleSave = async () => {
         try {
@@ -154,6 +154,7 @@ const Registration = () => {
                         <form>
                         <p> Name: {name || 'Please edit'} </p>
                         <p> Department: {department || 'Please edit'} </p>
+                        <p> Program Level: {programLevel || 'Please edit'}</p>
                         {/*<CourseList/>*/}
                             <br />
                         <label htmlFor="courseSelect" className="text-white font-epilogue mr-2">Select Course 1:</label>
@@ -216,6 +217,7 @@ const Registration = () => {
                             <div className='flex flex-col justify-center items-center'>
                                 <p> Name: {name || 'Please edit'} </p>
                                 <p> Department: {department || 'Please edit'} </p>
+                                <p> Program Levl: {programLevel || 'Please edit'}</p>
                                 {/*<CourseList/>*/}
                                 <br />
                                 <button type="button" onClick={handleEdit} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]">

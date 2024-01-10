@@ -13,11 +13,15 @@ const EditProfile = () => {
     const [ blockchainId, setblockchainId] = useState(null);
     const [ course, setCourse ] = useState('');
     const [ department, setDepartment ] = useState('');
+    const [ programLevel, setProgramLevel] = useState('');
     const [ name, setName ] = useState('');
     const [ picture, setPicture ] = useState('');
     const [ phone, setPhone ] = useState('');
     const [ editMode, setEditMode ] = useState(false);
+
     const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science'];
+    const programOptions = ['Bachelor', 'Master', 'PhD'];
+
     useEffect(() => {
         const auth = getAuth();
 
@@ -31,6 +35,7 @@ const EditProfile = () => {
                     setblockchainId(userDocSnapshot.data().blockchainId);
                     setCourse(userDocSnapshot.data().course || '');
                     setDepartment(userDocSnapshot.data().department || '');
+                    setProgramLevel(userDocSnapshot.data().programLevel || '');
                     setName(userDocSnapshot.data().name || '');
                     setPicture(userDocSnapshot.data().picture || '');
                     setPhone(userDocSnapshot.data().phone || '');
@@ -74,6 +79,7 @@ const EditProfile = () => {
             await updateDoc(userDoc, {
                 course: course,
                 department: department,
+                programLevel: programLevel,
                 name: name,
                 picture: picture,
                 phone: phone,
@@ -138,6 +144,22 @@ const EditProfile = () => {
                                 </label>
                                 <br />
                                 <label>
+                                    program Level:
+                                    <select
+                                        className="text-black"
+                                        value={programLevel}
+                                        onChange={(e) => setProgramLevel(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select program level</option>
+                                        {programOptions.map((option) => (
+                                            <option key={option} value={option}>
+                                                {option}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
+                                <br />
+                                <label>
                                     Name:
                                     <input
                                         type="text"
@@ -183,6 +205,7 @@ const EditProfile = () => {
                                 <p> Name: {name || 'Please edit'} </p>
                                 <p> Course: {course || 'Please edit'} </p>
                                 <p> Department: {department || 'Please edit'} </p>
+                                <p> Program Level: {programLevel || 'Please edit'} </p>
                                 <p> Phone Number: {phone|| 'Please edit'} </p>
                                 <p> Profile Picture: {picture && <img src={picture} alt="no user image available" className='object-scale-down h-48 w-96'/> || 'Please edit'} </p>
                                 <br />

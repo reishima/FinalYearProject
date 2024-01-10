@@ -15,6 +15,7 @@ const DisplayUnavailableCourses= ({ title }) => {
   const [ courses, setCourses ] = useState([]); // Initialize aides as an empty array
   const [ userDepartment, setUserDepartment ] = useState([]);
   const [ takenCourses, setTakenCourses ] = useState([]);
+  const [ programLevel, setProgramLevel ] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -28,6 +29,7 @@ const DisplayUnavailableCourses= ({ title }) => {
             if (userDocSnapshot.exists()) {
               const userData = userDocSnapshot.data();
               setUserDepartment(userData.department);
+              setProgramLevel(userData.programLevel);
               setTakenCourses(userData.selectedCourses);
             }
           } catch (error) {
@@ -43,7 +45,7 @@ const DisplayUnavailableCourses= ({ title }) => {
     // Fetch courses when userDepartment changes
     if (userDepartment !== null) {
       setIsLoading(true);
-      getClosedCourses(userDepartment, takenCourses)
+      getClosedCourses(userDepartment, programLevel, takenCourses)
         .then((parsedCourses) => {
           setCourses(parsedCourses);
         })
@@ -63,20 +65,23 @@ const DisplayUnavailableCourses= ({ title }) => {
         console.error('Error fetching block time:', error);
       }
     };*/
-  }, [userDepartment]);
+  }, [userDepartment, programLevel]);
 
-  const getClosedCourses = async (userDepartment, courseNames) => {
+  const getClosedCourses = async (userDepartment, programLevel, courseNames) => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
-    const courses = await contractWithSigner.getClosedCourses(userDepartment); //needs to pass user department
+    const courses = await contractWithSigner.getClosedCourses(userDepartment, programLevel); //needs to pass user department
 
     const parsedCourses = courses.map((course, i) => ({
       lecturer: course.lecturer,
       courseName: course.courseName,
       description: course.description,
       department: course.department,
+      courseCode: course.courseCode,
+      week: course.week,
+      programLevel: course.programLevel,
       //startTime: course.startTime,
       //endTime: course.endTime,
       image: course.image,
@@ -88,6 +93,8 @@ const DisplayUnavailableCourses= ({ title }) => {
     console.log(filteredCourses);
     return filteredCourses;
   };
+
+  
   /*
   const getBlockTime = async() => {
     const provider = new ethers.providers.Web3Provider(ethereum);

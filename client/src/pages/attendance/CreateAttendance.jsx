@@ -18,9 +18,11 @@ const CreateAttendance = () => {
         image:'',
         courseCode:'',
         week:'',
+        programLevel:'',
     });
 
-    const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science'];
+    const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science','All'];
+    const programOptions = ['Bachelor', 'Master', 'PhD'];
 
     //const [ startTime, setStartTime ] = useState('');
     //const [ endTime, setEndTime ] = useState('');
@@ -136,6 +138,22 @@ const CreateAttendance = () => {
                                         Select Department
                                     </option>
                                     {departmentOptions.map((option) => (
+                                        <option key={option} value={option}>
+                                        {option}
+                                        </option>
+                                    ))}
+                                    </select>
+                            <label className="font-epilogue font-medium text-[16px] text-white" htmlFor="programLevel">Program Level *</label>
+                                <select
+                                    id="programLevel"
+                                    className="w-[300px] p-[8px] rounded-[5px] bg-[#3a3a43] text-white"
+                                    value={form.programLevel}
+                                    onChange={(e) => setForm({...form, programLevel: e.target.value})}
+                                >
+                                    <option value="" disabled>
+                                        Select Program Level
+                                    </option>
+                                    {programOptions.map((option) => (
                                         <option key={option} value={option}>
                                         {option}
                                         </option>

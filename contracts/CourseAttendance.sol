@@ -44,16 +44,20 @@ contract CourseAttendance {
         return numberofCourses - 1; 
     }
 
-    function getCourses(string memory _department) public view returns (Course[] memory) {
+    function getCourses(string memory _department, string memory _programLevel) public view returns (Course[] memory) {
         Course[] memory matchingCourses = new Course[](numberofCourses);
         uint256 matchingCount = 0;
 
         for (uint256 i = 0; i < numberofCourses; i++) {
-            if (keccak256(abi.encodePacked(courses[i].department)) == keccak256(abi.encodePacked(_department))) {
+            if (
+                keccak256(abi.encodePacked(courses[i].department)) == keccak256(abi.encodePacked(_department)) &&
+                keccak256(abi.encodePacked(courses[i].programLevel)) == keccak256(abi.encodePacked(_programLevel))
+            ) {
                 matchingCourses[matchingCount] = courses[i];
                 matchingCount++;
             }
         }
+        
         assembly {
             mstore(matchingCourses, matchingCount)
         }
@@ -61,16 +65,21 @@ contract CourseAttendance {
         return matchingCourses;
     }
 
-    function getClosedCourses(string memory _department) public view returns (Course[] memory) {
+
+    function getClosedCourses(string memory _department, string memory _programLevel) public view returns (Course[] memory) {
         Course[] memory matchingCourses = new Course[](numberofclosedCourses);
         uint256 matchingCount = 0;
 
         for (uint256 i = 0; i < numberofclosedCourses; i++) {
-            if (keccak256(abi.encodePacked(closedCourses[i].department)) == keccak256(abi.encodePacked(_department))) {
+            if (
+                keccak256(abi.encodePacked(closedCourses[i].department)) == keccak256(abi.encodePacked(_department)) &&
+                keccak256(abi.encodePacked(closedCourses[i].programLevel)) == keccak256(abi.encodePacked(_programLevel))
+            ) {
                 matchingCourses[matchingCount] = closedCourses[i];
                 matchingCount++;
             }
         }
+        
         assembly {
             mstore(matchingCourses, matchingCount)
         }
@@ -78,6 +87,8 @@ contract CourseAttendance {
         return matchingCourses;
     }
 
+
+/*
     function getCoursesByProgram(string memory _programLevel) public view returns (Course[] memory) {
         Course[] memory matchingCourses = new Course[](numberofCourses);
         uint256 matchingCount = 0;
@@ -111,7 +122,7 @@ contract CourseAttendance {
 
         return matchingCourses;
     }
-
+*/
     function getAllCourses() public view returns (Course[] memory){
         Course[] memory openCourses = new Course[](numberofCourses);
 

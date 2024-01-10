@@ -79,6 +79,7 @@ const DisplayAttendanceToClose= ({ title }) => {
       department: course.department,
       courseCode: course.courseCode,
       week: course.week,
+      programLevel: course.programLevel,
       //startTime: course.startTime,
       //endTime: course.endTime,
       image: course.image,

@@ -40,6 +40,7 @@ export const StateContextProvider = ({ children }) => {
           form.image,
           form.courseCode,
           form.week,
+          form.programLevel,
           //startTime,
           //endTime,
         );
@@ -51,12 +52,12 @@ export const StateContextProvider = ({ children }) => {
       }
     };
 
-    const getCourses = async (department) => {
+    const getCourses = async (department, programLevel) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const contract = new ethers.Contract(contractAddress, contractABI, provider);
       const signer = provider.getSigner();
       const contractWithSigner = contract.connect(signer);
-      const courses = await contractWithSigner.getCourses(department);
+      const courses = await contractWithSigner.getCourses(department, programLevel);
 
       const parsedCourses = courses.map((course, i) => ({
         lecturer: course.lecturer,
@@ -65,6 +66,7 @@ export const StateContextProvider = ({ children }) => {
         department: course.department,
         courseCode: course.courseCode,
         week: course.week,
+        programLevel: course.programLevel,
         //startTime: course.startTime,
         //endTime: course.endTime,
         image: course.image,
