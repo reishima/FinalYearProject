@@ -9,6 +9,8 @@ contract CourseAttendance {
         string description;
         string department;
         string image;
+        string courseCode;
+        string week;
         //uint256 startTime;
         //uint256 endTime;
         address[] attendees;
@@ -22,7 +24,7 @@ contract CourseAttendance {
 
     Course[] public tempCourses;
 
-    function createCourse(string memory _lecturer, string memory _courseName, string memory _description, string memory _department, string memory _image) public returns (uint256) {
+    function createCourse(string memory _lecturer, string memory _courseName, string memory _description, string memory _department, string memory _image, string memory _courseCode, string memory _week) public returns (uint256) {
         Course storage course = courses[numberofCourses];
 
         course.lecturer = _lecturer;
@@ -32,6 +34,8 @@ contract CourseAttendance {
         course.image = _image;
         //course.startTime = _startTime;
         //course.endTime = _endTime;
+        course.courseCode = _courseCode;
+        course.week = _week;
 
         numberofCourses++;
 

@@ -16,6 +16,8 @@ const CreateAttendance = () => {
         description:'',
         department:'',
         image:'',
+        courseCode:'',
+        week:'',
     });
 
     const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science'];
@@ -94,6 +96,20 @@ const CreateAttendance = () => {
                                 inputType="text"
                                 value={form.courseName}
                                 handleChange={(e) => handleFormFieldChange('courseName', e)}
+                            />
+                            <FormField 
+                                labelName="Course Code"
+                                placeholder="Provide the title of the Attendance"
+                                inputType="text"
+                                value={form.courseCode}
+                                handleChange={(e) => handleFormFieldChange('courseCode', e)}
+                            />
+                            <FormField 
+                                labelName="Week"
+                                placeholder="Provide the week of the Attendance"
+                                inputType="text"
+                                value={form.week}
+                                handleChange={(e) => handleFormFieldChange('week', e)}
                             />
                             <FormField 
                                 labelName="Lecturer"

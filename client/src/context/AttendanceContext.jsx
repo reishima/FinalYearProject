@@ -38,6 +38,8 @@ export const StateContextProvider = ({ children }) => {
           form.description, 
           form.department,
           form.image,
+          form.courseCode,
+          form.week,
           //startTime,
           //endTime,
         );
@@ -61,6 +63,8 @@ export const StateContextProvider = ({ children }) => {
         courseName: course.courseName,
         description: course.description,
         department: course.department,
+        courseCode: course.courseCode,
+        week: course.week,
         //startTime: course.startTime,
         //endTime: course.endTime,
         image: course.image,

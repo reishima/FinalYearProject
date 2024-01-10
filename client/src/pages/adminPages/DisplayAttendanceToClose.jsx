@@ -71,12 +71,14 @@ const DisplayAttendanceToClose= ({ title }) => {
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
     const courses = await contractWithSigner.getAllCourses(); //needs to pass user department
-
+    console.log(courses);
     const parsedCourses = courses.map((course, i) => ({
       lecturer: course.lecturer,
       courseName: course.courseName,
       description: course.description,
       department: course.department,
+      courseCode: course.courseCode,
+      week: course.week,
       //startTime: course.startTime,
       //endTime: course.endTime,
       image: course.image,
