@@ -59,7 +59,7 @@ const AdminBookDetails = () => {
                 <CountBox title ='Total Borrowers' value={isLoadingBorrowers ? <Loading/>: borrowers.length}/>
               </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Book Title </h4>
@@ -69,7 +69,7 @@ const AdminBookDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 ml-[634px]">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Story </h4>
@@ -79,11 +79,11 @@ const AdminBookDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5">
+            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
-                        <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase ml-[634px]"> Borrowers </h4>
-                        <div className="mt-[20px] flex flex-col gap-4 ml-[634px]">
+                        <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase max-w-[800px] mx-auto]"> Borrowers </h4>
+                        <div className="mt-[20px] flex flex-col gap-4 max-w-[800px] mx-auto">
                            {borrowers.length > 0 ? borrowers.map((item, index) => (
                             <div key={`${item.borrower}-${index}`} className='flex justify-between items-center gap-4'>
                               <p className='font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-all'> {index + 1}. {item.borrower}</p>
@@ -97,7 +97,7 @@ const AdminBookDetails = () => {
                 </div>
             </div>
             <div className='flex-1'>
-              <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] ml-[634px]'>
+              <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] mx-auto'>
                 <p className='font-epilogue font-medium text-[20px] leading-[30px] text-center text-[#808191]'>
                   Mark Book as Returned
                 </p>
