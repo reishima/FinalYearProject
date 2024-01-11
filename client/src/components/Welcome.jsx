@@ -6,6 +6,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import AuthChecker from '../utils/handle.js';
 import { getDoc, doc, collection } from 'firebase/firestore';
 import { database } from '../utils/FirebaseConfig.js';
+import { Link } from 'react-router-dom';
 
 const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
 
@@ -19,6 +20,7 @@ const Welcome = () => {
     const [ phone, setPhone ] = useState('');
     const [ editMode, setEditMode ] = useState(false);
     const [showFullId, setShowFullId] = useState(false);
+    const [ programLevel, setProgramLevel ] = useState('');
     
     const handleIdToggle = () => {
         setShowFullId(!showFullId);
@@ -57,6 +59,7 @@ const Welcome = () => {
                     setName(userDocSnapshot.data().name || '');
                     setPicture(userDocSnapshot.data().picture || '');
                     setPhone(userDocSnapshot.data().phone || '');
+                    setProgramLevel(userDocSnapshot.data().programLevel || '');
                 }
             } else {
                 setUser(null);
@@ -79,32 +82,39 @@ const Welcome = () => {
                         Welcome {name !== null && name !== "" ? name : (blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...')}
                     </h1>
                     <p className = "text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base"> {/* for some reason adding a break tag <br/> makes the grids weird */}
-                        Identify Yourself TEST GIT PULL
+                        //clock here
                     </p>
                     <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
-                        <div className={`rounded-tl-2xl ${commonStyles}`}>
-                            Reliability
-                        </div>
-                        <div className={commonStyles}> Security </div>
-                        <div className={`rounded-tr-2xl ${commonStyles}`}>
-                            Blockchain
-                        </div>
-                        <div className={`rounded-bl-2xl ${commonStyles}`}>
-                            Web 3.0
-                        </div>
-                        <div className={commonStyles}> Simplicity </div>
-                        <div className={`rounded-br-2xl ${commonStyles}`}>
-                            Decentralized ID
-                        </div>
+                    <Link to="/attendance">
+                            <div className={`rounded-tl-2xl ${commonStyles}`}>
+                            Attendance
+                            </div>
+                        </Link>
+                        <Link to="/library">
+                            <div className={`2xl ${commonStyles}`}>
+                            Library
+                            </div>
+                        </Link>
+                        <Link to="/student-aide">
+                            <div className={`rounded-tr-2xl ${commonStyles}`}>
+                            Student Aide
+                            </div>
+                        </Link>
+                        <Link to="/faq">
+                            <div className={`rounded-bl-2xl ${commonStyles}`}>
+                            FAQ
+                            </div>
+                        </Link>
+                        <Link to="/profile">
+                            <div className={commonStyles}> Profile </div>
+                        </Link>
+                        <Link to="/something">
+                            <div className={`rounded-br-2xl ${commonStyles}`}>
+                            I dont know
+                            </div>
+                        </Link>
                     </div>
-                    <div className="grid sm:grid-cols-1 grid-cols-1 w-full mt-10">
-                        <div className={`rounded-tl-2xl rounded-tr-2xl rounded-br-2xl rounded-bl-2xl ${commonStyles}`}>
-                        <p className="text-white font-light text-sm flex -mt-4" title={blockchainId}>
-                            {blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...'}
-                            <br/>
-                            {name}
-                        </p>
-                        </div>
+                    <div className="grid sm:grid-cols-1 grid-cols-1 w-full mt-10 min-w-[500px]">
                     </div>
                 </div>
                 
@@ -116,7 +126,11 @@ const Welcome = () => {
                                     <img src={logo} alt="logo" className="w-32"/>
                                 </div>
                                 <div className="mt-3.5 ml-2 flex">
-                                    <IoPersonSharp fontSize={95} color="#fff"/>
+                                {picture ? (
+                                    <img src={picture} alt="Profile Picture" className="w-32 h-23" />
+                                ) : (
+                                    <IoPersonSharp fontSize={95} color="#fff" />
+                                )}
                                 </div>
                                 </div>
                             <div>
