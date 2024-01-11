@@ -22,7 +22,8 @@ const DisplayBooks = ({ title }) => {
     const parsedBooks = books.map((book, i) => ({
       title: book.title,
       description: book.description,
-      submission: book.submission.toNumber(),
+      author: book.author,
+      pages: book.pages,
       image: book.image,
       pId: i,
     }));

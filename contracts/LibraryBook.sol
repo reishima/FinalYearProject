@@ -6,8 +6,9 @@ contract LibraryBook {
     struct Book {
         string title;
         string description;
-        uint256 submission;
         string image;
+        string author;
+        string pages;
         address[] borrowers;
     }
 
@@ -17,14 +18,14 @@ contract LibraryBook {
     uint256 public numberofAvailable = 0;
     uint256 public numberofUnavailable = 0;
 
-    function createBook(string memory _title, string memory _description, string memory _image) public returns (uint256) {
+    function createBook(string memory _title, string memory _description, string memory _image, string memory _author, string memory _pages) public returns (uint256) {
         Book storage book = availableBooks[numberofAvailable];
-
-        book.submission = block.timestamp + 7 days;
         
         book.title = _title;
         book.description = _description;
         book.image = _image;
+        book.author = _author;
+        book.pages = _pages;
 
         numberofAvailable++;
 

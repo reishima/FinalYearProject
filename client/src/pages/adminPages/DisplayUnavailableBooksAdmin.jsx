@@ -22,8 +22,9 @@ const DisplayUnavailableBooksAdmin = ({ title }) => {
     const parsedUnavailableBooks = unavailableBooks.map((unavailableBooks, i) => ({
       title: unavailableBooks.title,
       description: unavailableBooks.description,
-      submission: unavailableBooks.submission.toNumber(),
       image: unavailableBooks.image,
+      author: unavailableBooks.author,
+      pages: unavailableBooks.pages,
       pId: i,
     }));
     return parsedUnavailableBooks;

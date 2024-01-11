@@ -22,7 +22,8 @@ const DisplayUnavailableBooks = ({ title }) => {
     const parsedUnavailableBooks = unavailableBooks.map((unavailableBooks, i) => ({
       title: unavailableBooks.title,
       description: unavailableBooks.description,
-      submission: unavailableBooks.submission.toNumber(),
+      author: unavailableBooks.author,
+      pages: unavailableBooks.pages,
       image: unavailableBooks.image,
       pId: i,
     }));

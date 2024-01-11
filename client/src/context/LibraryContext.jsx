@@ -33,7 +33,9 @@ export const StateContextProvider = ({ children }) => {
         const data = await contractWithSigner.createBook(
           form.title, 
           form.description, 
-          form.image
+          form.image,
+          form.author,
+          form.pages,
         );
         console.log('Contract call success');
       } catch (error) {
@@ -51,8 +53,9 @@ export const StateContextProvider = ({ children }) => {
       const parsedBooks = books.map((book, i) => ({
         title: book.title,
         description: book.description,
-        submission: book.submission.toNumber(),
         image: book.image,
+        author: book.author,
+        pages: book.pages,
         pId: i,
       }));
       return parsedBooks;
@@ -67,8 +70,9 @@ export const StateContextProvider = ({ children }) => {
       const unavailableBooks = books.map((book, i) => ({
         title: book.title,
         description: book.description,
-        submission: book.submission.toNumber(),
         image: book.image,
+        author: book.author,
+        pages: book.pages,
         pId: i,
       }));
       return unavailableBooks;

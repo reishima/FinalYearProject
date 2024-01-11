@@ -4,6 +4,9 @@ import { checkIfImage } from '../../utils/index.js';
 import { Navbar, CustomButton, Loading, FormField, Footer } from '../../components/index.js';
 import   { useStateContext } from '../../context/LibraryContext.jsx';
 import AdminChecker from '../../utils/adminChecker.js';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { database, storage} from '../../utils/FirebaseConfig.js';
+import swal from 'sweetalert';
 
 const CreateBook = () => {
     
@@ -13,10 +16,13 @@ const CreateBook = () => {
     const[ form, setForm ] = useState({
         title: '',
         description: '',
-        submission: '',
-        image: ''
+        image: '',
+        author:'',
+        pages:'',
     });
-
+    const [ imageUpload, setImageUpload ] = useState('');
+    const [ picture, setPicture ] = useState('');
+ 
     const handleFormFieldChange =(fieldName, e) =>{
         setForm({...form, [fieldName]: e.target.value}) //function that makes the value update for each field accordingly
     }
@@ -37,6 +43,29 @@ const CreateBook = () => {
         })
     }
 
+    const uploadFile = async (event) => {
+        event.preventDefault(); // Prevent the default form submission behavior
+        if (!imageUpload) return;
+    
+        try {
+            const imageRef = ref(storage, `pictures/books/${imageUpload.name}`);
+            const snapshot = await uploadBytes(imageRef, imageUpload);
+            const url = await getDownloadURL(snapshot.ref);
+    
+            console.log('Uploaded image URL:', url);
+            setForm({
+                ...form,
+                image: url,
+            });
+            swal({
+                text: 'Picture saved succesfully',
+              })
+        } catch (error) {
+            console.error('Error getting download URL:', error);
+        }
+        console.log(form)
+    };
+
     return(
         <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-col">
             <div className="bg-[#13131a] flex-grow">
@@ -50,13 +79,26 @@ const CreateBook = () => {
                     <form onSubmit={handleSubmit} className="w-full mt-[6px] mb-[15px] flex flex-col gap-[30px]">
                         <div className="flex flex-wrap flex-col gap-[40px] ">
                             <FormField 
-                            labelName="Book Title *"
-                            placeholder="Write a title"
-                            inputType="text"
-                            value={form.title}
-                            handleChange={(e) => handleFormFieldChange('title', e)}
+                                labelName="Book Title *"
+                                placeholder="Write a title"
+                                inputType="text"
+                                value={form.title}
+                                handleChange={(e) => handleFormFieldChange('title', e)}
                             />
-                        
+                            <FormField 
+                                labelName="Name of Author *"
+                                placeholder="Write the Author's name"
+                                inputType="text"
+                                value={form.author}
+                                handleChange={(e) => handleFormFieldChange('author', e)}
+                            />
+                            <FormField 
+                                labelName="Number of Pages *"
+                                placeholder="Write the number of pages"
+                                inputType="text"
+                                value={form.pages}
+                                handleChange={(e) => handleFormFieldChange('pages', e)}
+                            />
                             <FormField 
                                 labelName="Story *"
                                 placeholder="Book description"
@@ -64,13 +106,21 @@ const CreateBook = () => {
                                 value={form.description}
                                 handleChange={(e) => handleFormFieldChange('description', e)}
                             />
-                            <FormField 
-                                labelName="Book Image *" //in this case the image is a url to an image. maybe we can use that to hook up pfps? upload the image to database?
-                                placeholder="Place image URL of the book"
-                                inputType="url"
-                                value={form.image}
-                                handleChange={(e) => handleFormFieldChange('image', e)}
-                            />
+                            <label className='py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] sm:min-w-[300ox]'>
+                                Upload Book Image
+                                <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={picture}>
+                                    <p> <span style={{ marginRight: '20px' }}></span>
+                                        <input
+                                            type="file"
+                                            onChange={(event) => {
+                                                setImageUpload(event.target.files[0]);
+                                            }}
+                                        />
+                                        <button onClick = {uploadFile} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]"> Upload </button>
+                                    </p>
+                                </div>
+                                </label>
+                            
                         </div>
                         {isLoading? (
                             <Loading/>
