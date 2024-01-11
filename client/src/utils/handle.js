@@ -9,7 +9,10 @@ const handleAccountsChanged = async () => {
     const excludedPaths = ['/login', '/sign-up', '/forgot-password', '/sign-out'];
     const currentPath = window.location.pathname;
     if (!excludedPaths.includes(currentPath)) {
-      alert('Wallet change detected. Please re-login.');
+      swal({
+        text: 'Wallet change detected. Please re-login.',
+        closeOnClickOutside: true,
+      });
      //window.location.href = '/login';
       await signOut(auth);
     } else {
