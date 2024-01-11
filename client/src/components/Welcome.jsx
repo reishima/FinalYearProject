@@ -11,20 +11,13 @@ import { Link } from 'react-router-dom';
 const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
 
 const Welcome = () => {
+    
     const [ user, setUser ] = useState(null);
     const [ blockchainId, setblockchainId] = useState(null);
-    const [ course, setCourse ] = useState('');
-    const [ department, setDepartment ] = useState('');
     const [ name, setName ] = useState('');
     const [ picture, setPicture ] = useState('');
-    const [ phone, setPhone ] = useState('');
-    const [ editMode, setEditMode ] = useState(false);
-    const [showFullId, setShowFullId] = useState(false);
-    const [ programLevel, setProgramLevel ] = useState('');
-    
-    const handleIdToggle = () => {
-        setShowFullId(!showFullId);
-      };
+    const [ currentTime, setCurrentTime ] = useState(new Date());
+    const [ referenceDate, setReferenceDate ] = useState(new Date(2023, 9, 10)); // YYYY:DD:MM Format
 
     useEffect(() => {
         const auth = getAuth();
@@ -54,12 +47,8 @@ const Welcome = () => {
     
                 if (userDocSnapshot.exists()) {
                     setblockchainId(userDocSnapshot.data().blockchainId);
-                    setCourse(userDocSnapshot.data().course || '');
-                    setDepartment(userDocSnapshot.data().department || '');
                     setName(userDocSnapshot.data().name || '');
                     setPicture(userDocSnapshot.data().picture || '');
-                    setPhone(userDocSnapshot.data().phone || '');
-                    setProgramLevel(userDocSnapshot.data().programLevel || '');
                 }
             } else {
                 setUser(null);
@@ -67,11 +56,22 @@ const Welcome = () => {
             }
         });
     
+        const intervalId = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000);
+
         return () => {
+            clearInterval(intervalId);
             unsubscribe();
         };
     }, []);
     
+    const timeDifference = currentTime.getTime() - referenceDate.getTime();
+
+    // Calculate the number of weeks based on the time difference
+    const weeks = Math.floor(timeDifference / (7 * 24 * 60 * 60 * 1000));
+    const formattedTime = currentTime.toLocaleTimeString();
+    const formattedDate = currentTime.toLocaleDateString();
 
     return(
         <div className="flex w-full justify-center items-center">
@@ -82,7 +82,7 @@ const Welcome = () => {
                         Welcome {name !== null && name !== "" ? name : (blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...')}
                     </h1>
                     <p className = "text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base"> {/* for some reason adding a break tag <br/> makes the grids weird */}
-                        //clock here
+                        {formattedTime} - {formattedDate} (Week {weeks})
                     </p>
                     <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
                     <Link to="/attendance">

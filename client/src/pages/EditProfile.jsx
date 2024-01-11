@@ -22,6 +22,9 @@ const EditProfile = () => {
     const [ phone, setPhone ] = useState('');
     const [ editMode, setEditMode ] = useState(false);
     const [ imageUpload, setImageUpload ] = useState('');
+    const [phoneValid, setPhoneValid] = useState(true);
+    const [initialPhone, setInitialPhone] = useState('');
+
 
     const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
     const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science'];
@@ -79,6 +82,11 @@ const EditProfile = () => {
     const handleSave = async () => {
         try {
             // Check if the provided picture URL is not empty and is a valid image
+            if (!/^[0-9]{10}$/.test(phone)) {
+                setPhoneValid(false);
+                return;
+            }
+            setPhoneValid(true);
             if (picture.trim() !== '') {
                 checkIfImage(picture, (isValidImage) => {
                     if (isValidImage) {
@@ -118,6 +126,7 @@ const EditProfile = () => {
 
     const handleEdit = () => {
         setEditMode(true);
+        setInitialPhone(phone);
     }
 
     const handleRegister = () => {
@@ -126,6 +135,7 @@ const EditProfile = () => {
 
     const handleCancel = () => {
         setEditMode(false);
+        setPhone(initialPhone);
     }
 
     return(
@@ -217,13 +227,20 @@ const EditProfile = () => {
                                             <input
                                                 type="text"
                                                 className="text-black"
-                                                placeholder="Phone"
+                                                placeholder="Please enter 10 digit phone number"
                                                 value={phone}
                                                 onChange={(e) => setPhone(e.target.value)}
+                                                pattern="[0-9]{10}"
                                             />
                                             </p>
                                         </p>
                                     </div>
+                                    {editMode ? (
+    // Display error message if the phone number is not valid
+                                    !phoneValid && (
+                                        <p className="text-red-500 text-sm mt-1">Please enter a valid phone number (10 digits)</p>
+                                    )
+                                ) : null}
                                 
                                 <br />
                                 <button type="button" onClick={handleSave} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb] min-w-[500px]">

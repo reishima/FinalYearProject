@@ -144,35 +144,35 @@ const Registration = () => {
                         <div className='flex flex-col justify-center items-center'>
                               <div className="grid sm:grid-cols-1 grid-cols-1 w-full mt-10 min-w-[500px]">
                               <div className={`rounded-tr-2xl rounded-tl-2xl ${commonStyles}`}>
-                                        <p className="text-white font-light text-base flex " title={blockchainId}>
+                                        <div className="text-white font-light text-base flex " title={blockchainId}>
                                             <p> <span style={{ marginRight: '20px' }}>Blockchain ID:</span>{blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...'}</p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`${commonStyles}`}>
-                                        <p className="text-white font-light text-base flex " title={user.email}>
+                                        <div className="text-white font-light text-base flex " title={user.email}>
                                             <p> <span style={{ marginRight: '20px' }}>Email Address:</span>{user.email !== null ? user.email : 'Loading...'} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex`} title={name}>
+                                        <div className={`text-white font-light text-base flex`} title={name}>
                                             <p> <span style={{ marginRight: '20px' }}>Name:</span>{name !== "" ? name : <span className="opacity-50">Please enter your name</span>} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                 <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex`} title={department}>
+                                        <div className={`text-white font-light text-base flex`} title={department}>
                                             <p> <span style={{ marginRight: '20px' }}>Department:</span>{department !== "" ? department : <span className="opacity-50">Please select your department</span>} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={` ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex`} title={programLevel}>
+                                        <div className={`text-white font-light text-base flex`} title={programLevel}>
                                             <p> <span style={{ marginRight: '20px' }}>Level of Study:</span>{programLevel !== "" ? programLevel : <span className="opacity-50">Please select your level of study</span>} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     </div>
                                     </div>
                         {/*<CourseList/>*/}
                             <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse1}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse1}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 1:</span>
                                             <select
                                                 className="text-black"
@@ -198,10 +198,10 @@ const Registration = () => {
                                                 ))}
                                             </select>
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse2}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse2}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 2:</span>
                                             <select
                                                 className="text-black"
@@ -227,10 +227,10 @@ const Registration = () => {
                                                 ))}
                                             </select>
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse3}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse3}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 3:</span>
                                             <select
                                                 className="text-black"
@@ -256,10 +256,10 @@ const Registration = () => {
                                                 ))}
                                             </select>
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse4}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse4}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 4:</span>
                                             <select
                                                 className="text-black"
@@ -285,10 +285,10 @@ const Registration = () => {
                                                 ))}
                                             </select>
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse5}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse5}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 5:</span>
                                             <select
                                                 className="text-black"
@@ -313,10 +313,10 @@ const Registration = () => {
                                                 ))}
                                             </select>
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse6}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse6}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 6:</span>
                                             <select
                                                 className="text-black"
@@ -341,10 +341,10 @@ const Registration = () => {
                                                 ))}
                                             </select>
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse7}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse7}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 7:</span>
                                             <select
                                                 className="text-black"
@@ -369,10 +369,10 @@ const Registration = () => {
                                                 ))}
                                             </select>
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`rounded-br-2xl rounded-bl-2xl ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse8}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse8}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 8:</span>
                                             <select
                                                 className="text-black"
@@ -397,7 +397,7 @@ const Registration = () => {
                                                 ))}
                                             </select>
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                         <br/>
                           <button type="button" onClick={handleSave} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb] min-w-[500px]">
@@ -413,29 +413,29 @@ const Registration = () => {
                             <div className='flex flex-col justify-center items-center'>
                               <div className="grid sm:grid-cols-1 grid-cols-1 w-full mt-10 min-w-[500px]">
                               <div className={`rounded-tr-2xl rounded-tl-2xl ${commonStyles}`}>
-                                        <p className="text-white font-light text-base flex " title={blockchainId}>
+                                        <div className="text-white font-light text-base flex " title={blockchainId}>
                                             <p> <span style={{ marginRight: '20px' }}>Blockchain ID:</span>{blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...'}</p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`${commonStyles}`}>
-                                        <p className="text-white font-light text-base flex " title={user.email}>
+                                        <div className="text-white font-light text-base flex " title={user.email}>
                                             <p> <span style={{ marginRight: '20px' }}>Email Address:</span>{user.email !== null ? user.email : 'Loading...'} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex`} title={name}>
+                                        <div className={`text-white font-light text-base flex`} title={name}>
                                             <p> <span style={{ marginRight: '20px' }}>Name:</span>{name !== "" ? name : <span className="opacity-50">Please enter your name</span>} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                 <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex`} title={department}>
+                                        <div className={`text-white font-light text-base flex`} title={department}>
                                             <p> <span style={{ marginRight: '20px' }}>Department:</span>{department !== "" ? department : <span className="opacity-50">Please select your department</span>} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`rounded-br-2xl rounded-bl-2xl  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex`} title={programLevel}>
+                                        <div className={`text-white font-light text-base flex`} title={programLevel}>
                                             <p> <span style={{ marginRight: '20px' }}>Level of Study:</span>{programLevel !== "" ? programLevel : <span className="opacity-50">Please select your level of study</span>} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     </div>
                                     {/* display course list here */}
