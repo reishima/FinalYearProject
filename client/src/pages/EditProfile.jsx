@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Navbar, Footer } from '../components/index';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc, collection, updateDoc } from 'firebase/firestore';
-import { database } from '../utils/FirebaseConfig.js';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { database, storage} from '../utils/FirebaseConfig.js';
 import { checkIfImage } from '../utils/index.js';
 import AuthChecker from '../utils/handle.js';
 import { useNavigate } from 'react-router-dom';
 import { shortenAddress } from '../utils/index.js';
+import swal from 'sweetalert';
 
 const EditProfile = () => {
     const navigate = useNavigate();
@@ -19,6 +21,7 @@ const EditProfile = () => {
     const [ picture, setPicture ] = useState('');
     const [ phone, setPhone ] = useState('');
     const [ editMode, setEditMode ] = useState(false);
+    const [ imageUpload, setImageUpload ] = useState('');
 
     const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
     const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science'];
@@ -52,6 +55,26 @@ const EditProfile = () => {
             unsubscribe();
         }
     }, []);
+
+    const uploadFile = async (event) => {
+        event.preventDefault(); // Prevent the default form submission behavior
+        if (!imageUpload) return;
+    
+        try {
+            const imageRef = ref(storage, `pictures/profiles/${imageUpload.name}`);
+            const snapshot = await uploadBytes(imageRef, imageUpload);
+            const url = await getDownloadURL(snapshot.ref);
+    
+            console.log('Uploaded image URL:', url);
+            setPicture(url);
+            swal({
+                text: 'Picture saved succesfully',
+              })
+        } catch (error) {
+            console.error('Error getting download URL:', error);
+        }
+    };
+    
 
     const handleSave = async () => {
         try {
@@ -120,12 +143,12 @@ const EditProfile = () => {
                                         <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={picture}>
                                             <p> <span style={{ marginRight: '20px' }}></span>
                                             <input
-                                                type="text"
-                                                className="text-black"
-                                                placeholder="Upload an image"
-                                                value={picture}
-                                                onChange={(e) => setPicture(e.target.value)}
+                                                type="file"
+                                                onChange={(event) => {
+                                                    setImageUpload(event.target.files[0]);
+                                                }}
                                             />
+                                            <button onClick = {uploadFile} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]"> Upload </button>
                                             </p>
                                         </p>
                                     </div>
@@ -221,7 +244,7 @@ const EditProfile = () => {
                                         <img
                                             src={picture}
                                             alt="no user image available"
-                                            className="object-scale-down h-48 w-96"
+                                            className="object-scale-down max-h-48 max-w-96"
                                         />
                                         ) : (
                                         <p>No profile picture uploaded</p>
