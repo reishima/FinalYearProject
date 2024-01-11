@@ -5,7 +5,7 @@ import { Navbar, CustomButton, Loading, FormField, Footer } from '../../componen
 import   { useStateContext } from '../../context/LibraryContext.jsx';
 import AdminChecker from '../../utils/adminChecker.js';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { database, storage} from '../../utils/FirebaseConfig.js';
+import { storage} from '../../utils/FirebaseConfig.js';
 import swal from 'sweetalert';
 
 const CreateBook = () => {
@@ -58,7 +58,7 @@ const CreateBook = () => {
                 image: url,
             });
             swal({
-                text: 'Picture saved succesfully',
+                text: 'Image saved succesfully',
               })
         } catch (error) {
             console.error('Error getting download URL:', error);
@@ -120,7 +120,6 @@ const CreateBook = () => {
                                     </p>
                                 </div>
                                 </label>
-                            
                         </div>
                         {isLoading? (
                             <Loading/>

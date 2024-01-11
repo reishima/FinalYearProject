@@ -4,6 +4,9 @@ import { checkIfImage } from '../../utils/index.js';
 import { Navbar, CustomButton, Loading, FormField, Footer } from '../../components/index.js';
 import   { useStateContext } from '../../context/AideContext.jsx';
 import AdminChecker from '../../utils/adminChecker.js';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage} from '../../utils/FirebaseConfig.js';
+import swal from 'sweetalert';
 
 const CreateAide = () => {
     
@@ -17,6 +20,8 @@ const CreateAide = () => {
         deadline: '',
         image: ''
     });
+    const [ imageUpload, setImageUpload ] = useState('');
+    const [ picture, setPicture ] = useState('');
 
     const convertToUnixTimestamp = (dateString) => {
         const dateObject = new Date(dateString);
@@ -32,13 +37,36 @@ const CreateAide = () => {
             const unixTimestampDeadline = convertToUnixTimestamp(value);
             console.log('New Unix Timestamp Deadline:', unixTimestampDeadline);
             setForm({ ...form, [fieldName]: unixTimestampDeadline })
-        } // Check for the title field and remove forward slashes
+        } 
         if (fieldName === 'title') {
-            value = value.replace(/\//g, ''); // Remove forward slashes
+            value = value.replace(/\//g, '');
         }
         console.log({...form, [fieldName]: value});
         setForm({...form, [fieldName]: value});
     }
+
+    const uploadFile = async (event) => {
+        event.preventDefault(); // Prevent the default form submission behavior
+        if (!imageUpload) return;
+    
+        try {
+            const imageRef = ref(storage, `pictures/aides/${imageUpload.name}`);
+            const snapshot = await uploadBytes(imageRef, imageUpload);
+            const url = await getDownloadURL(snapshot.ref);
+    
+            console.log('Uploaded image URL:', url);
+            setForm({
+                ...form,
+                image: url,
+            });
+            swal({
+                text: 'Image saved succesfully',
+              })
+        } catch (error) {
+            console.error('Error getting download URL:', error);
+        }
+        console.log(form)
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -101,7 +129,7 @@ const CreateAide = () => {
                                 value={form.description}
                                 handleChange={(e) => handleFormFieldChange('description', e)}
                             />
-                            <div className="flex flex-wrap gap-[40px]">
+                            
                             <FormField 
                                 labelName="Requester Threshold"
                                 placeholder="Enter the maximum number of requesters"
@@ -114,18 +142,23 @@ const CreateAide = () => {
                                 placeholder="Deadline to Request the Aide. The minimum deadline is tomorrow's date."
                                 inputType="date"
                                 value={form.deadline}
-                                handleChange={(e) => handleFormFieldChange('deadline', e)}
-                                //handleChange={handleDeadlineChange}
-                                //min={getTomorrowDate()}
+                                handleChange={handleDeadlineChange}
+                                min={getTomorrowDate()}
                             />
-                            </div>
-                            <FormField 
-                                labelName="Campaign image *" 
-                                placeholder="Place image URL for the Aide"
-                                inputType="url"
-                                value={form.image}
-                                handleChange={(e) => handleFormFieldChange('image', e)}
-                            />
+                            <label className='py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] sm:min-w-[300ox]'>
+                                Upload Aide Image
+                                <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={picture}>
+                                    <p> <span style={{ marginRight: '20px' }}></span>
+                                        <input
+                                            type="file"
+                                            onChange={(event) => {
+                                                setImageUpload(event.target.files[0]);
+                                            }}
+                                        />
+                                        <button onClick = {uploadFile} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]"> Upload </button>
+                                    </p>
+                                </div>
+                                </label>
                         </div>
                         {isLoading? (
                             <Loading />
