@@ -239,7 +239,7 @@ const EditProfile = () => {
                             <div className='flex flex-col justify-left items-left'>
                                 <div className="grid sm:grid-cols-1 grid-cols-1 w-full mt-10 min-w-[500px]">
                                 <div className={`rounded-tl-2xl rounded-tr-2xl ${commonStyles}`}>
-                                        <p className="text-white font-light text-base flex mt-5 mb-5 " title={picture}>
+                                        <div className="text-white font-light text-base flex mt-5 mb-5 " title={picture}>
                                         {picture ? (
                                         <img
                                             src={picture}
@@ -247,39 +247,39 @@ const EditProfile = () => {
                                             className="object-scale-down max-h-48 max-w-96"
                                         />
                                         ) : (
-                                        <p>No profile picture uploaded</p>
+                                        <div>No profile picture uploaded</div>
                                         )}
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`${commonStyles}`}>
-                                        <p className="text-white font-light text-base flex " title={blockchainId}>
+                                        <div className="text-white font-light text-base flex " title={blockchainId}>
                                             <p> <span style={{ marginRight: '20px' }}>Blockchain ID:</span>{blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...'}</p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`${commonStyles}`}>
-                                        <p className="text-white font-light text-base flex " title={user.email}>
+                                        <div className="text-white font-light text-base flex " title={user.email}>
                                             <p> <span style={{ marginRight: '20px' }}>Email Address:</span>{user.email !== null ? user.email : 'Loading...'} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex`} title={name}>
+                                        <div className={`text-white font-light text-base flex`} title={name}>
                                             <p> <span style={{ marginRight: '20px' }}>Name:</span>{name !== "" ? name : <span className="opacity-50">Please enter your name</span>} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex`} title={department}>
+                                        <div className={`text-white font-light text-base flex`} title={department}>
                                             <p> <span style={{ marginRight: '20px' }}>Department:</span>{department !== "" ? department : <span className="opacity-50">Please select your department</span>} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={` ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex`} title={programLevel}>
+                                        <div className={`text-white font-light text-base flex`} title={programLevel}>
                                             <p> <span style={{ marginRight: '20px' }}>Level of Study:</span>{programLevel !== "" ? programLevel : <span className="opacity-50">Please select your level of study</span>} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={` rounded-br-2xl rounded-bl-2xl ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex`} title={phone}>
+                                        <div className={`text-white font-light text-base flex`} title={phone}>
                                             <p> <span style={{ marginRight: '20px' }}>Phone Number:</span>{phone !== "" ? phone : <span className="opacity-50">Please enter your phone number</span>} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                 </div>
                                 <br />
