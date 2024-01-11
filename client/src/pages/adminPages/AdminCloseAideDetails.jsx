@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { CountBox, CustomButton, Loading, Navbar, Footer } from '../../components';
 import { useStateContext } from '../../context/AideContext';
 import { calculateBarPercentage, daysLeft } from '../../utils';
-import AdminChecker from '../../utils/handle.js';
+import AdminChecker from '../../utils/adminChecker.js';
 
 const AdminCloseAideDetails = () => {
 

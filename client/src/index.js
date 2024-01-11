@@ -18,7 +18,6 @@ import {
 
 import { FAQ, History, UnavailableBookDetails, Attendance, Registration, StudentAide, EditProfile, CreateAide, AideDetails, UnavailableAideDetails, Home, AttendanceDetails, UnavailableAttendanceDetails, CreateAttendance, SignIn, SignUp, ForgotPassword, Library, Error, CreateBook, BookDetails } from './pages/index.js';
 import { Admin, AdminLibrary, AdminBookDetails, AdminAideDetails, AdminAides, AdminCloseAideDetails, AdminCourses, AdminCloseAttendanceDetails, AdminPastAttendanceDetails } from './pages/adminPages/adminindex.js';
-import DisplayUnavailableCourses from './components/DisplayUnavailableCourses.jsx';
 
 const router = createBrowserRouter([
   {

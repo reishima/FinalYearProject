@@ -5,7 +5,7 @@ import { useStateContext } from '../../context/AideContext';
 import { calculateBarPercentage, daysLeft } from '../../utils';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { database } from '../../utils/FirebaseConfig.js';
-import AdminChecker from '../../utils/handle.js';
+import AdminChecker from '../../utils/adminChecker.js';
 
 const AdminAideDetails = () => {
 

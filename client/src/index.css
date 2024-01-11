@@ -91,6 +91,40 @@ body {
   background-color: #13131a;
 }
 
+.swal-overlay {
+  background-color: rgba(19, 19, 26, 0.9);
+}
+
+.swal-modal {
+  background-color: #1b1f34;
+  border: 3px solid #1b1f34;
+  height: 175px;
+}
+
+
+.swal-text {
+  padding: 0px;
+  display: block;
+  margin: 22px;
+  text-align: center;
+  color: white;
+}
+
+.swal-button {
+  padding: 10px 25px;
+  border-radius: 20px;
+  font-size: 16px;
+  border: 1px solid ;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  color: white;
+  min-height: 45px;
+  cursor: pointer;
+}
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

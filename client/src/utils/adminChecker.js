@@ -5,6 +5,7 @@ import { getDoc, doc, collection } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import Redirecting from '../components/Redirecting';
 import { database } from '../utils/FirebaseConfig.js';
+import swal from 'sweetalert';
 
 const AdminChecker = ({ children }) => {
     const navigate = useNavigate();
@@ -15,7 +16,6 @@ const AdminChecker = ({ children }) => {
             setAdminCheckComplete(true);
             
             if (!user) {
-                alert('You must be logged in to access this page.');
                 navigate('/login');
             } else {
                 const usersCollection = collection(database, 'users');
@@ -23,7 +23,10 @@ const AdminChecker = ({ children }) => {
                 const userDocSnapshot = await getDoc(userDoc);
 
                 if (!userDocSnapshot.exists() || userDocSnapshot.data().userType !== 'admin') {
-                    alert('This page is for admins only!');
+                    swal({
+                        text: 'This page is only for admins!',
+                        closeOnClickOutside: true,
+                      });
                     await signOut(auth);
                     navigate('/login');
                 }

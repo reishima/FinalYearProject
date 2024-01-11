@@ -3,6 +3,7 @@ import { auth } from './FirebaseConfig';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Redirecting } from '../components/index.js';
+import swal from 'sweetalert';
 
 const handleAccountsChanged = async () => {
     const excludedPaths = ['/login', '/sign-up', '/forgot-password', '/sign-out'];
@@ -12,7 +13,10 @@ const handleAccountsChanged = async () => {
      //window.location.href = '/login';
       await signOut(auth);
     } else {
-      alert('Wallet change detected. Please be aware of the security implications.');
+      swal({
+        text: 'Wallet change detected. Please be aware of the security implications.',
+        closeOnClickOutside: true,
+      });
     }
   };
   
@@ -35,7 +39,10 @@ const AuthChecker = ({ children }) => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
         setAuthCheckComplete(true);
         if (!user) {
-            alert('You must be logged in to access this page.');
+          swal({
+            text: 'You must be logged in to access this page!',
+            closeOnClickOutside: true,
+          });
             navigate('/login');
         }
         });

@@ -32,7 +32,7 @@ const Navbar = () => {
     const handleSignOut = () => {
         const auth = getAuth();
         signOut(auth).then(val => {
-            console.log(val, "no one should be signed in rn");
+            //console.log(val, "no one should be signed in rn");
         }).catch((error) => {
             console.error("Error signing out", error);
         });
