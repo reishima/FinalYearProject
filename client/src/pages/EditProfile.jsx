@@ -82,7 +82,7 @@ const EditProfile = () => {
     const handleSave = async () => {
         try {
             // Check if the provided picture URL is not empty and is a valid image
-            if (!/^[0-9]{10}$/.test(phone)) {
+            if (phone.trim() !== "" &&  !/^[0-9]{10}$/.test(phone)) {
                 setPhoneValid(false);
                 return;
             }
@@ -150,7 +150,7 @@ const EditProfile = () => {
                         {editMode ? (
                             <form>
                                 <div className={`rounded-tl-2xl rounded-tr-2xl  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={picture}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={picture}>
                                             <p> <span style={{ marginRight: '20px' }}></span>
                                             <input
                                                 type="file"
@@ -160,20 +160,20 @@ const EditProfile = () => {
                                             />
                                             <button onClick = {uploadFile} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]"> Upload </button>
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`${commonStyles}`}>
-                                        <p className="text-white font-light text-base flex " title={blockchainId}>
+                                        <div className="text-white font-light text-base flex " title={blockchainId}>
                                             <p> <span style={{ marginRight: '20px' }}>Blockchain ID:</span>{blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...'}</p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`${commonStyles}`}>
-                                        <p className="text-white font-light text-base flex " title={user.email}>
+                                        <div className="text-white font-light text-base flex " title={user.email}>
                                             <p> <span style={{ marginRight: '20px' }}>Email Address:</span>{user.email !== null ? user.email : 'Loading...'} </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={name}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={name}>
                                             <p> <span style={{ marginRight: '20px' }}>Name:</span>
                                             <input
                                                 type="text"
@@ -183,10 +183,10 @@ const EditProfile = () => {
                                                 onChange={(e) => setName(e.target.value)}
                                             />
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={department}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={department}>
                                             <p> <span style={{ marginRight: '20px' }}>Department:</span>
                                             <select
                                                 className="text-black"
@@ -201,10 +201,10 @@ const EditProfile = () => {
                                                 ))}
                                             </select>
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                 <div className={`  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={programLevel}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={programLevel}>
                                             <p> <span style={{ marginRight: '20px' }}>Level of Study:</span>
                                             <select
                                                 className="text-black"
@@ -219,21 +219,21 @@ const EditProfile = () => {
                                                 ))}
                                             </select>
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className={` rounded-br-2xl rounded-bl-2xl  ${commonStyles}`}>
-                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={phone}>
+                                        <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={phone}>
                                             <p> <span style={{ marginRight: '20px' }}>Phone Number:</span>
                                             <input
                                                 type="text"
                                                 className="text-black"
-                                                placeholder="Please enter 10 digit phone number"
+                                                placeholder="e.g.(0123456789)"
                                                 value={phone}
                                                 onChange={(e) => setPhone(e.target.value)}
                                                 pattern="[0-9]{10}"
                                             />
                                             </p>
-                                        </p>
+                                        </div>
                                     </div>
                                     {editMode ? (
     // Display error message if the phone number is not valid

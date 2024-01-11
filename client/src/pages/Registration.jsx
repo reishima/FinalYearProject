@@ -438,12 +438,14 @@ const Registration = () => {
                                         </div>
                                     </div>
                                     </div>
-                                    {/* display course list here */}
+                                    {/* display check here */}
                                     <br/>
                                     <div className={`rounded-tr-2xl rounded-tl-2xl w-[500px] ${commonStyles}`}>
-                                      List of Courses
+                                      List of Available Courses
                                       </div>
+                                      
                                     <div className={`rounded-br-2xl rounded-bl-2xl w-[500px] ${commonStyles}`}>
+                                    {department !== "" && programLevel !== "" ? (
                                         <ul className="list-disc list-inside">
                                             {courses.map((course) => (
                                                 <li key={course.pId} className="text-white">
@@ -451,6 +453,9 @@ const Registration = () => {
                                                 </li>
                                             ))}
                                         </ul>
+                                    ) : (
+                                        <p className="text-white">Please select your department and level of study first.</p>
+                                    )}
                                     </div>
                                 <br />
                                 <button type="button" onClick={handleEdit} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb] min-w-[500px]">
