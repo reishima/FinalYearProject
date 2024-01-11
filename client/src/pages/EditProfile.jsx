@@ -22,6 +22,7 @@ const EditProfile = () => {
     const [ phone, setPhone ] = useState('');
     const [ editMode, setEditMode ] = useState(false);
     const [ imageUpload, setImageUpload ] = useState('');
+    const [ selectedCourses, setSelectedCourses ] = useState('');
 
     const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
     const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science'];
@@ -44,6 +45,7 @@ const EditProfile = () => {
                     setName(userDocSnapshot.data().name || '');
                     setPicture(userDocSnapshot.data().picture || '');
                     setPhone(userDocSnapshot.data().phone || '');
+                    setSelectedCourses(userDocSnapshot.data().selectedCourses);
                 }
             } else {
                 setUser(null);
@@ -54,7 +56,7 @@ const EditProfile = () => {
         return () => {
             unsubscribe();
         }
-    }, []);
+    }, [selectedCourses]);
 
     const uploadFile = async (event) => {
         event.preventDefault(); // Prevent the default form submission behavior
@@ -287,9 +289,13 @@ const EditProfile = () => {
                                     Edit
                                 </button>
                                 <br/>
+                                
+                                {!selectedCourses.length > 0? (
                                 <button type="button" onClick={handleRegister} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]">
                                     Course Registration
-                                </button>
+                                </button>) : ("")
+                                }
+                                
                             </div>
                         )}
                     </div>
