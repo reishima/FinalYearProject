@@ -17,7 +17,7 @@ import {
 } from "react-router-dom";
 
 import { FAQ, History, UnavailableBookDetails, Attendance, Registration, StudentAide, EditProfile, CreateAide, AideDetails, UnavailableAideDetails, Home, AttendanceDetails, UnavailableAttendanceDetails, CreateAttendance, SignIn, SignUp, ForgotPassword, Library, Error, CreateBook, BookDetails } from './pages/index.js';
-import { Admin, AdminLibrary, AdminBookDetails, AdminAideDetails, AdminAides, AdminCloseAideDetails, AdminCourses, AdminCloseAttendanceDetails, CreateAdmin, QueryUser, AdminPastAttendanceDetails, CreateUserPage } from './pages/adminPages/adminindex.js';
+import { Admin, AdminLibrary, AdminBookDetails, AdminAideDetails, AdminAides, AdminCloseAideDetails, AdminCourses, AdminCloseAttendanceDetails, CreateAdmin, AdminHistoryPage, AttendanceHistory, QueryUser, AdminPastAttendanceDetails, CreateUserPage } from './pages/adminPages/adminindex.js';
 
 const router = createBrowserRouter([
   {
@@ -151,11 +151,18 @@ const router = createBrowserRouter([
   {
     path: "/admin/create-user",
     element: <CreateUserPage/>,
-  }
-  ,
+  },
   {
     path: "/admin/query-user",
     element: <QueryUser/>,
+  },
+  {
+    path: "/admin/history",
+    element: <AdminHistoryPage/>,
+  },
+  {
+    path: "/admin/history/attendance-history",
+    element: <AttendanceHistory/>,
   }
 ]);
 

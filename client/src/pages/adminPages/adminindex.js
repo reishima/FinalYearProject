@@ -16,3 +16,5 @@ export {default as DisplayAvailableBooksAdmin } from './DisplayAvailableBooksAdm
 export { default as CreateAdmin } from './CreateAdmin.jsx';
 export { default as CreateUserPage } from './CreateUserPage.jsx';
 export { default as QueryUser } from './QueryUser.jsx';
+export { default as AttendanceHistory } from './AttendanceHistory.jsx';
+export { default as AdminHistoryPage } from './AdminHistory.jsx';

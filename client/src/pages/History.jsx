@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Footer } from '../components/index.js';
 import AuthChecker from '../utils/handle.js';
+import { database } from '../utils/FirebaseConfig.js';
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getDoc, doc, collection } from 'firebase/firestore';
+import { Loading } from '../components/index.js';
 
 const apiUrl = 'https://api-sepolia.etherscan.io/api';
 const apiKey = 'ZSTZJR9CJEQ1NIGQRX2IQ7WSQIKM7ZBRMP';
 
-const address = '0x6292bc5e5bc47a50a6f9b89ce47dd77540c6542c';
 const startBlock = 0;
 const endBlock = 99999999;
 const pageSize = 8;
@@ -13,31 +16,54 @@ const pageSize = 8;
 const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
 
 const History = () => {
-  const [transactions, setTransactions] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+    const [ blockchainId, setblockchainId ] = useState(null);
+    const [  transactions, setTransactions ] = useState([]);
+    const [currentPage, setCurrentPage ] = useState(1);
+    const [ totalPages, setTotalPages ] = useState(1);
+    const [ user, setUser ] = useState(null);
+    const [ loading, setLoading ] = useState(true);
 
-  useEffect(() => {
-    const fetchAllTransactions = async () => {
-      const requestUrl = `${apiUrl}?module=account&action=txlist&address=${address}&startblock=${startBlock}&endblock=${endBlock}&sort=asc&apikey=${apiKey}`;
+    useEffect(() => {
+        const auth = getAuth();
 
-      try {
-        const response = await fetch(requestUrl);
-        const data = await response.json();
+        const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+            if (authUser){
+                setUser(authUser);
+                const usersCollection = collection(database, 'users');
+                const userDoc = doc(usersCollection, authUser.uid);
+                const userDocSnapshot = await getDoc(userDoc);
+                if(userDocSnapshot.exists()) {
+                    setblockchainId(userDocSnapshot.data().blockchainId);
+                }
+            } else {
+                setUser(null);
+                setblockchainId(null);
+            }
+        });
 
-        if (data.status === '1') {
-          setTransactions(data.result);
-          setTotalPages(Math.ceil(data.result.length / pageSize));
-        } else {
-          console.error('Error fetching data:', data.message);
+        const fetchAllTransactions = async () => {
+            setLoading(true);
+        const requestUrl = `${apiUrl}?module=account&action=txlist&address=${blockchainId}&startblock=${startBlock}&endblock=${endBlock}&sort=asc&apikey=${apiKey}`;
+
+        try {
+            const response = await fetch(requestUrl);
+            const data = await response.json();
+
+            if (data.status === '1') {
+            setTransactions(data.result);
+            setTotalPages(Math.ceil(data.result.length / pageSize));
+            } else {
+            console.error('Error fetching data:', data.message);
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
         }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+        };
 
-    fetchAllTransactions();
-  }, [address, startBlock, endBlock]);
+        fetchAllTransactions();
+    }, [blockchainId, startBlock, endBlock]);
 
   const getCurrentPageTransactions = () => {
     const reversedTransactions = transactions.slice().reverse();
@@ -88,36 +114,39 @@ const History = () => {
       <div className="flex-1 flex flex-col items-center justify-center font-semibold">
         <div className="text-white text-center">
           <h2>
-            Transaction History for{" "}
             <a
-              href={`https://sepolia.etherscan.io/address/${address}`}
+              href={`https://sepolia.etherscan.io/address/${blockchainId}`}
               target="_blank"
               rel="noopener noreferrer"
               className="address-link hover:text-blue-500 hover:underline"
             >
-              Attendance
+                User History 
             </a>
           </h2>
           <br />
-          <ul>
-            {getCurrentPageTransactions().map((tx, index) => renderTransaction(tx, index))}
-          </ul>
-          <div className="mt-4">
-            <div className="flex justify-center items-center space-x-4">
-              <button
-                onClick={handlePrevPage}
-                disabled={currentPage === 1}
-                className="bg-[#8934eb] py-2 px-7 rounded-full cursor-pointer hover:bg-[#a834eb] min-w-[20px] justify-center"
-              >
-                Prev
-              </button>
-              <span className="text-white"> Page {currentPage} of {totalPages} </span>
-              <button
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
-                className="bg-[#8934eb] py-2 px-7 rounded-full cursor-pointer hover:bg-[#a834eb] min-w-[20px] justify-center"
-              >
-                Next
+          {loading ? (
+                        <Loading /> // Render the Loading component when data is being fetched
+                    ) : (
+                        <ul>
+                            {getCurrentPageTransactions().map((tx, index) => renderTransaction(tx, index))}
+                        </ul>
+                    )}
+                    <div className="mt-4">
+                        <div className="flex justify-center items-center space-x-4">
+                            <button
+                                onClick={handlePrevPage}
+                                disabled={currentPage === 1}
+                                className="bg-[#8934eb] py-2 px-7 rounded-full cursor-pointer hover:bg-[#a834eb] min-w-[20px] justify-center"
+                            >
+                                Prev
+                            </button>
+                            <span className="text-white"> Page {currentPage} of {totalPages} </span>
+                            <button
+                                onClick={handleNextPage}
+                                disabled={currentPage === totalPages}
+                                className="bg-[#8934eb] py-2 px-7 rounded-full cursor-pointer hover:bg-[#a834eb] min-w-[20px] justify-center"
+                            >
+                                Next
               </button>
             </div>
           </div>
