@@ -15,3 +15,4 @@ export { default as AdminPastAttendanceDetails } from './AdminPastAttendanceDeta
 export {default as DisplayAvailableBooksAdmin } from './DisplayAvailableBooksAdmin.jsx';
 export { default as CreateAdmin } from './CreateAdmin.jsx';
 export { default as CreateUserPage } from './CreateUserPage.jsx';
+export { default as QueryUser } from './QueryUser.jsx';
