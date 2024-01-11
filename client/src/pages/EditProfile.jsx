@@ -213,7 +213,7 @@ const EditProfile = () => {
                                     </div>
                                     <div className={` rounded-br-2xl rounded-bl-2xl  ${commonStyles}`}>
                                         <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={phone}>
-                                            <p> <span style={{ marginRight: '20px' }}>Name:</span>
+                                            <p> <span style={{ marginRight: '20px' }}>Phone Number:</span>
                                             <input
                                                 type="text"
                                                 className="text-black"
@@ -271,7 +271,7 @@ const EditProfile = () => {
                                             <p> <span style={{ marginRight: '20px' }}>Department:</span>{department !== "" ? department : <span className="opacity-50">Please select your department</span>} </p>
                                         </p>
                                     </div>
-                                    <div className={` r ${commonStyles}`}>
+                                    <div className={` ${commonStyles}`}>
                                         <p className={`text-white font-light text-base flex`} title={programLevel}>
                                             <p> <span style={{ marginRight: '20px' }}>Level of Study:</span>{programLevel !== "" ? programLevel : <span className="opacity-50">Please select your level of study</span>} </p>
                                         </p>
