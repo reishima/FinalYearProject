@@ -13,3 +13,4 @@ export { default as DisplayAttendanceToClose } from './DisplayAttendanceToClose.
 export { default as DisplayAttendanceAdmin } from './DisplayAttendanceAdmin.jsx';
 export { default as AdminPastAttendanceDetails } from './AdminPastAttendanceDetails.jsx'
 export {default as DisplayAvailableBooksAdmin } from './DisplayAvailableBooksAdmin.jsx';
+export { default as CreateAdmin } from './CreateAdmin.jsx';
