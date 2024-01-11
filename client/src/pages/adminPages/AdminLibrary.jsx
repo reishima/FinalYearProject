@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Footer } from '../../components/index.js';
-import { DisplayUnavailableBooksAdmin} from './adminindex.js';
+import { DisplayUnavailableBooksAdmin, DisplayAvailableBooksAdmin } from './adminindex.js';
 import { useStateContext } from '../../context/LibraryContext.jsx';
 import AdminChecker from '../../utils/adminChecker.js';
 
@@ -25,12 +25,19 @@ const AdminLibrary = () => {
             <div className="bg-[#13131a] flex-grow">
                 <Navbar/>
                 <AdminChecker/>
-                <br/>
                 <div className='ml-[300px]'>
                     <DisplayUnavailableBooksAdmin
                         title="Books to be Returned"
                         isLoading = {isLoading}
                         unavailable = {unavailable}
+                    />
+                </div>
+                <br/>
+                <div className='ml-[300px]'>
+                    <DisplayAvailableBooksAdmin
+                        title="Available Books"
+                        isLoading = {isLoading}
+                        available = {unavailable}
                     />
                 </div>
             </div>
