@@ -18,3 +18,5 @@ export { default as CreateUserPage } from './CreateUserPage.jsx';
 export { default as QueryUser } from './QueryUser.jsx';
 export { default as AttendanceHistory } from './AttendanceHistory.jsx';
 export { default as AdminHistoryPage } from './AdminHistory.jsx';
+export { default as LibraryHistory } from './LibraryHistory.jsx';
+export { default as AideHistory } from './AideHistory.jsx';
