@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { auth } from '../utils/FirebaseConfig.js';
+import { auth, database} from '../utils/FirebaseConfig.js';
 import { useNavigate } from 'react-router-dom';
 import { getDoc, doc, collection } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import Redirecting from '../components/Redirecting';
-import { database } from '../utils/FirebaseConfig.js';
 import swal from 'sweetalert';
 
 const AdminChecker = ({ children }) => {

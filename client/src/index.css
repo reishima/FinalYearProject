@@ -123,6 +123,16 @@ body {
   cursor: pointer;
 }
 
+.swal-button--cancel {
+  background-color: #1b1f34; /* Change the background color for the "Back" button */
+  border-color: #1b1f34; /* Change the border color for the "Back" button */
+}
+
+/* Style for the exclamation mark symbol */
+.swal-icon--warning {
+  color: red; /* Change the color of the exclamation mark */
+}
+
 
 
 @tailwind base;

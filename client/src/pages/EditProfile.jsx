@@ -6,6 +6,7 @@ import { database } from '../utils/FirebaseConfig.js';
 import { checkIfImage } from '../utils/index.js';
 import AuthChecker from '../utils/handle.js';
 import { useNavigate } from 'react-router-dom';
+import { shortenAddress } from '../utils/index.js';
 
 const EditProfile = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const EditProfile = () => {
     const [ phone, setPhone ] = useState('');
     const [ editMode, setEditMode ] = useState(false);
 
+    const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
     const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science'];
     const programOptions = ['Bachelor', 'Master', 'PhD'];
 
@@ -111,110 +113,159 @@ const EditProfile = () => {
             {user ? (
                     // If the user is signed in, display their information.
                     <div className='text-white font-epilogue text-center'>
-                        <p>Blockchain ID: {blockchainId}</p>
-                        <p>Email: {user.email}</p>
                         {/* Editable form for description and image */}
                         {editMode ? (
                             <form>
-                                <label>
-                                    Course:
-                                    <input
-                                        type="text"
-                                        className="text-black"
-                                        placeholder="course"
-                                        value={course}
-                                        onChange={(e) => setCourse(e.target.value)}
-                                    />
-                                </label>
-                                <br/>
-                                <label>
-                                    Department:
-                                    <select
-                                        className="text-black"
-                                        value={department}
-                                        onChange={(e) => setDepartment(e.target.value)}
-                                    >
-                                        <option value="" disabled>Select Department</option>
-                                        {departmentOptions.map((option) => (
-                                            <option key={option} value={option}>
-                                                {option}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
+                                <div className={`rounded-tl-2xl rounded-tr-2xl  ${commonStyles}`}>
+                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={picture}>
+                                            <p> <span style={{ marginRight: '20px' }}></span>
+                                            <input
+                                                type="text"
+                                                className="text-black"
+                                                placeholder="Upload an image"
+                                                value={picture}
+                                                onChange={(e) => setPicture(e.target.value)}
+                                            />
+                                            </p>
+                                        </p>
+                                    </div>
+                                    <div className={`${commonStyles}`}>
+                                        <p className="text-white font-light text-base flex " title={blockchainId}>
+                                            <p> <span style={{ marginRight: '20px' }}>Blockchain ID:</span>{blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...'}</p>
+                                        </p>
+                                    </div>
+                                    <div className={`${commonStyles}`}>
+                                        <p className="text-white font-light text-base flex " title={user.email}>
+                                            <p> <span style={{ marginRight: '20px' }}>Email Address:</span>{user.email !== null ? user.email : 'Loading...'} </p>
+                                        </p>
+                                    </div>
+                                    <div className={`  ${commonStyles}`}>
+                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={name}>
+                                            <p> <span style={{ marginRight: '20px' }}>Name:</span>
+                                            <input
+                                                type="text"
+                                                className="text-black"
+                                                placeholder="Name"
+                                                value={name}
+                                                onChange={(e) => setName(e.target.value)}
+                                            />
+                                            </p>
+                                        </p>
+                                    </div>
+                                    <div className={`  ${commonStyles}`}>
+                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={department}>
+                                            <p> <span style={{ marginRight: '20px' }}>Department:</span>
+                                            <select
+                                                className="text-black"
+                                                value={department}
+                                                onChange={(e) => setDepartment(e.target.value)}
+                                            >
+                                                <option value="" disabled>Select Department</option>
+                                                {departmentOptions.map((option) => (
+                                                    <option key={option} value={option}>
+                                                        {option}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            </p>
+                                        </p>
+                                    </div>
+                                <div className={`  ${commonStyles}`}>
+                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={programLevel}>
+                                            <p> <span style={{ marginRight: '20px' }}>Level of Study:</span>
+                                            <select
+                                                className="text-black"
+                                                value={programLevel}
+                                                onChange={(e) => setProgramLevel(e.target.value)}
+                                            >
+                                                <option value="" disabled>Select program level</option>
+                                                {programOptions.map((option) => (
+                                                    <option key={option} value={option}>
+                                                        {option}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            </p>
+                                        </p>
+                                    </div>
+                                    <div className={` rounded-br-2xl rounded-bl-2xl  ${commonStyles}`}>
+                                        <p className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={phone}>
+                                            <p> <span style={{ marginRight: '20px' }}>Name:</span>
+                                            <input
+                                                type="text"
+                                                className="text-black"
+                                                placeholder="Phone"
+                                                value={phone}
+                                                onChange={(e) => setPhone(e.target.value)}
+                                            />
+                                            </p>
+                                        </p>
+                                    </div>
+                                
                                 <br />
-                                <label>
-                                    program Level:
-                                    <select
-                                        className="text-black"
-                                        value={programLevel}
-                                        onChange={(e) => setProgramLevel(e.target.value)}
-                                    >
-                                        <option value="" disabled>Select program level</option>
-                                        {programOptions.map((option) => (
-                                            <option key={option} value={option}>
-                                                {option}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                                <br />
-                                <label>
-                                    Name:
-                                    <input
-                                        type="text"
-                                        className="text-black"
-                                        placeholder="Name"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                    />
-                                </label>
-                                <br />
-                                 <label>
-                                    Picture URL:
-                                    <input
-                                        type="text"
-                                        className="text-black"
-                                        placeholder="picture url"
-                                        value={picture}
-                                        onChange={(e) => setPicture(e.target.value)}
-                                    />
-                                </label>
-                                <br/>
-                                <label>
-                                    Phone Number:
-                                    <input
-                                        type="text"
-                                        className="text-black"
-                                        placeholder="Phone Number"
-                                        value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
-                                    />
-                                </label>
-                                <br />
-                                <button type="button" onClick={handleSave}>
+                                <button type="button" onClick={handleSave} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb] min-w-[500px]">
                                     Save
                                 </button>
                                 <br/>
-                                <button type="button" onClick={handleCancel}>
+                                <br/>
+                                <button type="button" onClick={handleCancel} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb] min-w-[500px]">
                                     Cancel
                                 </button>
                             </form>
                         ) : (
-                            <div className='flex flex-col justify-center items-center'>
-                                <p> Name: {name || 'Please edit'} </p>
-                                <p> Course: {course || 'Please edit'} </p>
-                                <p> Department: {department || 'Please edit'} </p>
-                                <p> Program Level: {programLevel || 'Please edit'} </p>
-                                <p> Phone Number: {phone|| 'Please edit'} </p>
-                                <p> Profile Picture: {picture && <img src={picture} alt="no user image available" className='object-scale-down h-48 w-96'/> || 'Please edit'} </p>
+                            <div className='flex flex-col justify-left items-left'>
+                                <div className="grid sm:grid-cols-1 grid-cols-1 w-full mt-10 min-w-[500px]">
+                                <div className={`rounded-tl-2xl rounded-tr-2xl ${commonStyles}`}>
+                                        <p className="text-white font-light text-base flex mt-5 mb-5 " title={picture}>
+                                        {picture ? (
+                                        <img
+                                            src={picture}
+                                            alt="no user image available"
+                                            className="object-scale-down h-48 w-96"
+                                        />
+                                        ) : (
+                                        <p>No profile picture uploaded</p>
+                                        )}
+                                        </p>
+                                    </div>
+                                    <div className={`${commonStyles}`}>
+                                        <p className="text-white font-light text-base flex " title={blockchainId}>
+                                            <p> <span style={{ marginRight: '20px' }}>Blockchain ID:</span>{blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...'}</p>
+                                        </p>
+                                    </div>
+                                    <div className={`${commonStyles}`}>
+                                        <p className="text-white font-light text-base flex " title={user.email}>
+                                            <p> <span style={{ marginRight: '20px' }}>Email Address:</span>{user.email !== null ? user.email : 'Loading...'} </p>
+                                        </p>
+                                    </div>
+                                    <div className={`  ${commonStyles}`}>
+                                        <p className={`text-white font-light text-base flex`} title={name}>
+                                            <p> <span style={{ marginRight: '20px' }}>Name:</span>{name !== "" ? name : <span className="opacity-50">Please enter your name</span>} </p>
+                                        </p>
+                                    </div>
+                                    <div className={`  ${commonStyles}`}>
+                                        <p className={`text-white font-light text-base flex`} title={department}>
+                                            <p> <span style={{ marginRight: '20px' }}>Department:</span>{department !== "" ? department : <span className="opacity-50">Please select your department</span>} </p>
+                                        </p>
+                                    </div>
+                                    <div className={` r ${commonStyles}`}>
+                                        <p className={`text-white font-light text-base flex`} title={programLevel}>
+                                            <p> <span style={{ marginRight: '20px' }}>Level of Study:</span>{programLevel !== "" ? programLevel : <span className="opacity-50">Please select your level of study</span>} </p>
+                                        </p>
+                                    </div>
+                                    <div className={` rounded-br-2xl rounded-bl-2xl ${commonStyles}`}>
+                                        <p className={`text-white font-light text-base flex`} title={phone}>
+                                            <p> <span style={{ marginRight: '20px' }}>Phone Number:</span>{phone !== "" ? phone : <span className="opacity-50">Please enter your phone number</span>} </p>
+                                        </p>
+                                    </div>
+                                </div>
                                 <br />
                                 <button type="button" onClick={handleEdit} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]">
                                     Edit
                                 </button>
                                 <br/>
                                 <button type="button" onClick={handleRegister} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]">
-                                    Registration
+                                    Course Registration
                                 </button>
                             </div>
                         )}

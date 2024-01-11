@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Footer } from '../components/index';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 import { getDoc, doc, collection, updateDoc } from 'firebase/firestore';
 import { useStateContext } from '../context/AttendanceContext.jsx'
 import { database } from '../utils/FirebaseConfig.js';
 import AuthChecker from '../utils/handle.js';
+import RegisterCheck from '../utils/registerCheck.js';
+import swal from 'sweetalert';
+
 /*
 const CourseList = () => {
     const { getCourses } = useStateContext();
@@ -38,6 +42,7 @@ const CourseList = () => {
   };*/
   
 const Registration = () => {
+    const navigate = useNavigate();
     const [ user, setUser ] = useState(null);
     const [ blockchainId, setblockchainId] = useState(null);
     const [ department, setDepartment ] = useState('');
@@ -101,12 +106,18 @@ const Registration = () => {
         }
     }, [getCourses, department, programLevel]);
     
-    const handleSave = async () => {
-        try {
-            updateProfile();
-        } catch (error) {
-            console.error('Error updating user information: ', error);
-        }
+    const handleSave = () => {
+      // Display a confirmation dialog using SweetAlert
+      swal({
+        text: 'Once saved, you cannot undo this action.',
+        buttons: ['Back', 'Proceed'],
+        dangerMode: true,
+      }).then((proceed) => {
+        if (proceed) {
+          // User clicked "Proceed"
+          updateProfile();
+        } 
+      });
     };
 
     const updateProfile = async () => {
@@ -128,6 +139,7 @@ const Registration = () => {
             });
             setEditMode(false);
             console.log('User information updated successfully');
+            navigate('/home');
         } catch (error) {
             console.error('Error updating user information: ', error);
         }
@@ -143,6 +155,7 @@ const Registration = () => {
 
     return(
         <div className="min-h-screen flex flex-col bg-[#13131a] min-h-screen">
+            <RegisterCheck/>
              <Navbar/>
              <AuthChecker>
             <div className="justify-center flex-1 flex items-center">

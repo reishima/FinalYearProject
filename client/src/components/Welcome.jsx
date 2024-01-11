@@ -121,7 +121,7 @@ const Welcome = () => {
                                 </div>
                             <div>
                                 <p className="text-white font-light text-sm flex -mt-4">
-                                {blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...'}
+                                    {blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...'}
                                 </p>
                                 <div className="text-white font-semibold text-sm">
                                     {user ? (
