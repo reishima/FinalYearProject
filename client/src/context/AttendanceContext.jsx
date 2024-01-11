@@ -37,12 +37,9 @@ export const StateContextProvider = ({ children }) => {
           form.courseName,
           form.description, 
           form.department,
-          form.image,
           form.courseCode,
           form.week,
           form.programLevel,
-          //startTime,
-          //endTime,
         );
         console.log(form);
         console.log('Contract call success', data);
@@ -67,9 +64,6 @@ export const StateContextProvider = ({ children }) => {
         courseCode: course.courseCode,
         week: course.week,
         programLevel: course.programLevel,
-        //startTime: course.startTime,
-        //endTime: course.endTime,
-        image: course.image,
         pId: i,
       }));
       return parsedCourses;

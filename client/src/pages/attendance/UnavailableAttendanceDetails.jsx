@@ -47,9 +47,6 @@ const UnavailableAttendanceDetails = () => {
             <Navbar />
             {isLoading && <Loading/>}
             <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px] max-w-[800px] mx-auto">
-              <div className='flex-1 flex-col'>
-                <img src={state.image} alt="campaign" className="w-full h-[410px] object-cover rounded-xl" />
-              </div>
               <div className='flex md:w-[150px] w-full flex-wrap justify-between '>
                 <CountBox title ='Attendees' value={isLoadingAttendees ? <Loading/> : currentAttendeeCount}/>
               </div>

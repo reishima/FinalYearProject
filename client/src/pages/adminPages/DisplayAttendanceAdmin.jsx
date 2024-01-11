@@ -77,9 +77,6 @@ const DisplayAttendanceAdmin= ({ title }) => {
       courseName: course.courseName,
       description: course.description,
       department: course.department,
-      //startTime: course.startTime,
-      //endTime: course.endTime,
-      image: course.image,
       pId: i,
     }));
     return parsedCourses;

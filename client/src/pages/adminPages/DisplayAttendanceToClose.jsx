@@ -80,9 +80,6 @@ const DisplayAttendanceToClose= ({ title }) => {
       courseCode: course.courseCode,
       week: course.week,
       programLevel: course.programLevel,
-      //startTime: course.startTime,
-      //endTime: course.endTime,
-      image: course.image,
       pId: i,
     }));
     return parsedCourses;

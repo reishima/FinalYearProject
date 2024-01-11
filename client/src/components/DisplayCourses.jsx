@@ -76,7 +76,6 @@ const DisplayCourses= ({ title }) => {
       courseCode: course.courseCode,
       week: course.week,
       programLevel: course.programLevel,
-      image: course.image,
       pId: i,
     }));
 

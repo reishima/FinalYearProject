@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { checkIfImage } from '../../utils/index.js';
 import { Navbar, CustomButton, Loading, FormField, Footer } from '../../components/index.js';
 import   { useStateContext } from '../../context/AttendanceContext.jsx';
 import AdminChecker from '../../utils/adminChecker.js';
@@ -15,7 +14,6 @@ const CreateAttendance = () => {
         courseName:'',
         description:'',
         department:'',
-        image:'',
         courseCode:'',
         week:'',
         programLevel:'',
@@ -66,18 +64,14 @@ const CreateAttendance = () => {
 */
     const handleSubmit = async (e) => {
         e.preventDefault();
-        checkIfImage(form.image, async(exists) => {
-            if(exists){
-                setIsLoading(true);
+        try{
+            setIsLoading(true);
                 await createCourse({...form});
-                //await createCourse({...form}, startTime, endTime);
                 setIsLoading(false);
-                navigate('/attendance');
-            } else {
-                alert('Provide valid image URL')
-                setForm({...form, image: ''});
-            }
-        })
+                navigate('/attendance')
+        } catch( error) {
+            console.error();
+        }
     }
 
     return(
@@ -178,13 +172,6 @@ const CreateAttendance = () => {
                                 //handleChange={handleDeadlineChange}
                                 //min={getTomorrowDate()}
     />*/}
-                            <FormField 
-                                labelName="Campaign image *" 
-                                placeholder="Place image URL for the Attendance"
-                                inputType="url"
-                                value={form.image}
-                                handleChange={(e) => handleFormFieldChange('image', e)}
-                            />
                         </div>
                         {isLoading? (
                             <Loading />
