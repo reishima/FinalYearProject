@@ -12,18 +12,13 @@ import { Navbar, Footer } from '../../components/index.js';
 const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
 
 const Admin = () => {
+
     const [ user, setUser ] = useState(null);
     const [ blockchainId, setblockchainId] = useState(null);
-    const [ course, setCourse ] = useState('');
-    const [ department, setDepartment ] = useState('');
     const [ name, setName ] = useState('');
     const [ picture, setPicture ] = useState('');
-    const [ phone, setPhone ] = useState('');
-    const [ editMode, setEditMode ] = useState(false);
-    const [showFullId, setShowFullId] = useState(false);
-    const handleIdToggle = () => {
-        setShowFullId(!showFullId);
-      };
+    const [ currentTime, setCurrentTime ] = useState(new Date());
+    const [ referenceDate, setReferenceDate ] = useState(new Date(2023, 9, 10)); // YYYY:DD:MM Format
 
     useEffect(() => {
         const auth = getAuth();
@@ -53,11 +48,8 @@ const Admin = () => {
     
                 if (userDocSnapshot.exists()) {
                     setblockchainId(userDocSnapshot.data().blockchainId);
-                    setCourse(userDocSnapshot.data().course || '');
-                    setDepartment(userDocSnapshot.data().department || '');
                     setName(userDocSnapshot.data().name || '');
                     setPicture(userDocSnapshot.data().picture || '');
-                    setPhone(userDocSnapshot.data().phone || '');
                 }
             } else {
                 setUser(null);
@@ -65,28 +57,39 @@ const Admin = () => {
             }
         });
     
+        const intervalId = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000);
+
         return () => {
+            clearInterval(intervalId);
             unsubscribe();
         };
     }, []);
-    
+
+    const timeDifference = currentTime.getTime() - referenceDate.getTime();
+
+    // Calculate the number of weeks based on the time difference
+    const weeks = Math.floor(timeDifference / (7 * 24 * 60 * 60 * 1000));
+    const formattedTime = currentTime.toLocaleTimeString();
+    const formattedDate = currentTime.toLocaleDateString();
 
     return(
         <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-col">
             <div className="bg-[#13131a] flex-grow">
                 <Navbar />
                 <div className='mt-[60px]'>
-                    <div className="flex w-full justify-center items-center">
+                    <div className="flex w-full justify-center items-center ">
                         <AdminChecker/>
                         <div className="flex md:flex-row flex-col items-start justify-between md:p-20 py-12 px-4">
                             <div className="flex flex-1 justify-start flex-col md:mr-10">
                                 <h1 className="text-3xl sm:text-5xl text-white text-gradient py-1"> 
-                                    Welcome {name !== null && name !== "" ? name : (blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...')}
+                                    Welcome Admin, {name !== null && name !== "" ? name : (blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...')}
                                 </h1>
                                 <p className = "text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base"> 
-                                    Admin Page - CREATION OF ADMINS?
+                                    {formattedTime} - {formattedDate} (Week {weeks})
                                 </p>
-                                <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
+                                <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10 min-w-[500px]">
                                     <div className={`rounded-tl-2xl ${commonStyles} cursor-pointer`}>
                                         <Link to="/admin/admin-library">
                                             Admin Library
@@ -102,7 +105,7 @@ const Admin = () => {
                                             Edit Courses
                                         </Link>
                                     </div>
-                                    <div className={`rounded-bl-2xl ${commonStyles}`}>
+                                    <div className={` ${commonStyles}`}>
                                         <Link to="/admin/create-book">
                                             Create Book
                                         </Link>
@@ -117,14 +120,10 @@ const Admin = () => {
                                            Create Attendance
                                         </Link>
                                     </div>
-                                </div>
-                                <div className="grid sm:grid-cols-1 grid-cols-1 w-full mt-10">
-                                    <div className={`rounded-tl-2xl rounded-tr-2xl rounded-br-2xl rounded-bl-2xl ${commonStyles}`}>
-                                    <p className="text-white font-light text-sm flex -mt-4" title={blockchainId}>
-                                        {blockchainId !== null ? shortenAddress(blockchainId.toString()) : 'Loading...'}
-                                        <br/>
-                                        {name}
-                                    </p>
+                                    <div className={`rounded-bl-2xl ${commonStyles}`}>
+                                        <Link to="/admin/create-attendance">
+                                           Create Attendance
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +136,11 @@ const Admin = () => {
                                                 <img src={logo} alt="logo" className="w-32"/>
                                             </div>
                                             <div className="mt-3.5 ml-2 flex">
-                                                <IoPersonSharp fontSize={95} color="#fff"/>
+                                            {picture ? (
+                                                <img src={picture} alt="Profile Picture" className="w-32 h-23" />
+                                            ) : (
+                                                <IoPersonSharp fontSize={95} color="#fff" />
+                                            )}
                                             </div>
                                             </div>
                                         <div>
