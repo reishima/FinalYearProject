@@ -12,9 +12,9 @@ export const StateContextProvider = ({ children }) => {
 
     const connect = async () => {
         try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
         } catch (error) {
-        console.error('Metamask connection error:', error);
+          console.error('Metamask connection error:', error);
         }
     };
 
@@ -37,7 +37,7 @@ export const StateContextProvider = ({ children }) => {
           new Date(form.deadline).getTime(),
           form.image
         );
-        console.log('Contract call success', data);
+        console.log('Contract call success');
 
       } catch (error) {
         console.error('Contract call failure', error);
@@ -45,46 +45,58 @@ export const StateContextProvider = ({ children }) => {
     };
 
     const getAides = async () => {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const aides = await contractWithSigner.getAides();
+      try{
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const contract = new ethers.Contract(contractAddress, contractABI, provider);
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const aides = await contractWithSigner.getAides();
 
-      const parsedAides = aides.map((aide, i) => ({
-        title: aide.title,
-        description: aide.description,
-        maxRequesters: aide.maxRequesters,
-        deadline: aide.deadline.toNumber(),
-        image: aide.image,
-        pId: i,
-      }));
-      return parsedAides;
+        const parsedAides = aides.map((aide, i) => ({
+          title: aide.title,
+          description: aide.description,
+          maxRequesters: aide.maxRequesters,
+          deadline: aide.deadline.toNumber(),
+          image: aide.image,
+          pId: i,
+        }));
+        return parsedAides;
+      } catch (error) {
+        console.error("Error in getAides:", error);
+      }
     };
 
     const getFullAides = async () => {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const aides = await contractWithSigner.getFullAides();
-      const fullAides = aides.map((aide, i) => ({
-        title: aide.title,
-        description: aide.description,
-        maxRequesters: aide.maxRequesters,
-        deadline: aide.deadline.toNumber(),
-        image: aide.image,
-        pId: i,
-      }));
-      return fullAides;
+      try{
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const contract = new ethers.Contract(contractAddress, contractABI, provider);
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const aides = await contractWithSigner.getFullAides();
+        const fullAides = aides.map((aide, i) => ({
+          title: aide.title,
+          description: aide.description,
+          maxRequesters: aide.maxRequesters,
+          deadline: aide.deadline.toNumber(),
+          image: aide.image,
+          pId: i,
+        }));
+        return fullAides;
+      } catch (error) {
+        console.error('Error in getFullAides:', error);
+      }
     };
 
     const requestAide = async(pId) => {
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const data = await contractWithSigner.requestAide(pId);
+      try {
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const data = await contractWithSigner.requestAide(pId);
 
-      return data;
+        return data;
+      } catch (error) {
+        console.error('Error in requestAide:', error);
+      }
     }
 
     const getRequesters = async (pId) => {
@@ -121,7 +133,7 @@ export const StateContextProvider = ({ children }) => {
           return requestersCount.toNumber();
       } catch (error) {
           console.error('Error in getRequestersCount:', error);
-          return 1;
+          return 0;
         }
     };
 
@@ -133,7 +145,7 @@ export const StateContextProvider = ({ children }) => {
           return requestersCount.toNumber();
       } catch (error) {
           console.error('Error in getRequestersCount:', error);
-          return 1;
+          return 0;
         }
     };
 
@@ -191,7 +203,6 @@ export const StateContextProvider = ({ children }) => {
         console.error("Error closing aide:", error);
       }
     }
-
 
     return (
         <StateContext.Provider

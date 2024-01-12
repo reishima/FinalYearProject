@@ -11,8 +11,8 @@ const { ethereum } = window;
 
 const DisplayUnavailableCourses= ({ title }) => {
   const navigate = useNavigate();
-  const [ isLoading, setIsLoading ] = useState(false);; // Set initial loading state
-  const [ courses, setCourses ] = useState([]); // Initialize aides as an empty array
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ courses, setCourses ] = useState([]); 
   const [ userDepartment, setUserDepartment ] = useState([]);
   const [ takenCourses, setTakenCourses ] = useState([]);
   const [ programLevel, setProgramLevel ] = useState([]);
@@ -42,37 +42,30 @@ const DisplayUnavailableCourses= ({ title }) => {
   }, []);
 
   useEffect(() => {
-    // Fetch courses when userDepartment changes
     if (userDepartment !== null) {
       setIsLoading(true);
-      getClosedCourses(userDepartment, programLevel, takenCourses)
+      getAllClosedCourses()
         .then((parsedCourses) => {
-          setCourses(parsedCourses);
+          const filteredCourses = parsedCourses.filter((course) =>
+            takenCourses.includes(course.courseName)
+          );
+          setCourses(filteredCourses);
         })
         .catch((error) => {
           console.error('Failed to fetch courses:', error);
         })
         .finally(() => {
-          setIsLoading(false); // Set loading state to false when courses are fetched (or on error)
+          setIsLoading(false);
         });
-        ;
-    }/*
-    const fetchBlockTime = async () => {
-      try {
-        const blockTime = await getBlockTime();
-        //console.log('Block Time:', blockTime);
-      } catch (error) {
-        console.error('Error fetching block time:', error);
-      }
-    };*/
-  }, [userDepartment, programLevel]);
+    }
+  }, [userDepartment, takenCourses]);
 
-  const getClosedCourses = async (userDepartment, programLevel, courseNames) => {
+  const getAllClosedCourses = async () => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
-    const courses = await contractWithSigner.getClosedCourses(userDepartment, programLevel); //needs to pass user department
+    const courses = await contractWithSigner.getAllClosedCourses(); 
 
     const parsedCourses = courses.map((course, i) => ({
       lecturer: course.lecturer,
@@ -84,23 +77,9 @@ const DisplayUnavailableCourses= ({ title }) => {
       programLevel: course.programLevel,
       pId: i,
     }));
-    console.log(parsedCourses);
-    const filteredCourses = parsedCourses.filter( course => courseNames.includes(course.courseName));
 
-    console.log(filteredCourses);
-    return filteredCourses;
+    return parsedCourses;
   };
-
-  
-  /*
-  const getBlockTime = async() => {
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const contract = new ethers.Contract(contractAddress, contractABI, provider);
-    const signer = provider.getSigner();
-    const contractWithSigner = contract.connect(signer);
-    const blockTime = await contractWithSigner.getBlockTime();
-    return blockTime;
-  }*/
 
   const handleNavigate = (course) => {
     navigate(`/attendance/c/${course.courseName}`, {state : course})

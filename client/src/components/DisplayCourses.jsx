@@ -11,8 +11,8 @@ const { ethereum } = window;
 
 const DisplayCourses= ({ title }) => {
   const navigate = useNavigate();
-  const [ isLoading, setIsLoading ] = useState(false);; // Set initial loading state
-  const [ courses, setCourses ] = useState([]); // Initialize aides as an empty array
+  const [ isLoading, setIsLoading ] = useState(false);; 
+  const [ courses, setCourses ] = useState([]);
   const [ userDepartment, setUserDepartment ] = useState([]);
   const [ takenCourses, setTakenCourses ] = useState([]);
 
@@ -44,7 +44,6 @@ const DisplayCourses= ({ title }) => {
       setIsLoading(true);
       getAllCourses()
         .then((parsedCourses) => {
-          // Filter courses based on the user's selectedCourses
           const filteredCourses = parsedCourses.filter((course) =>
             takenCourses.includes(course.courseName)
           );
@@ -66,8 +65,8 @@ const DisplayCourses= ({ title }) => {
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
-    const courses = await contractWithSigner.getAllCourses(); //needs to pass user department
-    console.log(courses);
+    const courses = await contractWithSigner.getAllCourses(); 
+
     const parsedCourses = courses.map((course, i) => ({
       lecturer: course.lecturer,
       courseName: course.courseName,
@@ -79,18 +78,8 @@ const DisplayCourses= ({ title }) => {
       pId: i,
     }));
 
-    console.log(parsedCourses);
     return parsedCourses;
   };
-  /*
-  const getBlockTime = async() => {
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const contract = new ethers.Contract(contractAddress, contractABI, provider);
-    const signer = provider.getSigner();
-    const contractWithSigner = contract.connect(signer);
-    const blockTime = await contractWithSigner.getBlockTime();
-    return blockTime;
-  }*/
 
   const handleNavigate = (course) => {
     navigate(`/attendance/${course.courseName}`, {state : course})
@@ -108,7 +97,7 @@ const DisplayCourses= ({ title }) => {
         )}
         {!isLoading && courses.length === 0 && (
           <p className="font-epilogue dont-semibold text-[14px] leading-[30px] text-[#818183]">
-            You have not created any courses yet.
+            There are no classes for you to attend at this time.
           </p>
         )}
 

@@ -18,7 +18,7 @@ const DisplayUnavailableAides = ({ title }) => {
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
     const fullAides = await contractWithSigner.getFullAides();
-    console.log(fullAides);
+    
     const parsedfullAides = fullAides.map((fullAides, i) => ({
         title: fullAides.title,
         description: fullAides.description,

@@ -1,4 +1,4 @@
-import logo from '../images/placeholder.png';
+import logo from '../images/banner.png';
 
 const Footer = () => {
     return(
@@ -8,18 +8,10 @@ const Footer = () => {
                     <img src = {logo} alt="logo" className="w-32"/>
                 </div>
             </div>
-            {/*
-            <div className ='flex justify-center items-center flex-col mt-5'>
-                <p className = "text-white text-sm text-center"> Come join us </p>
-                <p className = "text-white text-sm text-center font-medium mt-2"> info@something.com </p>
-            </div>
-            */}
-
             <div className='sm:w-[90%] w-full h-[0.25px] bg-gray-400 mt-5' />
-
             <div className ='sm:w[90%] w-full flex justify-between items-center mt-3'>
-                <p className = "text-white text-left text-xs"> @something.com </p>
-                <p className = "text-white text-right text-xs"> All rights reserved </p>
+                <p className = "text-white text-left text-xs md:ml-[100px]"> U2005343 </p>
+                <p className = "text-white text-left text-xs md:mr-[100px]"> Final Year Project </p>
             </div>
         </div>
     )

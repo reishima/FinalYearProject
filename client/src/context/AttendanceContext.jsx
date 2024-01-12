@@ -12,9 +12,9 @@ export const StateContextProvider = ({ children }) => {
 
     const connect = async () => {
         try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
         } catch (error) {
-        console.error('Metamask connection error:', error);
+          console.error('Metamask connection error:', error);
         }
     };
 
@@ -29,9 +29,6 @@ export const StateContextProvider = ({ children }) => {
     
         const signer = provider.getSigner();
         const contractWithSigner = contract.connect(signer);
-        //console.log("from context lecturer is:", form.lecturer);
-        //console.log('From context start time is:', startTime);
-        //console.log('From context end time is:', endTime);
         const data = await contractWithSigner.createCourse(
           form.lecturer,
           form.courseName,
@@ -41,8 +38,7 @@ export const StateContextProvider = ({ children }) => {
           form.week,
           form.programLevel,
         );
-        console.log(form);
-        console.log('Contract call success', data);
+        console.log('Contract call success');
 
       } catch (error) {
         console.error('Contract call failure', error);
@@ -50,43 +46,29 @@ export const StateContextProvider = ({ children }) => {
     };
 
     const getCourses = async (department, programLevel) => {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const courses = await contractWithSigner.getCourses(department, programLevel);
+      try{
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const contract = new ethers.Contract(contractAddress, contractABI, provider);
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const courses = await contractWithSigner.getCourses(department, programLevel);
 
-      const parsedCourses = courses.map((course, i) => ({
-        lecturer: course.lecturer,
-        courseName: course.courseName,
-        description: course.description,
-        department: course.department,
-        courseCode: course.courseCode,
-        week: course.week,
-        programLevel: course.programLevel,
-        pId: i,
-      }));
-      return parsedCourses;
+        const parsedCourses = courses.map((course, i) => ({
+          lecturer: course.lecturer,
+          courseName: course.courseName,
+          description: course.description,
+          department: course.department,
+          courseCode: course.courseCode,
+          week: course.week,
+          programLevel: course.programLevel,
+          pId: i,
+        }));
+        return parsedCourses;
+      } catch (error) {
+        console.error("Error in getCourses", error);
+      }
     };
-/*
-    const getBlockTime = async() => {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const blockTime = await contractWithSigner.getBlockTime();
-      return blockTime;
-    }
 
-    const isClassTime = async(pId) => {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const classTime = await contractWithSigner.getClassTime(pId);
-      return classTime;
-    }
-*/
     const getAttendees = async (pId) => {
       try {
         const signer = provider.getSigner();
@@ -208,156 +190,6 @@ export const StateContextProvider = ({ children }) => {
         return [];
       }
     }
-
-/*
-    const getAides = async () => {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const aides = await contractWithSigner.getAides();
-
-      const parsedAides = aides.map((aide, i) => ({
-        title: aide.title,
-        description: aide.description,
-        maxRequesters: aide.maxRequesters,
-        deadline: aide.deadline.toNumber(),
-        image: aide.image,
-        pId: i,
-      }));
-      return parsedAides;
-    };
-
-    const getFullAides = async () => {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const aides = await contractWithSigner.getFullAides();
-      const fullAides = aides.map((aide, i) => ({
-        title: aide.title,
-        description: aide.description,
-        maxRequesters: aide.maxRequesters,
-        deadline: aide.deadline.toNumber(),
-        image: aide.image,
-        pId: i,
-      }));
-      return fullAides;
-    };
-
-    const requestAide = async(pId) => {
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const data = await contractWithSigner.requestAide(pId);
-
-      return data;
-    }
-
-    const getRequesters = async (pId) => {
-      try {
-        const signer = provider.getSigner();
-        const contractWithSigner = contract.connect(signer);
-        const requesters = await contractWithSigner.getRequesters(pId);
-        
-        if (requesters) {
-          const numberOfRequesters = requesters.length;
-          const parsedRequesters = [];
-    
-          for (let i = 0; i < numberOfRequesters; i++) {
-            parsedRequesters.push({
-              requester: requesters[i],
-            });
-          }
-    
-          return parsedRequesters;
-        } else {
-          return [];
-        }
-      } catch (error) {
-        console.error('Error in getRequesters:', error);
-        return [];
-      }
-    }
-
-    const getRequestersCount = async (pId) => {
-      try {
-          const signer = provider.getSigner();
-          const contractWithSigner = contract.connect(signer);
-          const requestersCount = await contractWithSigner.getNumberOfRequesters(pId);
-          return requestersCount.toNumber();
-      } catch (error) {
-          console.error('Error in getRequestersCount:', error);
-          return 1;
-        }
-    };
-
-    const getRequestersCountForFull = async (pId) => {
-      try {
-          const signer = provider.getSigner();
-          const contractWithSigner = contract.connect(signer);
-          const requestersCount = await contractWithSigner.getNumberOfRequestersforFull(pId);
-          return requestersCount.toNumber();
-      } catch (error) {
-          console.error('Error in getRequestersCount:', error);
-          return 1;
-        }
-    };
-
-    const getRequestersForFull = async (pId) => {
-      try {
-        const signer = provider.getSigner();
-        const contractWithSigner = contract.connect(signer);
-        const requesters = await contractWithSigner.getRequestersforFull(pId);
-        
-        if (requesters) {
-          const numberOfRequesters = requesters.length;
-          const parsedRequesters = [];
-    
-          for (let i = 0; i < numberOfRequesters; i++) {
-            parsedRequesters.push({
-              requester: requesters[i],
-            });
-          }
-    
-          return parsedRequesters;
-        } else {
-          return [];
-        }
-      } catch (error) {
-        console.error('Error in getRequestersforFull:', error);
-        return [];
-      }
-    }
-
-    const getBlockchainIDsForFullAides = async (pId) => {
-      try {
-        const signer = provider.getSigner();
-        const contractWithSigner = contract.connect(signer);
-        const requesters = await contractWithSigner.getRequestersforFull(pId);
-  
-        if (requesters) {
-          const blockchainIDs = requesters.map((blockchainID) => blockchainID);
-          return blockchainIDs;
-        } else {
-          return [];
-        }
-      } catch (error) {
-        console.error('Error in getBlockchainIDsForFullAides:', error);
-        return [];
-      }
-    };
-    
-    const closeAide = async (pId) => {
-      try{
-        const signer = provider.getSigner();
-        const contractWithSigner = contract.connect(signer);
-        const data = await contractWithSigner.closeAide(pId);
-        return data;
-      } catch(error) { 
-        console.error("Error closing aide:", error);
-      }
-    }
-*/
 
     return (
         <StateContext.Provider

@@ -30,7 +30,6 @@ const DisplayAides = ({ title }) => {
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
     const aides = await contractWithSigner.getAides();
-    console.log('All Aides:', aides);
     const parsedAides = aides.map((aide, i) => ({
       title: aide.title,
       description: aide.description,
