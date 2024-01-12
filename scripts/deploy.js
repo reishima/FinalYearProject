@@ -34,12 +34,11 @@ main().catch((error) => {
 */
 
 const main = async () => {
-  /*
   const CourseAttendance = await hre.ethers.getContractFactory("CourseAttendance");
   const courseattendance = await CourseAttendance.deploy();
   await courseattendance.waitForDeployment();
   console.log("CourseAttendance deployed to:", courseattendance.target);
-
+/*
   const LibraryBook = await hre.ethers.getContractFactory("LibraryBook");
   const librarybook = await LibraryBook.deploy();
   await librarybook.waitForDeployment();

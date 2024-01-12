@@ -35,7 +35,7 @@ const CreateBook = () => {
                 setIsLoading(true);
                 await createBook({...form})
                 setIsLoading(false);
-                navigate('/library');
+                navigate('/admin/admin-library');
             } else {
                 alert('Provide valid image URL')
                 setForm({...form, image: ''});

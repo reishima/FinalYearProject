@@ -138,7 +138,7 @@ const Welcome = () => {
                                 </div>
                                 <div className="mt-3.5 ml-2 flex">
                                 {picture ? (
-                                    <img src={picture} alt="Profile Picture" className="w-32 h-23" />
+                                    <img src={picture} alt="Profile Picture" className="max-w-[100px] max-h-[100px]" />
                                 ) : (
                                     <IoPersonSharp fontSize={95} color="#fff" />
                                 )}

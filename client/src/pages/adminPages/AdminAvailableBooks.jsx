@@ -31,7 +31,7 @@ const AdminAvailableBookDetails = () => {
       setIsLoading(true);
       try {
         await borrowBook(state.pId);
-
+        navigate('/admin/admin-library')
         setIsLoading(false);
       } catch (error) {
         console.error("Error returning Book: ", error);

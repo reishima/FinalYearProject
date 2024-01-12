@@ -1,6 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 
-const ALCHEMY_API_KEY ="jpYh7W8QJ144MENpDQh7Tyg0jw-kzRah-P87";
+const ALCHEMY_API_KEY ="jpYh7W8QJ144MENpDQh7Tyg0jw-kzRah";
 const SEPOLIA_PRIVATE_KEY = "eaff766162269d838cdbc1959698b7bc38185c7f6dedab40a0c1edb0d39d1bbf";
 
 /** @type import('hardhat/config').HardhatUserConfig */
@@ -11,7 +11,7 @@ module.exports = {
   },
   networks: {
     sepolia: {
-      url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      url: `https://eth-sepolia.g.alchemy.com/v2/jpYh7W8QJ144MENpDQh7Tyg0jw-kzRah`,
       accounts: [SEPOLIA_PRIVATE_KEY]
     }
   }

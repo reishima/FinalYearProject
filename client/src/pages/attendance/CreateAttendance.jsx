@@ -36,7 +36,7 @@ const CreateAttendance = () => {
             setIsLoading(true);
                 await createCourse({...form});
                 setIsLoading(false);
-                navigate('/attendance')
+                navigate('/admin/attendance')
         } catch( error) {
             console.error();
         }

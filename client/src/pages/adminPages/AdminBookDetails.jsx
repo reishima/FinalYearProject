@@ -31,8 +31,8 @@ const AdminBookDetails = () => {
       setIsLoading(true);
       try {
         await releaseBook(state.pId);
-
         setIsLoading(false);
+        navigate('/admin/admin-library')
       } catch (error) {
         console.error("Error returning Book: ", error);
       } finally {

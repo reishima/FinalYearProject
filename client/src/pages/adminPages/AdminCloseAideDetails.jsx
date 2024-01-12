@@ -36,6 +36,7 @@ const AdminCloseAideDetails = () => {
       try {
         setIsLoading(true);
         await closeAide(state.pId);
+        navigate('/admin/admin-aides');
       } catch (error) {
         console.error('Error closing aide:', error);
       } finally {

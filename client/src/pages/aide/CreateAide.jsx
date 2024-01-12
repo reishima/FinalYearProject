@@ -72,7 +72,7 @@ const CreateAide = () => {
                 setIsLoading(true);
                 await createAide({...form})
                 setIsLoading(false);
-                navigate('/student-aide');
+                navigate('/admin/admin-aides');
             } else {
                 swal({
                     text: 'Provide valid image URL',
