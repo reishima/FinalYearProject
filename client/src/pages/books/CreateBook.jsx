@@ -5,7 +5,7 @@ import { Navbar, CustomButton, Loading, FormField, Footer } from '../../componen
 import   { useStateContext } from '../../context/LibraryContext.jsx';
 import AdminChecker from '../../utils/adminChecker.js';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage} from '../../utils/FirebaseConfig.js';
+import { storage } from '../../utils/FirebaseConfig.js';
 import swal from 'sweetalert';
 
 const CreateBook = () => {
@@ -24,7 +24,7 @@ const CreateBook = () => {
     const [ picture, setPicture ] = useState('');
  
     const handleFormFieldChange =(fieldName, e) =>{
-        setForm({...form, [fieldName]: e.target.value}) //function that makes the value update for each field accordingly
+        setForm({...form, [fieldName]: e.target.value}) 
     }
 
     const handleSubmit = async (e) => {
@@ -44,15 +44,13 @@ const CreateBook = () => {
     }
 
     const uploadFile = async (event) => {
-        event.preventDefault(); // Prevent the default form submission behavior
+        event.preventDefault(); 
         if (!imageUpload) return;
     
         try {
             const imageRef = ref(storage, `pictures/books/${imageUpload.name}`);
             const snapshot = await uploadBytes(imageRef, imageUpload);
             const url = await getDownloadURL(snapshot.ref);
-    
-            console.log('Uploaded image URL:', url);
             setForm({
                 ...form,
                 image: url,
@@ -63,7 +61,6 @@ const CreateBook = () => {
         } catch (error) {
             console.error('Error getting download URL:', error);
         }
-        console.log(form)
     };
 
     return(

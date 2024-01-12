@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar, CustomButton, Loading, FormField, Footer } from '../../components/index.js';
 import   { useStateContext } from '../../context/AttendanceContext.jsx';
@@ -22,46 +22,14 @@ const CreateAttendance = () => {
     const departmentOptions = ['Artificial Intelligence', 'Computer System and Network', 'Information Systems', 'Software Engineering', 'Multimedia Computing', 'Data Science','All'];
     const programOptions = ['Bachelor', 'Master', 'PhD'];
 
-    //const [ startTime, setStartTime ] = useState('');
-    //const [ endTime, setEndTime ] = useState('');
-    /*
-    const convertUnixTimestampToUTC8 = (unixTimestamp) => {
-        const dateObject = new Date(unixTimestamp * 1000); // Convert back to milliseconds
-        const utc8DateTimeString = dateObject.toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur', hour12: false });
-        return utc8DateTimeString;
-    };*/
-/*
-    useEffect(() => {
-        console.log('Start time', startTime);
-        console.log('End time', endTime);
-      }, [startTime, endTime]);
-
-    const convertToUnixTimestamp = (dateTimeString) => {
-        const selectedDate = new Date(dateTimeString);
-        return Math.floor(selectedDate.getTime() / 1000);
-    }
-    */
     const handleFormFieldChange =(fieldName, e) =>{
         let value = e.target.value;
         if (fieldName === 'courseName') {
             value = value.replace(/\//g, ''); 
         }
         setForm(prevForm => ({ ...prevForm, [fieldName]: value }));
-        console.log({ ...form, [fieldName]: value });
-    }
-/*
-    const handleStartTime = (e) =>{
-        let value = e.target.value;
-        const unix = convertToUnixTimestamp(value);
-        setStartTime(unix);
     }
 
-    const handleEndTime = (e) =>{
-        let value = e.target.value;
-        const unix = convertToUnixTimestamp(value);
-        setEndTime(unix);
-    }
-*/
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
@@ -87,28 +55,28 @@ const CreateAttendance = () => {
                     <form onSubmit={handleSubmit} className="w-full mt-[65px] flex flex-col gap-[30px]">
                         <div className="flex flex-wrap flex-col gap-[40px]">
                             <FormField 
-                                labelName="Course Name"
+                                labelName="Course Name *"
                                 placeholder="Provide the title of the Attendance"
                                 inputType="text"
                                 value={form.courseName}
                                 handleChange={(e) => handleFormFieldChange('courseName', e)}
                             />
                             <FormField 
-                                labelName="Course Code"
+                                labelName="Course Code *"
                                 placeholder="Provide the title of the Attendance"
                                 inputType="text"
                                 value={form.courseCode}
                                 handleChange={(e) => handleFormFieldChange('courseCode', e)}
                             />
                             <FormField 
-                                labelName="Week"
+                                labelName="Week *"
                                 placeholder="Provide the week of the Attendance"
                                 inputType="text"
                                 value={form.week}
                                 handleChange={(e) => handleFormFieldChange('week', e)}
                             />
                             <FormField 
-                                labelName="Lecturer"
+                                labelName="Lecturer *"
                                 placeholder="Provide lecturer's name"
                                 inputType="text"
                                 value={form.lecturer}
@@ -121,57 +89,38 @@ const CreateAttendance = () => {
                                 value={form.description}
                                 handleChange={(e) => handleFormFieldChange('description', e)}
                             />
-                            <label className="font-epilogue font-medium text-[16px] text-white" htmlFor="department">Department *</label>
-                                <select
-                                    id="department"
-                                    className="w-[300px] p-[8px] rounded-[5px] bg-[#3a3a43] text-white"
-                                    value={form.department}
-                                    onChange={(e) => setForm({...form, department: e.target.value})}
-                                >
-                                    <option value="" disabled>
-                                        Select Department
-                                    </option>
-                                    {departmentOptions.map((option) => (
-                                        <option key={option} value={option}>
+                            <label className="font-epilogue font-medium text-[16px] text-white" htmlFor="department"> Department * </label>
+                            <select
+                                id="department"
+                                className="w-[300px] p-[4px] rounded-[5px] bg-[#1b1f34] text-white border-2 border-[#3a3a43] h-[30px]"
+                                value={form.department}
+                                onChange={(e) => setForm({ ...form, department: e.target.value })}
+                            >
+                                <option value="" disabled>
+                                    Select Department
+                                </option>
+                                {departmentOptions.map((option) => (
+                                    <option key={option} value={option}>
                                         {option}
-                                        </option>
-                                    ))}
-                                    </select>
-                            <label className="font-epilogue font-medium text-[16px] text-white" htmlFor="programLevel">Program Level *</label>
-                                <select
-                                    id="programLevel"
-                                    className="w-[300px] p-[8px] rounded-[5px] bg-[#3a3a43] text-white"
-                                    value={form.programLevel}
-                                    onChange={(e) => setForm({...form, programLevel: e.target.value})}
-                                >
-                                    <option value="" disabled>
-                                        Select Program Level
                                     </option>
-                                    {programOptions.map((option) => (
-                                        <option key={option} value={option}>
+                                ))}
+                            </select>
+                        <label className="font-epilogue font-medium text-[16px] text-white" htmlFor="programLevel"> Program Level * </label>
+                            <select
+                                id="programLevel"
+                                className="w-[300px] p-[4px] rounded-[5px] bg-[#1b1f34] text-white border-2 border-[#3a3a43] h-[30px]"
+                                value={form.programLevel}
+                                onChange={(e) => setForm({ ...form, programLevel: e.target.value })}
+                            >
+                                <option value="" disabled>
+                                    Select Program Level
+                                </option>
+                                {programOptions.map((option) => (
+                                    <option key={option} value={option}>
                                         {option}
-                                        </option>
-                                    ))}
-                                    </select>
-                                {/*}
-                            <FormField
-                                labelName="Start Time * "
-                                placeholder="Start Time"
-                                inputType="datetime-local"
-                                value={form.startTime} //startTime //endTime is like endDate similar to startTime being date.
-                                handleChange={(e) => handleStartTime(e)}
-                                //handleChange={handleDeadlineChange}
-                                //min={getTomorrowDate()}
-                            />
-                            <FormField
-                                labelName="End Time * "
-                                placeholder="End Time"
-                                inputType="datetime-local"
-                                value={form.endTime} //startTime //endTime is like endDate similar to startTime being date.
-                                handleChange={(e) => handleEndTime(e)}
-                                //handleChange={handleDeadlineChange}
-                                //min={getTomorrowDate()}
-    />*/}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         {isLoading? (
                             <Loading />

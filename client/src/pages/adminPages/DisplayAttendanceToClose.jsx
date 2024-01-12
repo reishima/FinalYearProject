@@ -11,8 +11,8 @@ const { ethereum } = window;
 
 const DisplayAttendanceToClose= ({ title }) => {
   const navigate = useNavigate();
-  const [ isLoading, setIsLoading ] = useState(false);; // Set initial loading state
-  const [ courses, setCourses ] = useState([]); // Initialize aides as an empty array
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ courses, setCourses ] = useState([]); 
   const [ userDepartment, setUserDepartment ] = useState([]);
   const [ takenCourses, setTakenCourses ] = useState([]);
 
@@ -40,7 +40,6 @@ const DisplayAttendanceToClose= ({ title }) => {
   }, []);
 
   useEffect(() => {
-    // Fetch courses when userDepartment changes
     if (userDepartment !== null) {
       setIsLoading(true);
       getAllCourses()
@@ -51,18 +50,10 @@ const DisplayAttendanceToClose= ({ title }) => {
           console.error('Failed to fetch courses:', error);
         })
         .finally(() => {
-          setIsLoading(false); // Set loading state to false when courses are fetched (or on error)
+          setIsLoading(false);
         });
         ;
-    }/*
-    const fetchBlockTime = async () => {
-      try {
-        const blockTime = await getBlockTime();
-        //console.log('Block Time:', blockTime);
-      } catch (error) {
-        console.error('Error fetching block time:', error);
-      }
-    };*/
+    }
   }, [userDepartment]);
 
   const getAllCourses = async () => {
@@ -70,8 +61,8 @@ const DisplayAttendanceToClose= ({ title }) => {
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
-    const courses = await contractWithSigner.getAllCourses(); //needs to pass user department
-    console.log(courses);
+    const courses = await contractWithSigner.getAllCourses(); 
+    
     const parsedCourses = courses.map((course, i) => ({
       lecturer: course.lecturer,
       courseName: course.courseName,
@@ -84,15 +75,6 @@ const DisplayAttendanceToClose= ({ title }) => {
     }));
     return parsedCourses;
   };
-  /*
-  const getBlockTime = async() => {
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const contract = new ethers.Contract(contractAddress, contractABI, provider);
-    const signer = provider.getSigner();
-    const contractWithSigner = contract.connect(signer);
-    const blockTime = await contractWithSigner.getBlockTime();
-    return blockTime;
-  }*/
 
   const handleNavigate = (course) => {
     navigate(`/admin/attendance/c/${course.courseName}`, {state : course})

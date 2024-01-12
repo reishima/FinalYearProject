@@ -41,7 +41,7 @@ export const StateContextProvider = ({ children }) => {
         console.log('Contract call success');
 
       } catch (error) {
-        console.error('Contract call failure', error);
+        console.error('Contract call failure:', error);
       }
     };
 
@@ -122,11 +122,11 @@ export const StateContextProvider = ({ children }) => {
     }
 
     const attendCourse = async(pId) => {
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const data = await contractWithSigner.attendCourse(pId);
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const data = await contractWithSigner.attendCourse(pId);
 
-      return data;
+        return data;
     }
 
     const getAttendeesCount = async (pId) => {

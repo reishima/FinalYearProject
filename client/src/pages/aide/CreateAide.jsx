@@ -35,18 +35,16 @@ const CreateAide = () => {
         }
         if (fieldName === 'deadline') {
             const unixTimestampDeadline = convertToUnixTimestamp(value);
-            console.log('New Unix Timestamp Deadline:', unixTimestampDeadline);
             setForm({ ...form, [fieldName]: unixTimestampDeadline })
         } 
         if (fieldName === 'title') {
             value = value.replace(/\//g, '');
         }
-        console.log({...form, [fieldName]: value});
         setForm({...form, [fieldName]: value});
     }
 
     const uploadFile = async (event) => {
-        event.preventDefault(); // Prevent the default form submission behavior
+        event.preventDefault(); 
         if (!imageUpload) return;
     
         try {
@@ -54,7 +52,6 @@ const CreateAide = () => {
             const snapshot = await uploadBytes(imageRef, imageUpload);
             const url = await getDownloadURL(snapshot.ref);
     
-            console.log('Uploaded image URL:', url);
             setForm({
                 ...form,
                 image: url,
@@ -65,7 +62,6 @@ const CreateAide = () => {
         } catch (error) {
             console.error('Error getting download URL:', error);
         }
-        console.log(form)
     };
 
     const handleSubmit = async (e) => {
@@ -75,11 +71,13 @@ const CreateAide = () => {
             if(exists){
                 setIsLoading(true);
                 await createAide({...form})
-                console.log('Current time:',)
                 setIsLoading(false);
                 navigate('/student-aide');
             } else {
-                alert('Provide valid image URL')
+                swal({
+                    text: 'Provide valid image URL',
+                    closeOnClickOutside: true,
+                })
                 setForm({...form, image: ''});
             }
         })
@@ -139,14 +137,13 @@ const CreateAide = () => {
                             />
                             <FormField
                                 labelName="End Date * - Deadline to Request the Aide. The minimum deadline is tomorrow's date."
-                                placeholder="Deadline to Request the Aide. The minimum deadline is tomorrow's date."
                                 inputType="date"
                                 value={form.deadline}
                                 handleChange={handleDeadlineChange}
                                 min={getTomorrowDate()}
                             />
                             <label className='py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] sm:min-w-[300ox]'>
-                                Upload Aide Image
+                                Upload Aide Image *
                                 <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={picture}>
                                     <p> <span style={{ marginRight: '20px' }}></span>
                                         <input

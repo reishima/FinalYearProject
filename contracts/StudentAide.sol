@@ -4,7 +4,6 @@ pragma solidity >=0.4.22 <0.9.0;
 
 contract StudentAide { 
     struct Aide {
-        address owner;
         string title;
         string description;
         uint256 maxRequesters;

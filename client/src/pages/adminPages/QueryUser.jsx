@@ -62,7 +62,7 @@ const QueryUser = () => {
                     <br/>
                     <input
                         type="text"
-                        className="border-[0.5px] border-[#8934eb] text-white px-2 py-1 rounded min-w-[400px]"
+                        className="border-[0.5px] border-[#8934eb] text-white px-2 py-1 rounded min-w-[400px] mt-[20px]"
                         placeholder="Enter blockchainId"
                         style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                         id="blockchainIdInput"
@@ -102,27 +102,27 @@ const QueryUser = () => {
                             </div>
                             <div className={`  ${commonStyles}`}>
                                 <div className={`text-white font-light text-base flex`} title={name}>
-                                    <p> <span style={{ marginRight: '20px' }}>Name:</span>{name !== "" ? name : <span className="opacity-50">Please enter your name</span>} </p>
+                                    <p> <span style={{ marginRight: '20px' }}>Name:</span>{name !== "" ? name : <span className="opacity-50"> User has not set a name </span>} </p>
                                 </div>
                             </div>
                             <div className={`  ${commonStyles}`}>
                                 <div className={`text-white font-light text-base flex`} title={department}>
-                                    <p> <span style={{ marginRight: '20px' }}>Department:</span>{department !== "" ? department : <span className="opacity-50">Please select your department</span>} </p>
+                                    <p> <span style={{ marginRight: '20px' }}>Department:</span>{department !== "" ? department : <span className="opacity-50"> User has not seleted a department </span>} </p>
                                 </div>
                             </div>
                             <div className={` ${commonStyles}`}>
                                 <div className={`text-white font-light text-base flex`} title={programLevel}>
-                                    <p> <span style={{ marginRight: '20px' }}>Level of Study:</span>{programLevel !== "" ? programLevel : <span className="opacity-50">Please select your level of study</span>} </p>
+                                    <p> <span style={{ marginRight: '20px' }}>Level of Study:</span>{programLevel !== "" ? programLevel : <span className="opacity-50"> User has not selected level of study</span>} </p>
                                 </div>
                             </div>
                             <div className={` ${commonStyles}`}>
                                 <div className={`text-white font-light text-base flex`} title={phone}>
-                                    <p> <span style={{ marginRight: '20px' }}>Phone Number:</span>{phone !== "" ? phone : <span className="opacity-50">Please enter your phone number</span>} </p>
+                                    <p> <span style={{ marginRight: '20px' }}>Phone Number:</span>{phone !== "" ? phone : <span className="opacity-50"> User has not set phone number</span>} </p>
                                 </div>
                             </div>
                             <div className={` rounded-br-2xl rounded-bl-2xl ${commonStyles}`}>
                             <div className={`text-white font-light text-base flex`} title={selectedCourses}>
-                                    <p>
+                                    <div>
                                         <span style={{ marginRight: '20px' }}>Taken Courses:</span>
                                         {selectedCourses.length > 0 ? (
                                             <ul>
@@ -133,7 +133,7 @@ const QueryUser = () => {
                                         ) : (
                                             <span className="opacity-50">User has not taken any courses</span>
                                         )}
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

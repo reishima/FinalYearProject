@@ -88,15 +88,11 @@ export const StateContextProvider = ({ children }) => {
     };
 
     const requestAide = async(pId) => {
-      try {
         const signer = provider.getSigner();
         const contractWithSigner = contract.connect(signer);
         const data = await contractWithSigner.requestAide(pId);
 
         return data;
-      } catch (error) {
-        console.error('Error in requestAide:', error);
-      }
     }
 
     const getRequesters = async (pId) => {

@@ -69,7 +69,6 @@ const Admin = () => {
 
     const timeDifference = currentTime.getTime() - referenceDate.getTime();
 
-    // Calculate the number of weeks based on the time difference
     const weeks = Math.floor(timeDifference / (7 * 24 * 60 * 60 * 1000));
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString();
@@ -78,9 +77,9 @@ const Admin = () => {
         <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-col">
             <div className="bg-[#13131a] flex-grow">
                 <Navbar />
+                <AdminChecker/>
                 <div className='mt-[60px]'>
                     <div className="flex w-full justify-center items-center ">
-                        <AdminChecker/>
                         <div className="flex md:flex-row flex-col items-start justify-between md:p-20 py-12 px-4">
                             <div className="flex flex-1 justify-start flex-col md:mr-10">
                                 <h1 className="text-3xl sm:text-5xl text-white text-gradient py-1"> 
@@ -92,17 +91,17 @@ const Admin = () => {
                                 <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10 min-w-[500px]">
                                     <div className={`rounded-tl-2xl ${commonStyles} cursor-pointer`}>
                                         <Link to="/admin/admin-library">
-                                            Admin Library
+                                            Manage Books
                                         </Link>
                                     </div>
                                     <div className={commonStyles}>
                                         <Link to="/admin/admin-aides">
-                                            Approve Aides
+                                            Manage Aides
                                         </Link> 
                                     </div>
                                     <div className={`rounded-tr-2xl ${commonStyles}`}>
-                                        <Link to="/admin">
-                                            Edit Courses
+                                        <Link to="/admin/attendance">
+                                            Course Overview
                                         </Link>
                                     </div>
                                     <div className={` ${commonStyles}`}>
@@ -115,16 +114,32 @@ const Admin = () => {
                                             Create Aide
                                         </Link>
                                     </div>
-                                    <div className={`rounded-br-2xl ${commonStyles}`}>
+                                    <div className={` ${commonStyles}`}>
                                         <Link to="/admin/create-attendance">
                                            Create Attendance
                                         </Link>
                                     </div>
                                     <div className={`rounded-bl-2xl ${commonStyles}`}>
-                                        <Link to="/admin/create-attendance">
-                                           Create Attendance
+                                        <Link to="/admin/create-admin">
+                                           Create Admin Account
                                         </Link>
                                     </div>
+                                    <div className={`${commonStyles}`}>
+                                        <Link to="/admin/create-user">
+                                           Create User Account
+                                        </Link>
+                                    </div>
+                                    <div className={`rounded-br-2xl ${commonStyles}`}>
+                                        <Link to="/admin/history">
+                                           Module History
+                                        </Link>
+                                    </div>
+                                </div>
+                                    <br/>
+                                <div className={`rounded-br-2xl rounded-bl-2xl rounded-tr-2xl rounded-tl-2xl ${commonStyles}`}>
+                                    <Link to="/admin/query-user">
+                                       Query User
+                                    </Link>
                                 </div>
                             </div>
                             

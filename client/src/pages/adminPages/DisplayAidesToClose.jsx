@@ -18,7 +18,7 @@ const DisplayAidesToClose = ({ title }) => {
     const signer = provider.getSigner();
     const contractWithSigner = contract.connect(signer);
     const Aides = await contractWithSigner.getAides();
-    console.log(Aides);
+    
     const parsedAides = Aides.map((Aides, i) => ({
         title: Aides.title,
         description: Aides.description,

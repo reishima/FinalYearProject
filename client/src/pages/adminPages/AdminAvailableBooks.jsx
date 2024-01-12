@@ -4,11 +4,11 @@ import { CountBox, CustomButton, Loading, Navbar, Footer } from '../../component
 import { useStateContext } from '../../context/LibraryContext.jsx';
 import AdminChecker from '../../utils/adminChecker.js';
 
-const AdminBookDetails = () => {
+const AdminAvailableBookDetails = () => {
 
     const { state } = useLocation();
     const navigate = useNavigate();
-    const { releaseBook, getBorrowersForUnavailable, contract, address} = useStateContext();
+    const { borrowBook, getBorrowers, contract, address } = useStateContext();
     const[isLoading, setIsLoading] = useState(false);
     const[borrowers, setBorrowers] = useState([]);
     const[isLoadingBorrowers, setIsLoadingBorrowers] = useState([]);
@@ -16,7 +16,7 @@ const AdminBookDetails = () => {
     const fetchBorrowers = async () => {
       setIsLoadingBorrowers(true);
       try{ 
-        const data = await getBorrowersForUnavailable(state.pId);
+        const data = await getBorrowers(state.pId);
         setBorrowers(data);
       } finally {
         setIsLoadingBorrowers(false);
@@ -27,10 +27,10 @@ const AdminBookDetails = () => {
       if(contract) fetchBorrowers();
     }, [contract, address])
 
-    const handleReturn = async () => {
+    const handleBorrow = async () => {
       setIsLoading(true);
       try {
-        await releaseBook(state.pId);
+        await borrowBook(state.pId);
 
         setIsLoading(false);
       } catch (error) {
@@ -119,16 +119,16 @@ const AdminBookDetails = () => {
             <div className='flex-1'>
               <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] mx-auto'>
                 <p className='font-epilogue font-medium text-[20px] leading-[30px] text-center text-[#808191]'>
-                  Mark Book as Returned
+                  Mark Book as Unavailable
                 </p>
                 <div className='mt-[5px]'>
                   <div className='my-[20px] p-4 bg-[#13131a] rounded-[10px]'>
                     <h4 className='font-epilogue font-semibold text-[14px] leading-[22px] text-white'>
                       <CustomButton
                         btnType = "button"
-                        title="Book Returned"
+                        title="Make book Unavailable"
                         styles="w-[715px] bg-[#8c6dfd]"
-                        handleClick={handleReturn}
+                        handleClick={handleBorrow}
                       />
                     </h4>
                   </div>
@@ -141,4 +141,4 @@ const AdminBookDetails = () => {
       );
     };
 
-export default AdminBookDetails;
+export default AdminAvailableBookDetails;

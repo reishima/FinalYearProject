@@ -7,10 +7,11 @@ import AdminChecker from '../../utils/adminChecker.js';
 const AdminAides = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [aides, setAides] = useState([]);
+    const [isAvailableAidesVisible, setIsAvailableAidesVisible] = useState(false);
 
-    const {address, contract, getAides} = useStateContext;
+    const { address, contract, getAides } = useStateContext;
 
-    const fetchAides = async() => {
+    const fetchAides = async () => {
         setIsLoading(true);
         const data = await getAides();
         setAides(data);
@@ -18,28 +19,56 @@ const AdminAides = () => {
     }
 
     useEffect(() => {
-        if(contract) fetchAides();
+        if (contract) fetchAides();
     }, [address, contract]);
 
-    return(
+    const toggleAvailableAides = () => {
+        setIsAvailableAidesVisible(!isAvailableAidesVisible);
+    };
+
+    return (
         <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen flex flex-col">
             <div className="bg-[#13131a] flex-grow">
-                <Navbar/>
-                <AdminChecker/>
-                <div className="ml-[300px] ">
+                <Navbar />
+                <AdminChecker />
+                <div className="ml-[300px]">
                     <DisplayAidesAdmin
                         title="Aides to Approve"
-                        isLoading = {isLoading}
-                        aides = {aides}
+                        isLoading={isLoading}
+                        aides={aides}
                     />
                 </div>
-                <br/>
-                <div className="ml-[300px] ">
-                    <DisplayAidesToClose
-                        title="Available Aides"
-                        isLoading = {isLoading}
-                        aides = {aides}
-                    />
+                <br />
+                <div className="ml-[300px]">
+                    <div className="flex items-center cursor-pointer" onClick={toggleAvailableAides}>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className={`h-6 w-6 transform ${isAvailableAidesVisible ? 'rotate-0 text-white' : 'rotate-180 text-white'}`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M19 9l-7 7-7-7"
+                            />
+                        </svg>
+                        <div className="ml-2">
+                            <h1 className="text-white text-lg font-semibold">
+                                {isAvailableAidesVisible ? 'Collapse Available Aides' : 'Expand Available Aides'}
+                            </h1>
+                        </div>
+                    </div>
+                    <br/>
+                    {isAvailableAidesVisible && (
+                        <DisplayAidesToClose
+                            title="Available Aides"
+                            isLoading={isLoading}
+                            aides={aides}
+                        />
+                    )}
                 </div>
             </div>
             <Footer />

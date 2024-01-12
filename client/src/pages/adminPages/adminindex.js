@@ -21,3 +21,4 @@ export { default as AdminHistoryPage } from './AdminHistory.jsx';
 export { default as LibraryHistory } from './LibraryHistory.jsx';
 export { default as AideHistory } from './AideHistory.jsx';
 export { default as AdminUserHistory } from './AdminUserHistory.jsx';
+export { default as AdminAvailableBookDetails } from './AdminAvailableBooks.jsx'

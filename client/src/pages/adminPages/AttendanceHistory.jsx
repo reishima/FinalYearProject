@@ -36,7 +36,7 @@ const AttendanceHistory = () => {
         } catch (error) {
           console.error('Error fetching data:', error);
         } finally {
-          setLoading(false); // Set loading to false once data is fetched (whether successful or not)
+          setLoading(false); 
         }
       };
   
@@ -91,16 +91,17 @@ const AttendanceHistory = () => {
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center font-semibold">
           {loading ? (
-            <Loading /> // Display the loading component while fetching data
+            <Loading /> 
           ) : (
             <div className="text-white text-center">
               <h2>
-                Transaction History for{" "}
+                Latest Activity: {" "}
                 <a
                   href={`https://sepolia.etherscan.io/address/${address}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="address-link hover:text-blue-500 hover:underline"
+                  title = {address}
                 >
                   Attendance
                 </a>

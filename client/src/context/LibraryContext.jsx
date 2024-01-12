@@ -39,59 +39,74 @@ export const StateContextProvider = ({ children }) => {
         );
         console.log('Contract call success');
       } catch (error) {
-
-        console.error('Contract call failure', error);
+        console.error('Contract call failure:', error);
       }
     };
 
     const getBooks = async () => {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const books = await contractWithSigner.getBooks();
-      const parsedBooks = books.map((book, i) => ({
-        title: book.title,
-        description: book.description,
-        image: book.image,
-        author: book.author,
-        pages: book.pages,
-        pId: i,
-      }));
-      return parsedBooks;
+      try {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const contract = new ethers.Contract(contractAddress, contractABI, provider);
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const books = await contractWithSigner.getBooks();
+        const parsedBooks = books.map((book, i) => ({
+          title: book.title,
+          description: book.description,
+          image: book.image,
+          author: book.author,
+          pages: book.pages,
+          pId: i,
+        }));
+        return parsedBooks;
+      } catch (error) {
+        console.error('Error in getBooks:', error);
+      }
     };
 
     const getUnavailable = async() => {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const books = await contractWithSigner.getUnavailable();
-      const unavailableBooks = books.map((book, i) => ({
-        title: book.title,
-        description: book.description,
-        image: book.image,
-        author: book.author,
-        pages: book.pages,
-        pId: i,
-      }));
-      return unavailableBooks;
+      try {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const contract = new ethers.Contract(contractAddress, contractABI, provider);
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const books = await contractWithSigner.getUnavailable();
+        const unavailableBooks = books.map((book, i) => ({
+          title: book.title,
+          description: book.description,
+          image: book.image,
+          author: book.author,
+          pages: book.pages,
+          pId: i,
+        }));
+        return unavailableBooks;
+      } catch (error) {
+        console.error('Error in getUnavailable', error);
+      }
     }
 
     const borrowBook = async(pId) => {
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const data = await contractWithSigner.borrow(pId);
+      try {
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const data = await contractWithSigner.borrow(pId);
 
-      return data;
+        return data;
+      } catch (error) {
+        console.error("Error in borrowBook:", error);
+      }
     }
 
     const releaseBook = async(pId) => {
-      const signer = provider.getSigner();
-      const contractWithSigner = contract.connect(signer);
-      const data = await contractWithSigner.bookReturned(pId);
+      try {
+        const signer = provider.getSigner();
+        const contractWithSigner = contract.connect(signer);
+        const data = await contractWithSigner.bookReturned(pId);
 
-      return data;
+        return data;
+      } catch (error) {
+        console.error("Error in releaseBook:", error);
+      }
     }
 
     const getBorrowers = async (pId) => {

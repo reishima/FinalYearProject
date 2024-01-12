@@ -1,52 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Navbar, Footer, Loading } from '../../components/index.js';
 import { database, auth } from '../../utils/FirebaseConfig.js';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { setDoc, collection, doc, getDocs, where, query } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
-import { ethers } from 'ethers';
 import swal from 'sweetalert';
 import AdminChecker from '../../utils/adminChecker.js';
-import { CreateUser } from './adminindex.js';
-const { ethereum } = window;
 
 const CreateUserPage = () => {
     const [ login, setLogin ] = useState(false)
     const [ showPassword, setShowPassword] = useState(false);
     const [ showConfirmPassword, setShowConfirmPassword ] = useState(false);
     const [ isLoading, setIsLoading] = useState(false);
-    const [ blockchainId, setblockchainId] = useState('');
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const getblockchainId = async () => {
-            try {
-                if (window.ethereum) {
-                    await window.ethereum.request({method: 'eth_requestAccounts'});
-                    const provider = new ethers.providers.Web3Provider(window.ethereum);
-                    const signer = provider.getSigner();
-                    const getAddress = async () => {
-                        const address = await signer.getAddress();
-                        setblockchainId(address);
-                    };
-                    getAddress();
-                    window.ethereum.on('accountsChanged', getAddress);
-                } else {
-                    swal({
-                        text: "Metamask not found or not connected",
-                        closeOnClickOutside: true,
-                      });
-                    console.error("Metamask not found or not connected");
-                }
-            } catch (error){
-                console.error("Error fetching blockchainId:" , error);
-            }
-        };
-
-        getblockchainId();
-    }, []);
 
     const checkblockchainIdExists = async (customBlockchainId) => {
         const usersCollection = collection(database, 'users');
@@ -104,25 +69,16 @@ const CreateUserPage = () => {
             });
     
             if (shouldProceed) {
-                // Create the user and sign out only if the user chooses to proceed
                 await createUserWithEmailAndPassword(auth, email, password);
-    
-                // Reference to the "users" collection
                 const usersCollection = collection(database, 'users');
-    
-                // Get the currently authenticated user
                 const currentUser = auth.currentUser;
-    
-                // Reference to a document within the "users" collection using the current user's UID
                 const userDoc = doc(usersCollection, currentUser.uid);
     
-                // Set user information in Firestore using setDoc
                 await setDoc(userDoc, {
                     email: email,
                     blockchainId: customBlockchainId,
                 });
-    
-                // Sign out the newly created user
+
                 await auth.signOut();
             } 
         } catch (error) {
@@ -146,16 +102,11 @@ const CreateUserPage = () => {
         }
     };
 
-
-
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
         setShowConfirmPassword(!showConfirmPassword);
     };
 
-    const toggleConfirmPasswordVisibility = () => {
-        setShowConfirmPassword(!showConfirmPassword);
-    }
     return (
         <div className="flex flex-col bg-[#13131a] min-h-screen">
                 <Navbar/>

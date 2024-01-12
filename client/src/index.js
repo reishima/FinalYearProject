@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals.js';
-import { TransactionProvider } from './context/TransactionContext.jsx';
 import { StateContextProvider as AideStateProvider} from './context/AideContext.jsx';
 import { StateContextProvider as AttendanceStateProvider } from './context/AttendanceContext.jsx';
 import { StateContextProvider as LibraryStateProvider } from './context/LibraryContext.jsx';
@@ -17,7 +16,7 @@ import {
 } from "react-router-dom";
 
 import { FAQ, History, UnavailableBookDetails, Attendance, Registration, StudentAide, EditProfile, CreateAide, AideDetails, UnavailableAideDetails, Home, AttendanceDetails, UnavailableAttendanceDetails, CreateAttendance, SignIn, SignUp, ForgotPassword, Library, Error, CreateBook, BookDetails } from './pages/index.js';
-import { Admin, AdminLibrary, AdminBookDetails, AdminAideDetails, AdminAides, AdminCloseAideDetails, LibraryHistory, AdminUserHistory, AideHistory, AdminCourses, AdminCloseAttendanceDetails, CreateAdmin, AdminHistoryPage, AttendanceHistory, QueryUser, AdminPastAttendanceDetails, CreateUserPage } from './pages/adminPages/adminindex.js';
+import { Admin, AdminLibrary, AdminBookDetails, AdminAideDetails, AdminAides, AdminCloseAideDetails, AdminAvailableBookDetails, LibraryHistory, AdminUserHistory, AideHistory, AdminCourses, AdminCloseAttendanceDetails, CreateAdmin, AdminHistoryPage, AttendanceHistory, QueryUser, AdminPastAttendanceDetails, CreateUserPage } from './pages/adminPages/adminindex.js';
 
 const router = createBrowserRouter([
   {
@@ -175,6 +174,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/history/user-history",
     element: <AdminUserHistory/>,
+  },
+  {
+    path: "/admin/admin-library/a/:id",
+    element: <AdminAvailableBookDetails/>,
   }
 ]);
 
@@ -215,9 +218,7 @@ if (typeof window.ethereum === 'undefined') {
       <LibraryStateProvider>
         <AttendanceStateProvider>
           <AideStateProvider>
-            <TransactionProvider>
               <RouterProvider router={router} />
-            </TransactionProvider>
           </AideStateProvider>
         </AttendanceStateProvider>
       </LibraryStateProvider>

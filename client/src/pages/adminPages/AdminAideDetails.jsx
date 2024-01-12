@@ -6,6 +6,7 @@ import { calculateBarPercentage, daysLeft } from '../../utils';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { database } from '../../utils/FirebaseConfig.js';
 import AdminChecker from '../../utils/adminChecker.js';
+import swal from 'sweetalert';
 
 const AdminAideDetails = () => {
 
@@ -46,7 +47,6 @@ const AdminAideDetails = () => {
     const handleApproveAides = async () => {
       try {
         const blockchainIDsToApprove = await getBlockchainIDsToApprove();
-        console.log('Blockchain IDs to approve:', blockchainIDsToApprove);
     
         const usersCollection = collection(database, 'users');
         const emailsToApprove = [];
@@ -61,8 +61,6 @@ const AdminAideDetails = () => {
           });
         }
     
-        console.log('Emails to approve:', emailsToApprove);
-    
         const emailsTextArea = document.createElement('textarea');
         emailsTextArea.value = emailsToApprove.join(', ');
         emailsTextArea.setAttribute('readonly', '');
@@ -73,12 +71,10 @@ const AdminAideDetails = () => {
         emailsTextArea.select();
         document.execCommand('copy');
         document.body.removeChild(emailsTextArea);
-        //const emailLink = `mailto:${emailsToApprove.join(',')}?subject=Your%20Subject&body=Your%20Body%20Text`;
-        //window.open(emailLink, '_blank');
-        //To mailto, admin will need to go to their browsers handler. such as chrome://settings/handlers
-        //then user will need to remove mail.google.com from Not allowed to handle protocols
-        //then go to gmail.com and click on the handler at the url and allow
-        alert('Emails copied to clipboard!');
+        swal ({
+          text: 'Emails copied to clipboard!',
+          closeOnClickOutside: true,
+        })
       } catch (error) {
         console.error('Error copying emails:', error);
       }
@@ -113,17 +109,17 @@ const AdminAideDetails = () => {
                 <CountBox title ='Total Requests' value={requesters.length}/>
               </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
+            <div className="mt-[30px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Aide Title </h4>
                         <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
-                            <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">{state.title}</h4>
+                            <h4 className="font-epilogue font-normal text-[14px] text-white break-all">{state.title}</h4>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
+            <div className="mt-[30px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Aide Description </h4>
@@ -133,7 +129,7 @@ const AdminAideDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
+            <div className="mt-[30px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Aide Deadline</h4>
@@ -143,7 +139,17 @@ const AdminAideDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-[60px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
+            <div className="mt-[30px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
+                <div className='flex-[2] flex flex-col gap-[40px]'>
+                    <div>
+                        <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Maximum Requesters </h4>
+                        <div className="mt-[20px]">
+                            <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] text-justify"> {state.maxRequesters.toNumber()} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="mt-[30px] flex lg:flex-row flex-col gap-5 max-w-[800px] mx-auto">
                 <div className='flex-[2] flex flex-col gap-[40px]'>
                     <div>
                         <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase"> Requesters </h4>
@@ -162,7 +168,7 @@ const AdminAideDetails = () => {
             </div>
             <div className='flex-1'>
             <div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] max-w-[812px] mx-auto'>
-                <p className='font-epilogue font-medium text-[20px] leading-[30px] text-center text-[#808191]'>
+                <p className='font-epilogue font-semibold text-[20px] leading-[30px] text-center text-[#808191]'>
                   Email Users
                 </p>
                   <div className='mt-[5px]'>

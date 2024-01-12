@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Footer } from '../../components/index.js';
 import AdminChecker from '../../utils/adminChecker.js';
-import { database } from '../../utils/FirebaseConfig.js';
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { getDoc, doc, collection } from 'firebase/firestore';
 import { Loading } from '../../components/index.js';
 
 const apiUrl = 'https://api-sepolia.etherscan.io/api';
@@ -49,7 +46,6 @@ const AdminUserHistory = () => {
     };
 
     useEffect(() => {
-        // Reset loading state when a new blockchainId is entered
         setLoading(false);
     }, [blockchainId]);
 
@@ -116,7 +112,7 @@ const AdminUserHistory = () => {
                         onClick={handleFetchTransactions}
                         className="bg-[#8934eb] py-2 px-7 rounded-full cursor-pointer hover:bg-[#a834eb] ml-2 mt-5"
                     >
-                        Fetch Transactions
+                        Fetch User History
                     </button>
           <h2>
             <br/>
@@ -127,12 +123,12 @@ const AdminUserHistory = () => {
               className="address-link hover:text-blue-500 hover:underline"  
               title = {blockchainId}
             >
-                User History 
+                Latest Activity 
             </a>
           </h2>
           <br />
           {loading ? (
-                        <Loading /> // Render the Loading component when data is being fetched
+                        <Loading /> 
                     ) : (
                         <ul>
                             {getCurrentPageTransactions().map((tx, index) => renderTransaction(tx, index))}

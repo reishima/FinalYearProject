@@ -60,6 +60,7 @@ const StudentAide = () => {
                             </h1>
                         </div>
                     </div>
+                    <br/>
                     {isUnavailableAidesVisible && (
                         <DisplayUnavailableAides
                             title={`Unavailable Aides`}
