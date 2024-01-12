@@ -30,6 +30,13 @@ const AdminHistoryPage = () => {
                     Go to Library history
                 </Link>
                  </div>
+                 <div className="justify-center flex-1 flex items-center">
+                <h2 className="text-white text-2xl">User History Page</h2>
+                {/* Add a link to AttendanceHistory */}
+                <Link to="/admin/history/user-history" className="text-blue-500 hover:underline">
+                    Go to a users history
+                </Link>
+                 </div>
             </div>
             <Footer />
         </div>

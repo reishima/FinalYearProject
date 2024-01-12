@@ -175,7 +175,7 @@ const Registration = () => {
                                         <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse1}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 1:</span>
                                             <select
-                                                className="text-black"
+                                                className="text-white rounded min-w-[200px]"
                                                 value={selectedCourse1}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
@@ -189,8 +189,9 @@ const Registration = () => {
                                                   setSelectedCourse7(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse8(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                               }}
+                                              style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                                             >
-                                                <option value="" disabled>Select Course 1</option>
+                                                <option value="" disabled>Select a Course</option>
                                                 {courses.map((course) => (
                                                     <option key={course.pId} value={course.courseName}>
                                                         {course.courseName}
@@ -204,7 +205,7 @@ const Registration = () => {
                                         <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse2}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 2:</span>
                                             <select
-                                                className="text-black"
+                                                className="text-white rounded min-w-[200px]"
                                                 value={selectedCourse2}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
@@ -218,8 +219,9 @@ const Registration = () => {
                                                   setSelectedCourse7(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse8(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                               }}
+                                              style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                                             >
-                                                <option value="" disabled>Select Course 2</option>
+                                                <option value="" disabled>Select a Course</option>
                                                 {courses.map((course) => (
                                                     <option key={course.pId} value={course.courseName}>
                                                         {course.courseName}
@@ -233,7 +235,7 @@ const Registration = () => {
                                         <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse3}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 3:</span>
                                             <select
-                                                className="text-black"
+                                                className="text-white rounded min-w-[200px]"
                                                 value={selectedCourse3}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
@@ -247,8 +249,9 @@ const Registration = () => {
                                                   setSelectedCourse7(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse8(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                               }}
+                                              style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                                             >
-                                                <option value="" disabled>Select Course 3</option>
+                                                <option value="" disabled>Select a Course</option>
                                                 {courses.map((course) => (
                                                     <option key={course.pId} value={course.courseName}>
                                                         {course.courseName}
@@ -262,7 +265,7 @@ const Registration = () => {
                                         <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse4}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 4:</span>
                                             <select
-                                                className="text-black"
+                                                className="text-white rounded min-w-[200px]"
                                                 value={selectedCourse4}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
@@ -276,8 +279,9 @@ const Registration = () => {
                                                   setSelectedCourse7(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse8(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                               }}
+                                              style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                                             >
-                                                <option value="" disabled>Select Course 4</option>
+                                                <option value="" disabled>Select a Course</option>
                                                 {courses.map((course) => (
                                                     <option key={course.pId} value={course.courseName}>
                                                         {course.courseName}
@@ -291,7 +295,7 @@ const Registration = () => {
                                         <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse5}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 5:</span>
                                             <select
-                                                className="text-black"
+                                                className="text-white rounded min-w-[200px]"
                                                 value={selectedCourse5}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
@@ -304,8 +308,9 @@ const Registration = () => {
                                                   setSelectedCourse7(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse8(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                               }}
+                                              style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                                             >
-                                                <option value="" disabled>Select Course 5</option>
+                                                <option value="" disabled>Select a Course</option>
                                                 {courses.map((course) => (
                                                     <option key={course.pId} value={course.courseName}>
                                                         {course.courseName}
@@ -319,7 +324,7 @@ const Registration = () => {
                                         <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse6}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 6:</span>
                                             <select
-                                                className="text-black"
+                                                className="text-white rounded min-w-[200px]"
                                                 value={selectedCourse6}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
@@ -332,8 +337,9 @@ const Registration = () => {
                                                   setSelectedCourse7(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse8(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                               }}
+                                              style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                                             >
-                                                <option value="" disabled>Select Course 6</option>
+                                                <option value="" disabled>Select a Course</option>
                                                 {courses.map((course) => (
                                                     <option key={course.pId} value={course.courseName}>
                                                         {course.courseName}
@@ -347,7 +353,7 @@ const Registration = () => {
                                         <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse7}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 7:</span>
                                             <select
-                                                className="text-black"
+                                                className="text-white rounded min-w-[200px]"
                                                 value={selectedCourse7}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
@@ -360,8 +366,9 @@ const Registration = () => {
                                                   setSelectedCourse7(selectedValue);
                                                   setSelectedCourse8(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                               }}
+                                              style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                                             >
-                                                <option value="" disabled>Select Course 7</option>
+                                                <option value="" disabled>Select a Course</option>
                                                 {courses.map((course) => (
                                                     <option key={course.pId} value={course.courseName}>
                                                         {course.courseName}
@@ -375,7 +382,7 @@ const Registration = () => {
                                         <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse8}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 8:</span>
                                             <select
-                                                className="text-black"
+                                                className="text-white rounded min-w-[200px]"
                                                 value={selectedCourse8}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
@@ -388,8 +395,9 @@ const Registration = () => {
                                                   setSelectedCourse7(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse8(selectedValue);
                                               }}
+                                              style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                                             >
-                                                <option value="" disabled>Select Course 8</option>
+                                                <option value="" disabled>Select a Course</option>
                                                 {courses.map((course) => (
                                                     <option key={course.pId} value={course.courseName}>
                                                         {course.courseName}

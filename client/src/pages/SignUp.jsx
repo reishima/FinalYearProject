@@ -171,6 +171,7 @@ const SignUp = () => {
                                     style={{ width: '100%' }}
                                 /> <br/>
                                 <button
+                                    title="Reveal Passwords"
                                     type="button"
                                     onClick={togglePasswordVisibility}
                                     className="absolute right-2 top-[15px] transform -translate-y-1/2 text-gray cursor-pointer"

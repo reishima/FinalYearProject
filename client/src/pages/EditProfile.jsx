@@ -177,10 +177,11 @@ const EditProfile = () => {
                                             <p> <span style={{ marginRight: '20px' }}>Name:</span>
                                             <input
                                                 type="text"
-                                                className="text-black"
+                                                className="text-white px-2 rounded"
                                                 placeholder="Name"
                                                 value={name}
                                                 onChange={(e) => setName(e.target.value)}
+                                                style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                                             />
                                             </p>
                                         </div>
@@ -189,9 +190,10 @@ const EditProfile = () => {
                                         <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={department}>
                                             <p> <span style={{ marginRight: '20px' }}>Department:</span>
                                             <select
-                                                className="text-black"
+                                                className="text-white px-2 rounded"
                                                 value={department}
                                                 onChange={(e) => setDepartment(e.target.value)}
+                                                style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                                             >
                                                 <option value="" disabled>Select Department</option>
                                                 {departmentOptions.map((option) => (
@@ -207,9 +209,10 @@ const EditProfile = () => {
                                         <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={programLevel}>
                                             <p> <span style={{ marginRight: '20px' }}>Level of Study:</span>
                                             <select
-                                                className="text-black"
+                                                className="text-white border-black px-2 rounded"
                                                 value={programLevel}
                                                 onChange={(e) => setProgramLevel(e.target.value)}
+                                                style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px'  }}
                                             >
                                                 <option value="" disabled>Select program level</option>
                                                 {programOptions.map((option) => (
@@ -226,11 +229,12 @@ const EditProfile = () => {
                                             <p> <span style={{ marginRight: '20px' }}>Phone Number:</span>
                                             <input
                                                 type="text"
-                                                className="text-black"
+                                                className="text-white border-black px-2 rounded"
                                                 placeholder="e.g.(0123456789)"
                                                 value={phone}
                                                 onChange={(e) => setPhone(e.target.value)}
                                                 pattern="[0-9]{10}"
+                                                style = {{ backgroundColor: '#13131a', border: '2px solid black', height: '30px' }}
                                             />
                                             </p>
                                         </div>
