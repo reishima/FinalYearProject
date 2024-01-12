@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navbar, Footer, Loading } from '../../components/index.js';
+import { AdminNavbar, AdminFooter, Loading } from '../../components/index.js';
 import { database, auth } from '../../utils/FirebaseConfig.js';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { setDoc, collection, doc, getDocs, where, query } from 'firebase/firestore';
@@ -109,7 +109,7 @@ const CreateUserPage = () => {
 
     return (
         <div className="flex flex-col bg-[#13131a] min-h-screen">
-                <Navbar/>
+                <AdminNavbar/>
                 <AdminChecker/>
                 <div className = "flex-1 flex items-center justify-center">
                     <form onSubmit={(e) => handleSubmit(e)}>
@@ -164,7 +164,7 @@ const CreateUserPage = () => {
                     </div>
                     </form>
             </div>
-            <Footer/>
+            <AdminFooter/>
         </div>
     );
 };

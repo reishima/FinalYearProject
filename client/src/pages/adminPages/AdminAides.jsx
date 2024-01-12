@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Footer } from '../../components/index.js';
+import { AdminNavbar, AdminFooter } from '../../components/index.js';
 import { DisplayAidesAdmin, DisplayAidesToClose } from '../adminPages/adminindex.js';
 import { useStateContext } from '../../context/AideContext.jsx';
 import AdminChecker from '../../utils/adminChecker.js';
@@ -29,7 +29,7 @@ const AdminAides = () => {
     return (
         <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen flex flex-col">
             <div className="bg-[#13131a] flex-grow">
-                <Navbar />
+                <AdminNavbar />
                 <AdminChecker />
                 <div className="ml-[300px]">
                     <DisplayAidesAdmin
@@ -71,7 +71,7 @@ const AdminAides = () => {
                     )}
                 </div>
             </div>
-            <Footer />
+            <AdminFooter />
         </div>
     )
 }

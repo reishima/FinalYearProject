@@ -50,10 +50,8 @@ const History = () => {
             const data = await response.json();
 
             if (data.status === '1') {
-            setTransactions(data.result);
-            setTotalPages(Math.ceil(data.result.length / pageSize));
-            } else {
-            console.error('Error fetching data:', data.message);
+              setTransactions(data.result);
+              setTotalPages(Math.ceil(data.result.length / pageSize));
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -119,13 +117,14 @@ const History = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="address-link hover:text-blue-500 hover:underline"
+              title = {blockchainId}
             >
                 User History 
             </a>
           </h2>
           <br />
           {loading ? (
-                        <Loading /> // Render the Loading component when data is being fetched
+                        <Loading /> 
                     ) : (
                         <ul>
                             {getCurrentPageTransactions().map((tx, index) => renderTransaction(tx, index))}
@@ -147,7 +146,7 @@ const History = () => {
                                 className="bg-[#8934eb] py-2 px-7 rounded-full cursor-pointer hover:bg-[#a834eb] min-w-[20px] justify-center"
                             >
                                 Next
-              </button>
+                            </button>
             </div>
           </div>
         </div>

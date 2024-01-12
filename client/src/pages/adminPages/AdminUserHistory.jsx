@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Footer } from '../../components/index.js';
+import { AdminNavbar, AdminFooter } from '../../components/index.js';
 import AdminChecker from '../../utils/adminChecker.js';
 import { Loading } from '../../components/index.js';
 
@@ -13,7 +13,7 @@ const pageSize = 8;
 const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
 
 const AdminUserHistory = () => {
-    const [ blockchainId, setblockchainId ] = useState(null);
+    const [ blockchainId, setblockchainId ] = useState('');
     const [  transactions, setTransactions ] = useState([]);
     const [currentPage, setCurrentPage ] = useState(1);
     const [ totalPages, setTotalPages ] = useState(1);
@@ -94,7 +94,7 @@ const AdminUserHistory = () => {
   return (
     <div className="min-h-screen flex flex-col bg-[#13131a]">
       <AdminChecker />
-      <Navbar />
+      <AdminNavbar />
       <div className="flex-1 flex flex-col items-center justify-center font-semibold">
         <div className="text-white text-center">
                     <p>Enter user Blockchain ID: </p>
@@ -155,7 +155,7 @@ const AdminUserHistory = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <AdminFooter />
     </div>
   );
 };

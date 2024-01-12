@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Navbar, CustomButton, Loading, FormField, Footer } from '../../components/index.js';
+import { AdminNavbar, CustomButton, Loading, FormField, AdminFooter } from '../../components/index.js';
 import   { useStateContext } from '../../context/AttendanceContext.jsx';
 import AdminChecker from '../../utils/adminChecker.js';
 
@@ -46,7 +46,7 @@ const CreateAttendance = () => {
         <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-col">
             <div className="bg-[#13131a] flex-grow">
                 <AdminChecker/>
-                <Navbar/>
+                <AdminNavbar/>
                 <div className="flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4 blue-glassmorphism ml-[300px] mr-[300px]"> 
                     {isLoading && <Loading/>}
                     <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[3a3a43] rounded-[10px]">
@@ -134,7 +134,7 @@ const CreateAttendance = () => {
                     </form>
                 </div>
             </div>
-            <Footer/>
+            <AdminFooter/>
         </div>
     )
 }

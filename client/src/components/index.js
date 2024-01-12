@@ -17,4 +17,6 @@ export { default as DisplayBooks } from './DisplayBooks';
 export { default as DisplayUnavailableBooks } from './DisplayUnavailableBooks';
 export { default as DisplayUnavailableAides } from './DisplayUnavailableAides';
 export { default as DisplayUnavailableCourses } from './DisplayUnavailableCourses';
+export { default as AdminFooter } from './AdminFooter';
+export { default as AdminNavbar } from './AdminNavbar';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Footer } from '../../components/index.js';
+import { AdminNavbar, AdminFooter } from '../../components/index.js';
 import AdminChecker from '../../utils/adminChecker.js';
 import {  FaRegHandshake, FaBook, FaChalkboardTeacher } from 'react-icons/fa';  
 import { TbClipboardList } from "react-icons/tb";
@@ -19,7 +19,7 @@ const AdminHistoryPage = () => {
     return (
         <div className="min-h-screen flex flex-col bg-[#13131a] items-center justify-center mx-auto">
             <AdminChecker />
-            <Navbar />
+            <AdminNavbar />
             <div className="flex-1 flex flex-col items-center">
                 <h2 className="text-white text-4xl mb-6 mt-[200px]"> History </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -33,7 +33,7 @@ const AdminHistoryPage = () => {
                     ))}
                 </div>
             </div>
-            <Footer />
+            <AdminFooter />
         </div>
     );
 };

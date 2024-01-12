@@ -23,8 +23,6 @@ const RegisterCheck = ({ children }) => {
                     const selectedCourses = userData.selectedCourses;
 
                     if (!selectedCourses || selectedCourses.length === 0 || selectedCourses.every(course => course === "")) {
-                        // User can access registration
-                        console.log('User can access registration.');
                     } else {
                         swal({
                             text: 'You have already registered for courses',
@@ -33,8 +31,6 @@ const RegisterCheck = ({ children }) => {
                         navigate('/home');
                     }
                 } else {
-                    
-                    // Handle the case when user data doesn't exist
                     console.error('User data not found.');
                 }
             }

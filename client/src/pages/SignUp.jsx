@@ -69,7 +69,6 @@ const SignUp = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
         const confirmPassword = e.target.confirmPassword.value;
-        //const matricNumber = e.target.matricNumber.value;
 
         const blockchainIdExists = await checkblockchainIdExists();
 
@@ -101,15 +100,11 @@ const SignUp = () => {
             const authData = await createUserWithEmailAndPassword(auth, email, password);
             const uid = authData.user.uid;
             
-            // Reference to the "users" collection
             const usersCollection = collection(database, 'users');
 
-            // Reference to a document within the "users" collection using the user's UID
             const userDoc = doc(usersCollection, uid);
 
-            // Set user information in Firestore using setDoc
             await setDoc(userDoc, {
-                //matricNumber: matricNumber,
                 email: email,
                 blockchainId: blockchainId,
             });
@@ -117,8 +112,7 @@ const SignUp = () => {
                 text: 'Successfully signed up. Please Login.',
                 closeOnClickOutside: true, 
             });
-            //console.log('Document written with ID', uid);
-            history('/'); // Navigate to the desired location
+            history('/'); 
         } catch (error) {
             if(error.code === 'auth/email-already-in-use'){
                 swal({
@@ -141,16 +135,11 @@ const SignUp = () => {
         }
     };
 
-
-
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
         setShowConfirmPassword(!showConfirmPassword);
     };
 
-    const toggleConfirmPasswordVisibility = () => {
-        setShowConfirmPassword(!showConfirmPassword);
-    }
     return (
         <div className="flex flex-col bg-[#13131a] min-h-screen">
                 <NavbarInOut/>

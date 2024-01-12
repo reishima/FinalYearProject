@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navbar, Footer } from '../../components/index.js';
+import { AdminNavbar, AdminFooter } from '../../components/index.js';
 import AdminChecker from '../../utils/adminChecker.js';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { database } from '../../utils/FirebaseConfig.js';
@@ -30,12 +30,10 @@ const QueryUser = () => {
                     closeOnClickOutside: true,
                 })
             } else {
-                // Assuming there's only one user with the provided blockchain ID
                 querySnapshot.forEach((doc) => {
                     const user = doc.data();
                     
-                    // Set user attributes one by one
-                    setName(user.name || ''); // Set default value if attribute is undefined
+                    setName(user.name || ''); 
                     setEmail(user.email || '');
                     setDepartment(user.department || '');
                     setProgramLevel(user.programLevel || '');
@@ -53,7 +51,7 @@ const QueryUser = () => {
     return (
         <div className="min-h-screen flex flex-col bg-[#13131a] min-h-screen">
             <AdminChecker />
-            <Navbar />
+            <AdminNavbar />
             <div className="justify-center flex-1 flex items-center">
                 <div className="text-white text-center">
                     <label htmlFor="blockchainIdInput" className="mr-2">
@@ -142,7 +140,7 @@ const QueryUser = () => {
                     )}
                 </div>
             </div>
-            <Footer />
+            <AdminFooter />
         </div>
     );
 };

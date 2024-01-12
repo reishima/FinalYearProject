@@ -1,7 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import user from '../../images/user.png';
-import { CustomButton, Loading, Navbar, Footer } from '../../components/index.js';
+import { CustomButton, Loading, AdminNavbar, AdminFooter } from '../../components/index.js';
 import { useStateContext } from '../../context/AttendanceContext.jsx';
 import AdminChecker from '../../utils/adminChecker.js';
 
@@ -52,7 +52,7 @@ const AdminCloseAttendanceDetails = () => {
       <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen">
           <div className="bg-[#13131a]">
               <AdminChecker />
-              <Navbar />
+              <AdminNavbar />
               {isLoading && <Loading />}
               <div className="w-full flex flex-col mt-10 gap-[30px] max-w-[800px] mx-auto">
                   <div className="grid grid-cols-2 gap-5">
@@ -138,7 +138,7 @@ const AdminCloseAttendanceDetails = () => {
                   </div>
               </div>
           </div>
-          <Footer />
+          <AdminFooter />
       </div>
   );
 };

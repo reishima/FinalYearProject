@@ -7,12 +7,14 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import AdminChecker from '../../utils/adminChecker.js';
 import { getDoc, doc, collection } from 'firebase/firestore';
 import { database } from '../../utils/FirebaseConfig.js';
-import { Navbar, Footer } from '../../components/index.js';
+import { AdminNavbar, AdminFooter } from '../../components/index.js';
+import { useNavigate } from 'react-router-dom';
 
 const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
 
 const Admin = () => {
 
+    const navigate = useNavigate();
     const [ user, setUser ] = useState(null);
     const [ blockchainId, setblockchainId] = useState(null);
     const [ name, setName ] = useState('');
@@ -67,6 +69,10 @@ const Admin = () => {
         };
     }, []);
 
+    const switchToUserMode = () => {
+        navigate('/home');
+    }
+
     const timeDifference = currentTime.getTime() - referenceDate.getTime();
 
     const weeks = Math.floor(timeDifference / (7 * 24 * 60 * 60 * 1000));
@@ -76,7 +82,7 @@ const Admin = () => {
     return(
         <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-col">
             <div className="bg-[#13131a] flex-grow">
-                <Navbar />
+                <AdminNavbar />
                 <AdminChecker/>
                 <div className='mt-[60px]'>
                     <div className="flex w-full justify-center items-center ">
@@ -89,22 +95,7 @@ const Admin = () => {
                                     {formattedTime} - {formattedDate} (Week {weeks})
                                 </p>
                                 <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10 min-w-[500px]">
-                                    <div className={`rounded-tl-2xl ${commonStyles} cursor-pointer`}>
-                                        <Link to="/admin/admin-library">
-                                            Manage Books
-                                        </Link>
-                                    </div>
-                                    <div className={commonStyles}>
-                                        <Link to="/admin/admin-aides">
-                                            Manage Aides
-                                        </Link> 
-                                    </div>
-                                    <div className={`rounded-tr-2xl ${commonStyles}`}>
-                                        <Link to="/admin/attendance">
-                                            Course Overview
-                                        </Link>
-                                    </div>
-                                    <div className={` ${commonStyles}`}>
+                                    <div className={`rounded-tl-2xl ${commonStyles}`}>
                                         <Link to="/admin/create-book">
                                             Create Book
                                         </Link>
@@ -114,7 +105,7 @@ const Admin = () => {
                                             Create Aide
                                         </Link>
                                     </div>
-                                    <div className={` ${commonStyles}`}>
+                                    <div className={`rounded-tr-2xl ${commonStyles}`}>
                                         <Link to="/admin/create-attendance">
                                            Create Attendance
                                         </Link>
@@ -174,12 +165,18 @@ const Admin = () => {
                                         </div>
                                     </div>
                                 </div>
+                                <button
+                                    className="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb] text-white"
+                                    onClick={switchToUserMode}
+                                >
+                                    Switch to User View
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <AdminFooter/>
         </div>
     )
 }

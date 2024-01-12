@@ -47,11 +47,10 @@ const DisplayCourses= ({ title }) => {
           const filteredCourses = parsedCourses.filter((course) =>
             takenCourses.includes(course.courseName)
           );
-
           setCourses(filteredCourses);
         })
         .catch((error) => {
-          console.error('Failed to fetch courses:', error);
+          //console.error('Failed to fetch courses:', error);
         })
         .finally(() => {
           setIsLoading(false);

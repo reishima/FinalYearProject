@@ -24,6 +24,7 @@ const EditProfile = () => {
     const [ imageUpload, setImageUpload ] = useState('');
     const [phoneValid, setPhoneValid] = useState(true);
     const [initialPhone, setInitialPhone] = useState('');
+    const [ selectedCourses, setSelectedCourses ] = useState([]);
 
 
     const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
@@ -47,6 +48,8 @@ const EditProfile = () => {
                     setName(userDocSnapshot.data().name || '');
                     setPicture(userDocSnapshot.data().picture || '');
                     setPhone(userDocSnapshot.data().phone || '');
+                    setSelectedCourses(userDocSnapshot.data().selectedCourses || []);
+
                 }
             } else {
                 setUser(null);
@@ -60,7 +63,7 @@ const EditProfile = () => {
     }, []);
 
     const uploadFile = async (event) => {
-        event.preventDefault(); // Prevent the default form submission behavior
+        event.preventDefault(); 
         if (!imageUpload) return;
     
         try {
@@ -68,7 +71,6 @@ const EditProfile = () => {
             const snapshot = await uploadBytes(imageRef, imageUpload);
             const url = await getDownloadURL(snapshot.ref);
     
-            console.log('Uploaded image URL:', url);
             setPicture(url);
             swal({
                 text: 'Picture saved succesfully',
@@ -81,7 +83,6 @@ const EditProfile = () => {
 
     const handleSave = async () => {
         try {
-            // Check if the provided picture URL is not empty and is a valid image
             if (phone.trim() !== "" &&  !/^[0-9]{10}$/.test(phone)) {
                 setPhoneValid(false);
                 return;
@@ -93,11 +94,9 @@ const EditProfile = () => {
                         updateProfile();
                     } else {
                         alert('Invalid image URL');
-                        // Handle invalid image URL case (e.g., show an error message)
                     }
                 });
             } else {
-                // If picture URL is empty, update the profile without image check
                 updateProfile();
             }
         } catch (error) {
@@ -118,7 +117,6 @@ const EditProfile = () => {
                 phone: phone,
             });
             setEditMode(false);
-            console.log('User information updated successfully');
         } catch (error) {
             console.error('Error updating user information: ', error);
         }
@@ -144,9 +142,7 @@ const EditProfile = () => {
              <AuthChecker>
             <div className="justify-center flex-1 flex items-center">
             {user ? (
-                    // If the user is signed in, display their information.
                     <div className='text-white font-epilogue text-center'>
-                        {/* Editable form for description and image */}
                         {editMode ? (
                             <form>
                                 <div className={`rounded-tl-2xl rounded-tr-2xl  ${commonStyles}`}>
@@ -240,7 +236,6 @@ const EditProfile = () => {
                                         </div>
                                     </div>
                                     {editMode ? (
-    // Display error message if the phone number is not valid
                                     !phoneValid && (
                                         <p className="text-red-500 text-sm mt-1">Please enter a valid phone number (10 digits)</p>
                                     )
@@ -297,9 +292,25 @@ const EditProfile = () => {
                                             <p> <span style={{ marginRight: '20px' }}>Level of Study:</span>{programLevel !== "" ? programLevel : <span className="opacity-50">Please select your level of study</span>} </p>
                                         </div>
                                     </div>
-                                    <div className={` rounded-br-2xl rounded-bl-2xl ${commonStyles}`}>
+                                    <div className={`${commonStyles}`}>
                                         <div className={`text-white font-light text-base flex`} title={phone}>
                                             <p> <span style={{ marginRight: '20px' }}>Phone Number:</span>{phone !== "" ? phone : <span className="opacity-50">Please enter your phone number</span>} </p>
+                                        </div>
+                                    </div>
+                                    <div className={` rounded-br-2xl rounded-bl-2xl ${commonStyles}`}>
+                                    <div className={`text-white font-light text-base flex`} title={selectedCourses}>
+                                            <div>
+                                                <span>Taken Courses: </span>
+                                                {selectedCourses.length > 0 ? (
+                                                    <ul>
+                                                        {selectedCourses.map((course, index) => (
+                                                            <li key={index}>{course}</li>
+                                                        ))}
+                                                    </ul>
+                                                ) : (
+                                                    <span className="opacity-50">User has not taken any courses</span>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -309,7 +320,12 @@ const EditProfile = () => {
                                 </button>
                                 <br/>
                                 
-                                <button type="button" onClick={handleRegister} className ="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]">
+                                <button
+                                    type="button"
+                                    onClick={handleRegister}
+                                    className="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb]"
+                                    style={{ display: selectedCourses && selectedCourses.some(course => course.trim() !== '') ? 'none' : 'block' }}
+                                >
                                     Course Registration
                                 </button>
                                 

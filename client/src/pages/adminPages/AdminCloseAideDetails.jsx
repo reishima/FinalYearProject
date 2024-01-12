@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CountBox, CustomButton, Loading, Navbar, Footer } from '../../components';
+import { CountBox, CustomButton, Loading, AdminNavbar, AdminFooter } from '../../components';
 import { useStateContext } from '../../context/AideContext';
 import { calculateBarPercentage, daysLeft } from '../../utils';
 import AdminChecker from '../../utils/adminChecker.js';
@@ -52,7 +52,7 @@ const AdminCloseAideDetails = () => {
         <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen">
           <div className="bg-[#13131a]">
             <AdminChecker/>
-            <Navbar />
+            <AdminNavbar />
             {isLoading && <Loading/>}
             <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px] max-w-[800px] mx-auto">
               <div className='flex-1 flex-col'>
@@ -149,7 +149,7 @@ const AdminCloseAideDetails = () => {
             </div>
           </div>
           </div>
-          <Footer/>
+          <AdminFooter/>
         </div>
       );
     };

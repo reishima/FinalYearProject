@@ -58,18 +58,14 @@ const Registration = () => {
               const userDepartmentCourses = getCourses(department, programLevel);
               const multiDepartmentCourses = getCourses('All', programLevel);
   
-              // Wait for both requests to complete
               const [userDepartmentCoursesData, multiDepartmentCoursesData ] = await Promise.all([
                   userDepartmentCourses,
                   multiDepartmentCourses,
               ]);
   
-              // Combine the results
               const allCourses = [...userDepartmentCoursesData, ...multiDepartmentCoursesData ];
   
               setCourses(allCourses);
-              console.log(allCourses);
-                console.log(courses);
             } catch (error) {
                 console.error('Error fetching courses:', error);
             }
@@ -116,7 +112,6 @@ const Registration = () => {
                 selectedCourses: updatedCourses,
             });
             setEditMode(false);
-            console.log('User information updated successfully');
             navigate('/home');
         } catch (error) {
             console.error('Error updating user information: ', error);
@@ -170,7 +165,6 @@ const Registration = () => {
                                     </div>
                                     </div>
                                     </div>
-                        {/*<CourseList/>*/}
                             <div className={`  ${commonStyles}`}>
                                         <div className={`text-white font-light text-base flex min-w-[500px] justify-center`} title={selectedCourse1}>
                                             <p> <span style={{ marginRight: '20px' }}>Select Course 1:</span>
@@ -179,7 +173,6 @@ const Registration = () => {
                                                 value={selectedCourse1}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
-                                                  // Filter out the selected course from other dropdowns
                                                   setSelectedCourse1(selectedValue);
                                                   setSelectedCourse2(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse3(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
@@ -209,7 +202,6 @@ const Registration = () => {
                                                 value={selectedCourse2}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
-                                                  // Filter out the selected course from other dropdowns
                                                   setSelectedCourse1(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse2(selectedValue);
                                                   setSelectedCourse3(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
@@ -239,7 +231,6 @@ const Registration = () => {
                                                 value={selectedCourse3}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
-                                                  // Filter out the selected course from other dropdowns
                                                   setSelectedCourse1(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse2(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse3(selectedValue);
@@ -269,7 +260,6 @@ const Registration = () => {
                                                 value={selectedCourse4}
                                                 onChange={(e) => {
                                                   const selectedValue = e.target.value;
-                                                  // Filter out the selected course from other dropdowns
                                                   setSelectedCourse1(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse2(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
                                                   setSelectedCourse3(prevCourse => (prevCourse === selectedValue ? '' : prevCourse));
@@ -446,7 +436,6 @@ const Registration = () => {
                                         </div>
                                     </div>
                                     </div>
-                                    {/* display check here */}
                                     <br/>
                                     <div className={`rounded-tr-2xl rounded-tl-2xl w-[500px] ${commonStyles}`}>
                                       List of Available Courses

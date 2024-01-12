@@ -49,7 +49,7 @@ const SignIn = () => {
         text: "Please enter your email and password",
         closeOnClickOutside: true,
       });
-      return; // Exit the function if both email and password are missing
+      return; 
     }
   
     if (!email) {
@@ -57,7 +57,7 @@ const SignIn = () => {
         text: "Please enter your email",
         closeOnClickOutside: true,
       });
-      return; // Exit the function if email is missing
+      return; 
     }
   
     if (!password) {
@@ -65,14 +65,13 @@ const SignIn = () => {
         text: "Please enter your password",
         closeOnClickOutside: true,
       });
-      return; // Exit the function if password is missing
+      return; 
     }
   
     if (blockchainId !== null) {
       if (await isValidblockchainId(blockchainId, email)) {
         try {
           const authData = await signInWithEmailAndPassword(auth, email, password);
-          //console.log(authData, 'authData');
           history('/home');
         } catch (err) {
           if (err.code === "auth/invalid-credential") {

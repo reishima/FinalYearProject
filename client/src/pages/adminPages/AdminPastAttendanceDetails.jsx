@@ -1,7 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import user from '../../images/user.png';
-import { CustomButton, Loading, Navbar, Footer } from '../../components/index.js';
+import { CustomButton, Loading, AdminNavbar, AdminFooter } from '../../components/index.js';
 import { useStateContext } from '../../context/AttendanceContext.jsx';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { database } from '../../utils/FirebaseConfig.js';
@@ -83,7 +83,7 @@ const AdminPastAttendanceDetails = () => {
       <div className="relative sm:-8 p-4 pl-9 bg-[#13131a] min-h-screen">
           <div className="bg-[#13131a]">
               <AdminChecker />
-              <Navbar />
+              <AdminNavbar />
               {isLoading && <Loading />}
               <div className="w-full flex flex-col mt-10 gap-[30px] max-w-[800px] mx-auto">
                   <div className="grid grid-cols-2 gap-5">
@@ -169,7 +169,7 @@ const AdminPastAttendanceDetails = () => {
                   </div>
               </div>
           </div>
-          <Footer />
+          <AdminFooter />
       </div>
   );
 };

@@ -13,7 +13,6 @@ const handleAccountsChanged = async () => {
         text: 'Wallet change detected. Please re-login.',
         closeOnClickOutside: true,
       });
-     //window.location.href = '/login';
       await signOut(auth);
     } else {
       swal({

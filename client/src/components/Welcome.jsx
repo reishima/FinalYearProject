@@ -6,7 +6,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import AuthChecker from '../utils/handle.js';
 import { getDoc, doc, collection } from 'firebase/firestore';
 import { database } from '../utils/FirebaseConfig.js';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const commonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-[#8934eb] text-sm font-light text-white font-semibold';
 
@@ -18,6 +18,7 @@ const Welcome = () => {
     const [ picture, setPicture ] = useState('');
     const [ currentTime, setCurrentTime ] = useState(new Date());
     const [ referenceDate, setReferenceDate ] = useState(new Date(2023, 9, 10)); // YYYY:DD:MM Format
+    const navigate = useNavigate();
 
     useEffect(() => {
         const auth = getAuth();
@@ -49,6 +50,11 @@ const Welcome = () => {
                     setblockchainId(userDocSnapshot.data().blockchainId);
                     setName(userDocSnapshot.data().name || '');
                     setPicture(userDocSnapshot.data().picture || '');
+                    
+                    // Check userType and conditionally render the button
+                    if (userDocSnapshot.data().userType === 'admin') {
+                        setShowAdminButton(true);
+                    }
                 }
             } else {
                 setUser(null);
@@ -65,6 +71,11 @@ const Welcome = () => {
             unsubscribe();
         };
     }, []);
+
+    const [showAdminButton, setShowAdminButton] = useState(false);
+    const switchToAdminMode = () => {
+        navigate('/admin');
+    }
     
     const timeDifference = currentTime.getTime() - referenceDate.getTime();
 
@@ -149,6 +160,14 @@ const Welcome = () => {
                             </div>
                         </div>
                     </div>
+                    {showAdminButton && (
+                        <button
+                            className="bg-[#8934eb] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#a834eb] text-white"
+                            onClick={switchToAdminMode}
+                        >
+                            Switch to Admin View
+                        </button>
+                    )}
                 </div>
 
             </div>

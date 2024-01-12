@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Footer } from '../../components/index.js';
+import { AdminNavbar, AdminFooter } from '../../components/index.js';
 import AuthChecker from '../../utils/handle.js';
 import { Loading } from '../../components/index.js';
 
@@ -88,7 +88,7 @@ const AttendanceHistory = () => {
     return (
       <div className="min-h-screen flex flex-col bg-[#13131a]">
         <AuthChecker />
-        <Navbar />
+        <AdminNavbar />
         <div className="flex-1 flex flex-col items-center justify-center font-semibold">
           {loading ? (
             <Loading /> 
@@ -132,7 +132,7 @@ const AttendanceHistory = () => {
             </div>
           )}
         </div>
-        <Footer />
+        <AdminFooter />
       </div>
     );
   };
