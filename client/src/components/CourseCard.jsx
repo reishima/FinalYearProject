@@ -16,7 +16,7 @@ const CourseCard = ({lecturer, courseName, programLevel, week, courseCode, handl
                         <div className="w-[30px] h-[30px] rounded-full flex justify-center items-center bg-[#13131a]">
                            <img src={user} alt ="user" className="w-1/2 h-1/2 object-contain"></img> 
                         </div>
-                            <p className="flex-1 font-epilogue font-normal text-[12px] text-[#808191] truncate min-w-[140px]">
+                            <p className="flex-1 font-epilogue font-normal text-[12px] text-[#808191] truncate max-w-[140px]">
                                 <span className="text-[#b2b3bd]">{lecturer}</span>
                             </p>
                         <div className="flex flex-col">

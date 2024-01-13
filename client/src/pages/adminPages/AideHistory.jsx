@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { AdminNavbar, AdminFooter } from '../../components/index.js';
 import AuthChecker from '../../utils/handle.js';
 import { Loading } from '../../components/index.js';
+import { contractAddress } from '../../utils/constants/aideConstant.js'
 
 const apiUrl = 'https://api-sepolia.etherscan.io/api';
 const apiKey = 'ZSTZJR9CJEQ1NIGQRX2IQ7WSQIKM7ZBRMP';
 
-const address = '0x5aa3baea8413fdf07eb15b3f0339c056cf3eeff2';
+const address = contractAddress;
 const startBlock = 0;
 const endBlock = 99999999;
 const pageSize = 8;
