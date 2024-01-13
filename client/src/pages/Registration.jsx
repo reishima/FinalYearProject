@@ -112,7 +112,7 @@ const Registration = () => {
                 selectedCourses: updatedCourses,
             });
             setEditMode(false);
-            navigate('/home');
+            navigate('/profile');
         } catch (error) {
             console.error('Error updating user information: ', error);
         }

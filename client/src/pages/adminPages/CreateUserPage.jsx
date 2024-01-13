@@ -31,7 +31,6 @@ const CreateUserPage = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
         const confirmPassword = e.target.confirmPassword.value;
-        //const matricNumber = e.target.matricNumber.value;
 
         const customBlockchainId = e.target.blockchainId.value;
         const blockchainIdExists = await checkblockchainIdExists(customBlockchainId);
