@@ -1,10 +1,14 @@
-To use the platform, users will need to have Metamask installed and a wallet ID attached to the Sepolia Test Network.
+#To use the platform, users will need to have Metamask installed and a wallet ID attached to the Sepolia Test Network.
 
 ## FYP 
 
+##Contracts are already deployed and supplied, to use simply head to cd client and run npm start:
 In the project directory, run:
 ## `cd client -> npm start`
+
+From there, head to http://localhost/
 =============================
+
 ## To deploy contracts onto the platform
 
 Contract deployment is done via Hardhat to the Sepolia Test Network
