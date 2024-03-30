@@ -1,5 +1,7 @@
 #To use the platform, users will need to have Metamask installed and a wallet ID attached to the Sepolia Test Network.
 
+#The library, attendance and student aide contracts will need to be deployed. Then the contract address must be supplied into each of the respective constants file.
+
 ## FYP 
 
 ##Contracts are already deployed and supplied, to use simply head to cd client and run npm start:
