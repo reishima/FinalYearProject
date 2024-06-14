@@ -1,15 +1,8 @@
-#To use the platform, users will need to have Metamask installed and a wallet ID attached to the Sepolia Test Network.
-
-#The library, attendance and student aide contracts will need to be deployed. Then the contract address must be supplied into each of the respective constants file.
+#To use the platform, users will need to have Metamask installed and a wallet ID attached to the Network where the contracts were deployed.
 
 ## FYP 
 
-##Contracts are already deployed and supplied, to use simply head to cd client and run npm start:
-In the project directory, run:
-## `cd client -> npm start`
-
-From there, head to http://localhost/
-=============================
+##The contracts of the three main modules (library, attendance and student aide) need to be deployed and supplied in their respective constants file.
 
 ## To deploy contracts onto the platform
 
@@ -18,3 +11,21 @@ Contract deployment is done via Hardhat to the Sepolia Test Network
 2. run `npx hardhat run scripts/deploy.js --network sepolia` from the project directory
 
 Then use contract address and ABI for constants.
+Then simply head to cd client and run npm start: In the project directory, run:
+## `cd client -> npm start`
+
+From there, head to http://localhost/ or wherever the system was deployed.
+=============================
+
+## The technologies included in this project were:
+1. Solidity
+2. React
+3. React Icons
+4. React Router
+5. Javascript
+6. Sweet Alert
+7. Firestore, Firebase
+8. Ethers.js
+9. Etherscan
+10. Hardhat (Deployment)
+11. Truffle and Ganache (Testing)
