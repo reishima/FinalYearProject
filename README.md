@@ -1,4 +1,5 @@
 #To use the platform, users will need to have Metamask installed and a wallet ID attached to the Network where the contracts were deployed.
+Further usage details have been listed [here](https://github.com/reishima/FinalYearProject/blob/master/Usage%20Guide.pdf)
 
 ## FYP 
 
